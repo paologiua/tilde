@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@font-face {
+    font-family: "Montserrat";
+    src: url(Montserrat/Montserrat-Regular.ttf) format("truetype");
+}
+
+::-webkit-scrollbar {     
+    background-color: #ddd;
+    width: .8em
+}
+
+::-webkit-scrollbar-thumb:hover { 
+    background-color: #999;
+} 
+
+::-webkit-scrollbar-thumb:active { 
+    background-color: #888;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+    background:  #aaa;
+}
+
+::selection {
+    background-color: #aaa;
+    color: #eee;
+}
+
+img {
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+input {
+    font-family: "Montserrat", "Roboto", sans-serif;
+}
+
+a {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+a:link {
+  color: #364f7a;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color:#364f7a;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #364f7a;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #364f7a;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", "Roboto", sans-serif;
+    background-color: #F2F2F2;
+    user-select: none;
+    cursor: default;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

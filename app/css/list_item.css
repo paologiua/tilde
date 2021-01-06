@@ -1,0 +1,127 @@
+/*
+.list-item-box-layout
+{
+
+}
+*/
+
+.list-item-row-layout
+{
+    display: grid;
+    grid-template-rows: 1fr;
+    font-size: 14px;
+    height: 2.86em; /*2.7em;*/
+    border-bottom: 1px solid #EEE;
+    padding: 0.5em;
+    padding-left: 2em;
+    color: #222;
+}
+
+.list-item-row-layout:hover
+{
+    background-color: #F2F2F2;
+}
+
+.select-episode:hover
+{
+    background: #2979FF;
+}
+
+.list-item-row-layout img
+{
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+}
+
+.list-item-icon
+{
+    opacity: 0.6;
+    align-self: center;
+    text-align: center;
+    height: 100%;
+}
+
+.list-item-icon svg {
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.list-item-icon:hover
+{
+    opacity: 0.8;
+}
+
+.list-item-flag
+{
+    border-radius: 4px;
+    text-align: center;
+    width: 80%;
+    padding: 0.2em;
+    align-self: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    --color-flag: #000;
+    --bk-color1-flag: #bbb;
+    --bk-color2-flag: #ddd;
+    --percentage: 0%;
+
+    background: linear-gradient(to right, var(--bk-color1-flag) 0%, 
+                                          var(--bk-color1-flag) var(--percentage), 
+                                          var(--bk-color2-flag) var(--percentage), 
+                                          var(--bk-color2-flag) 100%);
+    font-weight: bold;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 5px;
+}
+
+.select-episode .list-item-flag {
+    --bk-color1-flag: #296bda; /* rgb(8, 102, 224); */
+    --bk-color2-flag: rgb(29, 75, 228);
+}
+
+.list-item-text,
+.list-item-bold-text,
+.list-item-description,
+.list-item-sub-text
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    align-self: center;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+
+.list-item-text {
+    max-width: fit-content;
+}
+
+.list-item-bold-text
+{
+    font-weight: bold;
+}
+
+.list-item-sub-text
+{
+    opacity: 0.4;
+}
+
+#list li[info-mode] {
+    background-color: #e5e5e5;
+}
+
+#list li[info-mode] svg {
+    fill: #222;
+}
+
+.list-item-text:hover {
+    text-decoration: underline;
+    padding-top:10px;
+    padding-bottom:10px;
+}

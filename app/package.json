@@ -1,0 +1,66 @@
+{
+    "main": "main.js",
+    "description": "Podcast client to listen to all you favorite podcasts",
+    "name": "tilde-podcast",
+    "version": "0.9.0",
+    "license": "MIT",
+    "author": "paologiuaa <paologiuaa@gmail.com>",
+    "homepage": "https://github.com/paologiua/poddycast",
+    "scripts": {
+        "package:all": "electron-packager ./ --out=./builds --overwrite --platform=all --icon=img/tilde",
+        "package:linux": "electron-packager ./ --out=./builds --overwrite --platform=linux --icon=img/tilde",
+        "package:deb64": "electron-installer-debian --src builds/Tilde-linux-x64/ --dest builds/installers/ --arch amd64 --icon=img/tilde.icns",
+        "package:macappstore": "electron-packager ./ --out=./builds --overwrite --platform=mas --icon=img/tilde",
+        "package:osx": "electron-packager ./ --out=./builds --overwrite --platform=darwin --icon=img/tilde",
+        "package:win": "electron-packager ./ --out=./builds --overwrite --platform=win32 --icon=img/tilde",
+        "start": "npm install && electron main.js",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
+    },
+    "build": {
+        "appId": "com.electron.tilde",
+        "productName": "Tilde",
+        "icon": "./img/tilde512x512.png",
+        "mac": {
+            "target": [
+                "dmg",
+                "mas",
+                "pkg",
+                "zip"
+            ],
+            "category": "public.app-category.utilities",
+            "icon": "./img/tilde.icns"
+        },
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb",
+                "rpm",
+                "snap",
+                "zip"
+            ],
+            "icon": "./img/",
+            "category": "Utility",
+            "executableName": "tilde-podcast"
+        },
+        "win": {
+            "target": [
+                "nsis",
+                "portable",
+                "msi"
+            ],
+            "icon": "./img/tilde.ico"
+        }
+    },
+    "devDependencies": {
+        "electron": "^10.1.5",
+        "electron-builder": "^22.9.1",
+        "electron-installer-debian": "^3.1.0",
+        "electron-packager": "^13.1.1",
+        "node": "^12.16.3"
+    },
+    "dependencies": {
+        "custom-electron-titlebar": "^3.2.5",
+        "jquery": "^3.5.1"
+    }
+}
