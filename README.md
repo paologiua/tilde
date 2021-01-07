@@ -27,3 +27,5 @@ Podcast client to listen to all you favorite podcasts
 # Search for new podcasts via the itunes api
 ![alt text](screenshots/dark7.png)
 ![alt text](screenshots/light7.png)
+
+### This project is a fork of [Poddycast](https://github.com/MrChuckomo/poddycast)
