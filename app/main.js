@@ -31,9 +31,9 @@ if (process.platform === 'darwin') {
 function createWindow()
 {
 	win = new BrowserWindow({
-        width: (process.platform === 'win32' ? 1000 : 1200) , //1200
+        width: (process.platform === 'win32' ? 1100 : 1200) , //1200
         minWidth: 1000, //1000
-        height: (process.platform === 'win32' ? 635 : 730), //765-730
+        height: (process.platform === 'win32' ? 685 : 730), //765-730
         minHeight: (process.platform === 'win32' ? 635 : 600), //630-600
         autoHideMenuBar: true,
         icon: trayIcon,
