@@ -128,11 +128,12 @@ function getPlaybackSaveFilePath() {
     return getSaveDirPath() + '/tilde-playback_episodes.json';
 }
 
+
 function setTitlebarOnWin() {
     if(isWindows()) {
         const customTitlebar = require('custom-electron-titlebar');
         titlebar = new customTitlebar.Titlebar({
-            backgroundColor: customTitlebar.Color.fromHex('#ccc')
+            backgroundColor: customTitlebar.Color.fromHex('#bbb')
         });
         $(':root').css('--titlebar-height', '35px');
         $('.titlebar').height('var(--titlebar-height)');
@@ -141,7 +142,9 @@ function setTitlebarOnWin() {
         $( '#content-right' ).height('calc(100% - var(--titlebar-height))');
         $('.window-controls-container').height('var(--titlebar-height)');
         
-        $('.window-title').css('font-size', 'inherit');
+        $('.window-title').css('font-size', 'inherit')
+                          .css('margin', 'auto')
+                          .css('line-height', 'normal');
         
         function setMenuBarVisibility(visibility) {
             if(visibility)
@@ -160,7 +163,60 @@ function setTitlebarOnWin() {
                 menuBarVisibility = !menuBarVisibility
                 setMenuBarVisibility(menuBarVisibility);
             }
-        })
+        });
+
+        titlebar.updateStyles = function () {
+            const color_1 = require("./node_modules/custom-electron-titlebar/lib/common/color");
+            const dom_1 = require("./node_modules/custom-electron-titlebar/lib/common/dom");
+            const INACTIVE_FOREGROUND_DARK = color_1.Color.fromHex('#222222');
+            const ACTIVE_FOREGROUND_DARK = color_1.Color.fromHex('#333333');
+            const INACTIVE_FOREGROUND = color_1.Color.fromHex('#EEEEEE');
+            const ACTIVE_FOREGROUND = color_1.Color.fromHex('#FFFFFF');
+
+            if (this.titlebar) {
+                if (this.isInactive) {
+                    dom_1.addClass(this.titlebar, 'inactive');
+                }
+                else {
+                    dom_1.removeClass(this.titlebar, 'inactive');
+                }
+                const titleBackground = this.isInactive && this._options.unfocusEffect
+                    ? this._options.backgroundColor.lighten(.16)
+                    : this._options.backgroundColor;
+                this.titlebar.style.backgroundColor = titleBackground.toString();
+                let titleForeground;
+                if (titleBackground.isLighter()) {
+                    dom_1.addClass(this.titlebar, 'light');
+                    titleForeground = this.isInactive && this._options.unfocusEffect
+                        ? INACTIVE_FOREGROUND_DARK
+                        : ACTIVE_FOREGROUND_DARK;
+                }
+                else {
+                    dom_1.removeClass(this.titlebar, 'light');
+                    titleForeground = this.isInactive && this._options.unfocusEffect
+                        ? INACTIVE_FOREGROUND
+                        : ACTIVE_FOREGROUND;
+                }
+                this.titlebar.style.color = titleForeground.toString();
+                const backgroundColor = this._options.backgroundColor.darken(.16);
+                const foregroundColor = backgroundColor.isLighter()
+                    ? INACTIVE_FOREGROUND_DARK
+                    : INACTIVE_FOREGROUND;
+                const bgColor = !this._options.itemBackgroundColor || this._options.itemBackgroundColor.equals(backgroundColor)
+                    ? new color_1.Color(new color_1.RGBA(0, 0, 0, .14))
+                    : this._options.itemBackgroundColor;
+                const fgColor = bgColor.isLighter() ? ACTIVE_FOREGROUND_DARK : ACTIVE_FOREGROUND;
+                if (this.menubar) {
+                    this.menubar.setStyles({
+                        backgroundColor: backgroundColor,
+                        foregroundColor: foregroundColor,
+                        selectionBackgroundColor: bgColor,
+                        selectionForegroundColor: fgColor,
+                        separatorColor: foregroundColor
+                    });
+                }
+            }
+        }
     }
 }
 
