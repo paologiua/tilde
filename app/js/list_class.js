@@ -11,13 +11,14 @@ class ListUI extends UI {
 /*
  * LIST
  */
-
+    /*
     length() {
         if(this.firstEpisodeDisplayed && this.lastEpisodeDisplayed)
             return (this.lastEpisodeDisplayed - this.firstEpisodeDisplayed + 1);
         return super.length();
     }
-
+    */
+    
     add(episode, i) {
         if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) {
             if(i < this.firstEpisodeDisplayed) {
