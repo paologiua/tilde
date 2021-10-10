@@ -3,10 +3,10 @@ function selectMenuItem(_MenuId) {
     let $menuItem = _MenuId;
 
     clearTextField($('#search-input').get(0));
-    clearTextField($('#new_list-input').get(0));
+    //clearTextField($('#new_list-input').get(0));
 
     loseFocusTextField("search-input");
-    loseFocusTextField("new_list-input");
+    //loseFocusTextField("new_list-input");
 
     clearMenuSelection();
 
@@ -54,9 +54,6 @@ function showFavoritesPage() {
 
         let ListElement = getPodcastElement("podcast-entry", Artwork, null, JsonContent[i].data.collectionName, s_FullHeart);
         
-        ListElement.setAttribute('draggable', true);
-        ListElement.addEventListener('dragstart', handleDragStart, false);
-
         let HeaderElement = ListElement.getElementsByClassName('podcast-entry-header')[0]
 
         HeaderElement.getElementsByTagName("img")[0].setAttribute("draggable", false)
@@ -121,25 +118,21 @@ function showStatisticsPage() {
 
     setGridLayout(false);
 
-    let List = document.getElementById("list");
+    let list = document.getElementById("list");
 
-    List.append(getStatisticsElement("statistics-header", "Podcasts", null));
+    list.append(getStatisticsElement("statistics-header", "Podcasts", null));
 
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
+    list.append(getStatisticsElement("statistics-entry", i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
 
     if(!allNewEpisodes.isEmpty()) {
         let channelName = allFavoritePodcasts.getByFeedUrl(allNewEpisodes.get(0).feedUrl).data.collectionName;
-        List.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  channelName));
+        list.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  channelName));
     } else
-        List.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  "None"));
+        list.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  "None"));
 
-    List.append(getStatisticsElement("statistics-header", i18n.__("Episodes"), null));
+    list.append(getStatisticsElement("statistics-header", i18n.__("Episodes"), null));
 
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Archive Items"),  allArchiveEpisodes.length()));
+    list.append(getStatisticsElement("statistics-entry", i18n.__("Archive Items"),  allArchiveEpisodes.length()));
     
-    List.append(getStatisticsElement("statistics-entry", i18n.__("New Episodes"),  allNewEpisodes.length()));
-
-    List.append(getStatisticsElement("statistics-header", i18n.__("Playlists"), null));
-
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Playlists"),  allPlaylist.memory.length()));
+    list.append(getStatisticsElement("statistics-entry", i18n.__("New Episodes"),  allNewEpisodes.length()));
 }

@@ -45,32 +45,31 @@ function darkMode()
 }
 
 function changeThemeMode() {
-    var DarkModeMenu = getDarkModeMenuItem()
-    DarkModeMenu.checked = !getPreference('darkmode');
+    var darkModeMenu = getDarkModeMenuItem()
+    darkModeMenu.checked = !getPreference('darkmode');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function getDarkModeMenuItem()
-{
+function getDarkModeMenuItem() {
     // NOTE: Go through all menu items
     // NOTE: Find the "Dark Mode" menu item
 
-    var MenuItem = null;
+    var menuItem = null;
 
     for (let i in Menu.getApplicationMenu().items) {
         appMenuItem = Menu.getApplicationMenu().items[i];
 
         for (let j in appMenuItem.submenu.items) {
             if (appMenuItem.submenu.items[j].label == i18n.__('Dark Mode') && appMenuItem.submenu.items[j].type == "checkbox") {
-                MenuItem = appMenuItem.submenu.items[j];
+                menuItem = appMenuItem.submenu.items[j];
                 break;
             }
         }
 
-        if (MenuItem != null)
+        if (menuItem != null)
             break;
     }
 
-    return MenuItem;
+    return menuItem;
 }

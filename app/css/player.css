@@ -70,7 +70,7 @@
     margin-left: 2em;
     width: 42px;
     height: 42px;
-    border-radius: 4px;
+    border-radius: 5px;
     /*
     box-shadow:  0.1px  0.1px 5px #222,
               -0.1px -0.1px 5px #222,
@@ -235,13 +235,13 @@ button#content-right-player-speed-indicator {
   transition: width .2s, height .2s;
 }
 
-
+/* 
 @media screen and (max-width: 899px) {
     .slider {
         display: none;
     }
 }
-
+ */
 @media screen and (min-width: 900px)
 {
     #content-right-player
@@ -299,4 +299,151 @@ button#content-right-player-speed-indicator {
         padding: 0.2em;
         padding-left: 0.5em;
     }
+}
+
+
+/* ################################# New Player ########################################## */
+
+#content-left-player {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: #fdfdfd;/* #111111c9; */
+    height: min-content;
+    grid-area: player;
+    display: grid;
+    grid-template-rows: 120px 35px 60px 20px 20px 60px;
+    box-shadow: 0px 2px 5px 0px rgba(150, 150, 150, 0.5);
+}
+
+#content-left-player-img {
+    width: 100%; 
+    display: flex;     
+    margin: 10px 0;
+}
+
+#content-left-player-img>img {
+    margin: auto; 
+    border-radius: 10px;
+    height: 100px;
+    width: auto;
+    background-color: #eee;
+    box-shadow: 0px 2px 5px 0px rgba(100, 100, 100, 0.5);
+}
+
+#content-left-player-title {
+    width: 100%; 
+    display: flex;
+}
+
+#content-left-player-title>div {
+    margin: auto;
+    padding: 10px;
+    /* font-weight: bold; */
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 240px;
+}
+
+#content-left-player-buttons {
+    width: 100%; 
+    display: flex;
+}
+
+#content-left-player-buttons>div {
+    margin: auto;
+}
+
+#content-left-player-buttons>div>svg {
+    fill: black; 
+    width: 40px; 
+    height: auto;
+    opacity: 0.65;
+    transition: opacity .2s ease-out;
+}
+
+#content-left-player-buttons>div>svg:hover {
+    opacity: 1;
+}
+
+#content-left-player-time {
+    float: left; 
+    font-size: small;
+}
+
+#content-left-player-duration {
+    float: right; 
+    text-align: right; 
+    font-size: small;
+}
+
+
+
+
+.content-left-player-btn {
+    display: flex;
+    grid-area: speed;
+    align-self: center;
+    justify-self: center;
+    outline: 0;
+    font-size: 12px;
+    height: 40px;
+    width: 80px;
+    border: .1em solid #EEE;
+    border-radius: 10px;
+    background-color: #eee; /* #e7e7e7; /* inherit; */
+}
+
+.content-left-player-btn button {
+    color: #757575;
+    transition: color .25s ease-in-out;
+}
+
+.content-left-player-btn button,
+.content-left-player-btn:hover button,
+.content-left-player-btn:active button {
+    outline: 0;
+    border: 0;
+    background-color: inherit;
+}
+
+.content-left-player-btn:hover button,
+.content-left-player-btn:active button {
+    color: #000;
+}
+
+.content-left-player-btn:hover {
+    border-color: #CCC;
+}
+
+.content-left-player-btn:active
+{
+    background-color: #EEE;
+}
+
+button#content-left-player-volume-indicator,
+button#content-left-player-speed-indicator {
+    width: 3.3em;
+    padding: 0;
+}
+
+.content-left-player-btn {
+    margin: 10px;
+    overflow: hidden;
+}
+
+#content-left-player-volume-btn {
+    float: left; 
+    margin-left: 30px;
+}
+
+#content-left-player-speed-btn {
+    float: right; 
+    margin-right: 30px;
+}
+
+.content-left-player-btn>button>span {
+    font-size: 20px;
 }

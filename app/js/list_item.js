@@ -35,6 +35,9 @@ function getImagePart(_Artwork) {
     var ImageElement = document.createElement("img")
 
     ImageElement.src = _Artwork
+    ImageElement.style.backgroundImage = "url(./img/podcast_07prct.svg)";
+    ImageElement.style.backgroundRepeat = "no-repeat";
+    ImageElement.style.backgroundSize = "cover";
 
     return ImageElement
 }

@@ -29,12 +29,10 @@ class Preferences {
     check() {
         if(!this.preference.darkmode)
             this.preference.darkmode = false;
-        if(!this.preference.minimize)
-            this.preference.minimize = false;
-        if(!this.preference.proxymode)
-            this.preference.proxymode = false;
+        /* if(!this.preference.minimize)
+            this.preference.minimize = false; */
         
-        if(!this.preference.darkmode || !this.preference.minimize || !this.preference.proxymode )
+        if(!this.preference.darkmode /* || !this.preference.minimize */ )
             this.update();
     }
 
@@ -46,7 +44,7 @@ class Preferences {
     getDarkmode() {
         return this.preference.darkmode;
     }
-
+/* 
     setMinimize(minimize) {
         this.preference.minimize = minimize;
         this.update();
@@ -55,16 +53,7 @@ class Preferences {
     getMinimize() {
         return this.preference.minimize;
     }
-
-    setProxymode(proxymode) {
-        this.preference.proxymode = proxymode;
-        this.update();
-    }
-
-    getProxymode() {
-        return this.preference.proxymode;
-    }
-
+ */
     set(preference, value) {
         this.preference[preference] = value;
         this.update();
@@ -80,7 +69,7 @@ function loadPreferences() {
 }
 
 function getSaveDirPath() {
-    return os.homedir() + '/tilde-data';
+    return os.homedir() + '/.tilde';
 }
 
 function getFeedDirPath() {
@@ -114,10 +103,6 @@ function getNewEpisodesSaveFilePath() {
 
 function getArchivedFilePath() {
     return getSaveDirPath() + '/tilde-archived_episodes.json';
-}
-
-function getPlaylistFilePath() {
-    return getSaveDirPath() + '/tilde-playlists.json';
 }
 
 function getPreferencesFilePath() {
@@ -252,7 +237,6 @@ function init() {
     loadFeeds();
     loadArchiveEpisodes();
     loadNewEpisodes();
-    loadPlaylists();
 
     setSearchWithoutFocus()
 
@@ -274,11 +258,6 @@ function isAlreadyFavorite(_FeedUrl) {
 
 function episodeIsAlreadyInNewEpisodes(episodeUrl) {
     return (allNewEpisodes.findByEpisodeUrl(episodeUrl) != -1);
-}
-
-function isAlreadyInPlaylist(_ListName, _PodcastFeed) {
-    let i = allPlaylist.memory.findByName(_ListName);
-    return (allPlaylist.memory.findPodcast(i, _PodcastFeed) != -1);
 }
 
 function getFileValue(filePath, _DestinationTag, _ReferenceTag, _Value) {
@@ -318,26 +297,7 @@ function getBestArtworkUrl(feedUrl) {
     Artwork = getGenericArtwork();
     return Artwork;
 }
-/*
-function getArtworkFromFeed(xmlDoc) {
-    if (xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("media:thumbnail")[0] !== undefined) 
-        return xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("media:thumbnail")[0].getAttribute("url")
-    
-    if (xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("itunes:image")[0] !== undefined) 
-        return xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("itunes:image")[0].getAttribute("href")
-    
-    // Find any element with 'href' or 'url' attribute containing an image (podcast thumbnail)
-    for (let i in xmlDoc.getElementsByTagName("channel")) {
-        if (xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").length !== 0) {
-            return xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").getAttribute('href')
-        } else if (xmlDoc.getElementsByTagName("channel")[i].querySelector("*[url*='.jpeg'], *[url*='.jpg'], *[url*='.png']").length !== 0) {
-            return xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").getAttribute('url')
-        }
-    }
-    
-    return getGenericArtwork();
-}
-*/
+
 function getGenericArtwork() {
     return 'img/generic_podcast_image.png';
 }
@@ -426,40 +386,6 @@ function parseFeedEpisodeDuration(_Duration) {
 // SETTINGS
 // ---------------------------------------------------------------------------------------------------------------------
 
-function getProxyModeMenuItem() {
-    const { Menu } = require('electron').remote
-
-    let MenuItems = Menu.getApplicationMenu().items
-
-    for (let i = MenuItems.length - 1; i >= 0; i--)
-    {
-        if (MenuItems[i].label == i18n.__('Settings'))
-        {
-            // NOTE: Item 0 is "Use Proxy" for now
-
-            return MenuItems[i].submenu.items[0];
-        }
-    }
-}
-
-function changeProxyModeMenuItem() {
-    let ProxyModeMenuItem = getProxyModeMenuItem()
-    ProxyModeMenuItem.checked = !getPreference('proxymode');
-}
-
-function setProxyMode() {
-    let ProxyModeMenuItem = getProxyModeMenuItem()
-    
-    if (ProxyModeMenuItem.checked)
-        setPreference('proxymode', true)
-    else
-        setPreference('proxymode', false)
-}
-
-function isProxySet() {
-    return getPreference('proxymode');
-}
- 
 function getSettings(_FeedUrl) {
     return allFavoritePodcasts.getExcludeFromNewEpisodesByFeedUrl(_FeedUrl);
 }
@@ -468,7 +394,7 @@ function changeSettings(_FeedUrl, excludeFromNewEpisodes) {
     allFavoritePodcasts.setExcludeFromNewEpisodesByFeedUrl(_FeedUrl, excludeFromNewEpisodes);
     
 }
-
+/* 
 function setMinimize() {
     let MinimizeMenuItem = getMinimizeMenuItem()
     
@@ -477,7 +403,8 @@ function setMinimize() {
     else
         setPreference('minimize', false)
 }
-
+ */
+/* 
 function changeMinimizeMenuItem() {
     let MinimizeMenuItem = getMinimizeMenuItem()
     MinimizeMenuItem.checked = !getPreference('minimize');
@@ -495,7 +422,7 @@ function getMinimizeMenuItem() {
         }
     }
 }
-
+ */
 // ---------------------------------------------------------------------------------------------------------------------
 // PREFERENCES
 // ---------------------------------------------------------------------------------------------------------------------

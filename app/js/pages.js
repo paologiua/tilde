@@ -17,19 +17,21 @@ function getBody() {
 
 function setNothingToShowBody(icon, id) {
     if(!id || !$('#' + id).get(0)) {
-        //if(getHeader() == generateHtmlTitle('Favorites')) 
-        //    setHeaderViewAction("");
-        
         id = !id ? '' : id;
 
         setGridLayout(false);
-        let $body = '<span id="' + id + '" style="text-align:center; width: 100%; display:inline-block; font-size: 20px">' +
-                        '<br>' +
-                        icon +
-                        '<br><br>' +
-                        i18n.__('Nothing to show') +
-                    '</span>';
-        setBody($body);
+        let $body = 
+        `<span id="${id}" class="nothing-to-show">
+            <br>
+            ${icon}
+            <br><br>
+            ${i18n.__('Nothing to show')}
+        </span>`;
+
+        if(id === 'feed-nothing-to-show') 
+            allFeeds.ui.getHeader().after($body);
+        else
+            setBody($body);
     }
 }
 
@@ -53,10 +55,6 @@ function getHeader() {
     return $('#content-right #content-right-header h1').html();
 }
 
-function notPlaylistHeader() {
-    return Boolean($('#content-right #content-right-header h1 span').get(0));
-}
-
 function generateHtmlTitle(title) {
     return '<span>' + i18n.__(title) + '</span>'
 }
@@ -75,9 +73,9 @@ function setScrollPositionOnTop() {
 }
 
 function removeContentRightHeader() {
-    $('#content-right').addClass('header-null'); // css('grid-template-rows', '0px 1fr 60px');
+    $('#content-right').addClass('header-null');
 }
 
 function setContentRightHeader() {
-    $('#content-right').removeClass('header-null'); // Attr('style');
+    $('#content-right').removeClass('header-null'); 
 }

@@ -5,20 +5,14 @@ class NewEpisodesUI extends ListUI {
     showNothingToShow() {
         if(this.isNewEpisodesPage()) 
             super.showNothingToShow(s_NewEpisodesNothingFoundIcon, 'new_episodes-nothing-to-show');
-        else if(this.isPlaylistPage())
-            super.showNothingToShow(s_PlaylistNothingFoundIcon, 'playlist-nothing-to-show');
     }
 
     isNewEpisodesPage() {
         return (this.getPageType() == 'newEpisodes');
     }
 
-    isPlaylistPage() {
-        return (this.getPageType() == 'playlist');
-    }
-
     add(episode, i) {
-        if(this.isNewEpisodesPage() || this.isPlaylistPage())
+        if(this.isNewEpisodesPage())
             super.add(episode, i);
 
         setItemCounts();
@@ -28,27 +22,10 @@ class NewEpisodesUI extends ListUI {
     directAdd(episode, i, forceOriginalDirectAdd) {
         if(this.isNewEpisodesPage() || forceOriginalDirectAdd)
             super.directAdd(episode, i);
-        else if(this.isPlaylistPage())
-            this.addPlaylist(episode);
-    }
-    
-    addPlaylist(episode) {
-        let playlistName = getHeader();
-        let indexPlaylist = allPlaylist.memory.findByName(playlistName);
-        let feedUrl = episode.feedUrl;
-        if(allPlaylist.memory.findPodcast(indexPlaylist, feedUrl) == -1)
-            return;
-
-        let playlistEpisodes = this.dataObject.getPlaylistEpisodes(playlistName);
-        for(let j in playlistEpisodes)
-            if(playlistEpisodes[j].episodeUrl == episode.episodeUrl) {
-                this.directAdd(episode, j - this.firstEpisodeDisplayed, true);
-                return;
-            }
     }
 
     removeByEpisodeUrl(episodeUrl) {
-        if(this.isNewEpisodesPage() || this.isPlaylistPage()) 
+        if(this.isNewEpisodesPage()) 
             super.removeByEpisodeUrl(episodeUrl);
 
         setItemCounts();
@@ -78,7 +55,10 @@ class NewEpisodesUI extends ListUI {
         
         this.appendShowMoreEpisodesButton();
         this.prependShowMoreEpisodesButton();
-
+/* 
+        if(this.bufferSize < this.dataObject.length())
+            this.getShowMoreEpisodesBottomElement().show();
+ */
         setScrollPositionOnTop();
     }
 
@@ -176,7 +156,7 @@ class NewEpisodesUI extends ListUI {
                 .css('height', height)
                 .stop()
                 .animate(
-                    {height: '2.86em'}, // 2.7em => 37.7778px
+                    {height: '3.2em'}, //2.86em
                     300, 
                     function () {
                         $obj.css('height', '');
@@ -326,19 +306,6 @@ class NewEpisodes {
         }
         this.update();
     }
-
-    getPlaylistEpisodes(playlistName) {
-        let episodes = [];
-        let playlist = allPlaylist.memory.getByName(playlistName);
-        if(playlist == undefined)
-            return episodes;
-
-        for(let i in this.episodes)
-            if(playlist.list.includes(this.episodes[i].feedUrl))
-                episodes.push(this.episodes[i]);
-        return episodes;
-    }
-
 }
 
 function loadNewEpisodes() {

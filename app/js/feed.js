@@ -89,22 +89,20 @@ function readFeeds() {
 }
 
 function readFeedByFeedUrl(feedUrl) {
-    if (isProxySet()) 
-        makeFeedRequest(getFeedProxyOptions(feedUrl), updateFeed);
-    else 
-        makeFeedRequest(feedUrl, updateFeed);
+    makeRequest(feedUrl, updateFeed);
 }
 
-function updateFeed(_Content, _eRequest, _Options) {
-    let FeedUrl = (_Options instanceof Object ? _Options.path: _Options);
+function updateFeed(_Content, FeedUrl) {
     allFeeds.initFeed(FeedUrl)
 
-    if (isContent302NotFound(_Content))
-        makeFeedRequest(getChangedFeed(_Options, _eRequest), updateFeed);
-    else {
+    if (isContent302NotFound(_Content)) {
+        // Nothing
+        allFeeds.ui.showNothingToShow(FeedUrl);
+    } else {
         if (_Content.includes("<html>")) {
             // Nothing
-        } else  {
+            allFeeds.ui.showNothingToShow(FeedUrl);
+        } else {
             xmlParserWorker.postMessage({
                 xml: _Content,
                 feedUrl: FeedUrl,
@@ -180,7 +178,6 @@ function addEpisodesFromTheLastWeek(feedUrl, feed) {
                 allNewEpisodes.add(episode);
             else 
                 return;
-            
         }
     }
 }
@@ -210,24 +207,10 @@ function getAllEpisodesFromFeed(podcast) {
 
     let feed = allFeeds.getFeedPodcast(_Feed);
     allFeeds.ui.showLastNFeedElements(feed);
-
-    if (isProxySet()) {
-        if (_Feed instanceof Object)
-            makeFeedRequest(_Feed, checkContent);
-        else
-            makeFeedRequest(getFeedProxyOptions(_Feed), checkContent);
-    } else {
-        makeFeedRequest(_Feed, checkContent);
-    }
-}
-
-function checkContent(_Content, _eRequest, _Options) {
-    if (isContent302NotFound(_Content)) {
-        clearBody();
-        getAllEpisodesFromFeed(getChangedFeed(_Options, _eRequest));
-    } else {
-        processEpisodes(_Content, _Options);
-    }
+    
+    makeRequest(_Feed, processEpisodes, () => {
+        allFeeds.ui.showNothingToShow(_Feed);
+    });
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -237,27 +220,9 @@ function isContent302NotFound(_Content) {
     return (_Content == "" || _Content.includes("302 Found"));
 }
 
-function getChangedFeed(_Feed, _eRequest) {
-    if (_Feed instanceof Object) {
-        let Path = _Feed.path.toString()
-
-        if      (Path.includes("http" )) { _Feed.path = Path.replace("http", "https") }
-        else if (Path.includes("https")) { _Feed.path = Path.replace("https", "http") }
-    } else {
-        switch (_eRequest) {
-            case eRequest.https: _Feed = _Feed.replace("https", "http"); break;
-            case eRequest.http:  _Feed = _Feed.replace("http", "https"); break;
-            default: break;
-        }
-    }
-
-    return _Feed;
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 
-function processEpisodes(_Content, _Options) {
-    let feedUrl = (_Options instanceof Object ? _Options.path: _Options);
+function processEpisodes(_Content, feedUrl) {
     xmlParserWorker.postMessage({
         xml: _Content,
         feedUrl: feedUrl,

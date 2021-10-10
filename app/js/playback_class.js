@@ -183,7 +183,6 @@ class Playback {
         if(!this.data[episodeUrl].duration || duration)
             this.data[episodeUrl].duration = duration;
         this.update();
-        //if(!this.data[episodeUrl].done)
         this.ui.updatePosition(episodeUrl, getPercentage(position, duration));
     }
 

@@ -128,7 +128,7 @@ class ArchiveEpisodesUI extends ListUI {
                 .css('height', height)
                 .stop()
                 .animate(
-                    {height: '2.86em'}, // 2.7em => 37.7778px
+                    {height: '3.2em'}, //2.86em
                     300, 
                     function () {
                         $obj.css('height', '');
@@ -146,26 +146,22 @@ class ArchiveEpisodesUI extends ListUI {
     }
 
     getNewItemList(archiveEpisode) {
-        //let episode = getInfoEpisodeByObj(archiveEpisode);
         let episode = getEpisodeFromArchiveEpisode(archiveEpisode);
 
-        let Artwork = episode.artwork; //getBestArtworkUrl(episode.feedUrl);
+        let Artwork = episode.artwork;
         
         let ListElement = buildListItem(new cListElement (
             [
                 getImagePart(Artwork),
                 getBoldTextPart(episode.episodeTitle),
                 getTextPart(episode.channelName),
-                getProgressionFlagPart(episode.episodeUrl),// getFlagPart('Done', 'white', '#4CAF50'),
+                getProgressionFlagPart(episode.episodeUrl),
                 getDescriptionPart(s_InfoIcon, episode.episodeDescription),
                 getDeleteButtonPart()
             ],
             "5em 1fr 1fr 6em 5em 5em"
-        ), eLayout.row)
+        ), eLayout.row);
 
-        // if (!allFeeds.getPlaybackDoneByEpisodeUrl(episode.episodeUrl))
-        //    $(ListElement).find('.list-item-flag').css('opacity', 0);//ListElement.replaceChild(getIconButtonPart(''), ListElement.children[3]);
-        
         $(ListElement).click(function(e) {
             if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                 e.preventDefault();

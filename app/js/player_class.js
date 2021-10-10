@@ -11,11 +11,12 @@ class PlayerManager extends UI {
         this.$forwardButton = $('#forward-30-sec');
         this.$replyButton = $('#replay-30-sec');
 
-        this.$duration = $('#content-right-player-duration');
-        this.$currentTime = $('#content-right-player-time');
-        this.$artwork = $('#content-right-player-img');
-        this.$title = $('#content-right-player-title');
-        this.$rate = $('#content-right-player-speed-indicator').get(0);
+        this.$duration = $('#content-left-player-duration');
+        this.$currentTime = $('#content-left-player-time');
+        this.$artwork = $('#content-left-player-img>img');
+        this.$title = $('#content-left-player-title>div');
+        this.$volume = $('#content-left-player-volume-indicator').get(0);
+        this.$rate = $('#content-left-player-speed-indicator').get(0);
         
         this.slider = new Slider($('#slider'));
 
@@ -26,15 +27,27 @@ class PlayerManager extends UI {
     }
 
     initActions() {
-        $('#content-right-player-speed-down').click(() => {
+        $('#content-left-player-volume-down').click(() => {
+            this.volumeDown();
+        })
+        
+        $('#content-left-player-volume-up').click(() => {
+            this.volumeUp();
+        })
+
+        $('#content-left-player-volume-btn').on('wheel', function(event){
+            setVolumeWithWheelMouse(event);
+        });
+
+        $('#content-left-player-speed-down').click(() => {
             this.speedDown();
         })
 
-        $('#content-right-player-speed-up').click(() => {
+        $('#content-left-player-speed-up').click(() => {
             this.speedUp();
         })
 
-        $('.content-right-player-speed-btn').on('wheel', function(event){
+        $('#content-left-player-speed-btn').on('wheel', function(event){
             setSpeedWithWheelMouse(event);
         });
         
@@ -63,7 +76,7 @@ class PlayerManager extends UI {
                 let feedUrl = this.episodePlaying.feedUrl;
                 let episodeUrl = this.episodePlaying.episodeUrl;
                 this.next();
-                allNewEpisodes.removeByEpisodeUrl(episodeUrl);
+                //allNewEpisodes.removeByEpisodeUrl(episodeUrl);
                 allFeeds.setPlaybackDoneByEpisodeUrl(feedUrl, episodeUrl, true);
                 return;
             }
@@ -249,15 +262,43 @@ class PlayerManager extends UI {
         }
     }
 
+    volumeUp() {
+        switch (this.$volume.innerHTML) {
+            case "0%": this.$volume.innerHTML = "10%"; this.$player.volume = 0.1; break;
+            case "10%": this.$volume.innerHTML = "20%"; this.$player.volume = 0.2; break;
+            case "20%": this.$volume.innerHTML = "30%"; this.$player.volume = 0.3; break;
+            case "30%": this.$volume.innerHTML = "40%"; this.$player.volume = 0.4; break;
+            case "40%": this.$volume.innerHTML = "50%"; this.$player.volume = 0.5; break;
+            case "50%": this.$volume.innerHTML = "60%"; this.$player.volume = 0.6; break;
+            case "60%": this.$volume.innerHTML = "70%"; this.$player.volume = 0.7; break;
+            case "70%": this.$volume.innerHTML = "80%"; this.$player.volume = 0.8; break;
+            case "80%": this.$volume.innerHTML = "90%"; this.$player.volume = 0.9; break;
+            case "90%": this.$volume.innerHTML = "100%"; this.$player.volume = 1; break;
+            default: break;
+        }
+    }
+
+    volumeDown() {
+        switch (this.$volume.innerHTML) {
+            case "10%": this.$volume.innerHTML = "0%"; this.$player.volume = 0; break;
+            case "20%": this.$volume.innerHTML = "10%"; this.$player.volume = 0.1; break;
+            case "30%": this.$volume.innerHTML = "20%"; this.$player.volume = 0.2; break;
+            case "40%": this.$volume.innerHTML = "30%"; this.$player.volume = 0.3; break;
+            case "50%": this.$volume.innerHTML = "40%"; this.$player.volume = 0.4; break;
+            case "60%": this.$volume.innerHTML = "50%"; this.$player.volume = 0.5; break;
+            case "70%": this.$volume.innerHTML = "60%"; this.$player.volume = 0.6; break;
+            case "80%": this.$volume.innerHTML = "70%"; this.$player.volume = 0.7; break;
+            case "90%": this.$volume.innerHTML = "80%"; this.$player.volume = 0.8; break;
+            case "100%": this.$volume.innerHTML = "90%"; this.$player.volume = 0.9; break;
+            default: break;
+        }
+    }
+
     next() {
         let feed = null;
         let index = null;
 
         switch(this.queue) {
-            case 'playlist':
-                let playlistName = getHeader();
-                feed = allNewEpisodes.getPlaylistEpisodes(playlistName);
-                break;
             case 'newEpisodes':
                 feed = allNewEpisodes.getAll();
                 break;
@@ -299,10 +340,7 @@ class PlayerManager extends UI {
 
     setSource() {
         this.$source
-            //.attr('channel', this.episodePlaying.channelName)
-            //.attr('feedUrl', this.episodePlaying.feedUrl)
-            .attr('src', this.episodePlaying.episodeUrl)
-            //.attr('type', this.episodePlaying.episodeType);
+            .attr('src', this.episodePlaying.episodeUrl);
     }
 
     setArtworkHtml() {
@@ -397,4 +435,11 @@ function setSpeedWithWheelMouse(e) {
         playerManager.speedUp();
     else 
         playerManager.speedDown();
+}
+
+function setVolumeWithWheelMouse(e) {
+    if(e.originalEvent.deltaY < 0)
+        playerManager.volumeUp();
+    else 
+        playerManager.volumeDown();
 }

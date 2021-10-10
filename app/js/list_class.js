@@ -5,20 +5,12 @@ class ListUI extends UI {
         this.dataObject = obj;
         this.firstEpisodeDisplayed = 0;
         this.lastEpisodeDisplayed = null;
-        this.bufferSize = 120;
+        this.bufferSize = 80; //120
     }
 
 /*
  * LIST
  */
-    /*
-    length() {
-        if(this.firstEpisodeDisplayed && this.lastEpisodeDisplayed)
-            return (this.lastEpisodeDisplayed - this.firstEpisodeDisplayed + 1);
-        return super.length();
-    }
-    */
-    
     add(episode, i) {
         if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) {
             if(i < this.firstEpisodeDisplayed) {
@@ -34,7 +26,6 @@ class ListUI extends UI {
             }
         }
     }
-
 
     directAdd(episode, i) {
         let $el = null;
@@ -245,7 +236,7 @@ class ListUI extends UI {
             let $button = obj.getList().find('.more-episodes-bottom').find('.show-more-episodes-button');
             $button.off('click');
             
-            let feed = this.dataObject.getAll();
+            let feed = obj.dataObject.getAll();/* this.dataObject.getAll(); */
 
             obj.showOther10Elements(feed);
             obj.removeExtraPreviousElements();
@@ -286,7 +277,7 @@ class ListUI extends UI {
             let $button = obj.getList().find('.more-episodes-top').find('.show-more-episodes-button');
             $button.off('click');
             
-            let feed = this.dataObject.getAll();
+            let feed = obj.dataObject.getAll(); /* this.dataObject.getAll(); */
 
             obj.showsPrevious10Elements(feed);
             let timeout = 130 * (obj.getAllItemsList().length - obj.bufferSize);
@@ -324,19 +315,3 @@ class ListUI extends UI {
             });
     }
 }
-/*
-function getEpisodeClassFromAttr(obj) {
-    let $obj = $(obj);
-    return new Episode(
-        $obj.attr('channel'),
-        $obj.attr('feedUrl'),
-        $obj.attr('title'),
-        $obj.attr('url'),
-        $obj.attr('type'),
-        $obj.attr('length'),
-        $obj.attr('description'),
-        $obj.attr('durationkey'),
-        $obj.attr('pubdate')
-    );
-}
-*/

@@ -34,7 +34,6 @@ function initLink() {
     $('#menu-refresh').click(readFeeds)
     $('#menu-archive').click(showArchivePage)
     $('#menu-statistics').click(showStatisticsPage)
-    $('#new_list-button').click(createNewPlaylist)
 }
 
 /*
@@ -64,10 +63,6 @@ function initInput() {
 
     $('#search-input').keyup(function (e) {
         search(this, e);
-    })
-
-    $('#new_list-input').keyup(function (e) {
-        inputNewPlaylist(this, e);
     })
 }
 

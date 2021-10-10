@@ -140,8 +140,6 @@ class FavoritePodcasts {
             this.podcasts.splice(i, 1);
             this.update();
             allNewEpisodes.removePodcastEpisodes(feedUrl);
-            //allArchiveEpisodes.removePodcastEpisodes(feedUrl);
-            allPlaylist.memory.removePodcastByFeedUrlFromAllPlaylists(feedUrl);
             allFeeds.delete(feedUrl);
 
             this.ui.removeByFeedUrl(feedUrl);

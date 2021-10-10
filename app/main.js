@@ -1,10 +1,10 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
-
+/* 
 // Import getPreference() helper function
 const getPreference = require('./js/helper/helper_global')
-
+ */
 // Modules to create app tray icon
 const Menu = require('electron').Menu
 const Tray = require('electron').Tray
@@ -31,17 +31,17 @@ if (process.platform === 'darwin') {
 function createWindow()
 {
 	win = new BrowserWindow({
-        width: (process.platform === 'win32' ? 1100 : 1200) , //1200
-        minWidth: 1000, //1000
-        height: (process.platform === 'win32' ? 700 : 730), //765-730
-        minHeight: (process.platform === 'win32' ? 635 : 600), //630-600
+        width: 1100,
+        minWidth: 1000,
+        height: 640, 
+        minHeight: (process.platform === 'win32' ? 635 : 600), 
         autoHideMenuBar: true,
         icon: trayIcon,
         frame: !(process.platform === "win32"),
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-            zoomFactor: 0.9 // (process.platform === 'win32' ? 1.0 : 0.9)
+            zoomFactor: 0.9
         }
     });
     
@@ -51,7 +51,7 @@ function createWindow()
         protocol: 'file:',
         slashed: true
     }))
-
+/* 
     // Create tray icon
     appIcon = new Tray(trayIcon)
 
@@ -80,9 +80,6 @@ function createWindow()
     // Create RightClick context menu
     appIcon.setContextMenu(contextMenu)
 
-    // Always highlight the tray icon
-    // appIcon.setHighlightMode('always')
-
     // The tray icon is not destroyed
     appIcon.isDestroyed(false)
 
@@ -91,14 +88,14 @@ function createWindow()
     appIcon.on('click', () => {
         win.isVisible() ? win.hide() : win.show()
     })
-
+ */
     win.on('closed', function() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null
     })
-
+/* 
     // Minimize window to system tray if 'Minimize' option is checked
     if (getPreference('minimize') === true) {
         win.on('minimize', function(event){
@@ -107,7 +104,7 @@ function createWindow()
             win.hide()
         })
     }
-
+ */
     // Quit when all windows are closed
     win.on('window-all-closed', () =>
     {

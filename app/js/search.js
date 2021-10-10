@@ -28,15 +28,11 @@ function getPodcasts(_SearchTerm) {
 
     searchTimeoutVar = setTimeout(() => {
         _SearchTerm = encodeURIComponent(_SearchTerm);
-        if (isProxySet())
-            makeRequest(getITunesProxyOptions(_SearchTerm), null, getResults, eRequest.http);
-        else
-            makeRequest(getITunesOptions(_SearchTerm), null, getResults, eRequest.https);
+        makeRequest(getITunesSearchUrl(_SearchTerm), getResults);
     }, 300);
 }
 
-function getResults(_Data, _eRequest, _Options) {
-    let FeedUrl = (_Options instanceof Object ? _Options.path: _Options);
+function getResults(_Data, FeedUrl) {
     let query = decodeURI(FeedUrl).split('=')[1].split('&')[0];
     
     let obj = JSON.parse(_Data);
@@ -132,4 +128,8 @@ function getFullHeartButton(_PodcastInfos) {
         );
     })
     return $heartButtonElement.get(0);
+}
+
+function getITunesSearchUrl(_SearchTerm) {
+    return 'http://itunes.apple.com/search?term=' + _SearchTerm + '&media=podcast';
 }

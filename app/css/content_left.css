@@ -6,15 +6,14 @@
     display: grid;
     position: fixed;
     overflow: auto;
-    /* grid-template-rows: 70px 1fr 30px 3fr 60px; */
-    grid-template-rows: 70px 215px 30px 3fr 60px;
+    /* grid-template-rows: 70px 215px 30px 3fr 60px; */
+    /* grid-template-rows: 70px 250px 30px 3fr 300px; */
+    grid-template-rows: 70px 1fr 355px;
     grid-template-columns: 100%;
     grid-template-areas:
         "search"
         "menu"
-        "playlist-header"
-        "playlists"
-        "footer";
+        "player";
 }
 
 #search
@@ -27,7 +26,7 @@
     height: 40px;
     padding-left: 0.5em;
     background: #FFF;
-    border-radius: 4px;
+    border-radius: 10px;
     border: 1px solid #e5e5e5; /* #E0E0E0; */
 }
 
@@ -47,6 +46,15 @@
     border: 0;
     background-color: inherit;
     outline: none;
+}
+
+#search input::placeholder { 
+    transition: color .2s linear;
+}   
+
+/* #search input:focus::placeholder, */
+#search input:hover::placeholder { 
+    color: #000;
 }
 
 #menu
@@ -71,6 +79,9 @@
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: 30px 1fr 30px;
+
+    border-radius: 10px;
+    margin: 4px 8px;
 }
 
 
@@ -101,6 +112,10 @@
     fill: #EF6C00;
 }
 
+.orange {
+    fill: #ff8d0c; /* #ff9b2a */
+}
+
 .blue
 {
     fill: #039BE5;
@@ -118,7 +133,7 @@
 
 .selected
 {
-    background-color: #E0E0E0;
+    background-color: #d1d1d1; /* #E0E0E0; */
 }
 
 @keyframes rotation {
@@ -172,8 +187,8 @@
     padding: 0;
 }
 
-#playlists ul li
-{
+/* #playlists ul li
+{ */
     /* padding: 0.5em; */
     /* padding-left: 0.6em; */
 
@@ -182,8 +197,8 @@
     padding-top: 0.5em;
     padding-left: 1.2em;
     padding-right: 0.8em;
-    */
-}
+    *//* 
+} */
 
 #playlists ul li.over
 {

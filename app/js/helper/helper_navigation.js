@@ -59,17 +59,9 @@ function toggleList(_View) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// MENU & PLAYLISTS
+// MENU
 // ---------------------------------------------------------------------------------------------------------------------
 
 function clearMenuSelection() {
-    $('#menu li, #playlists li').removeClass('selected');
-}
-
-function addToPlaylist(_PlaylistName, _PodcastFeedUrl) {
-    allPlaylist.memory.addPodcastByFeedUrl(_PlaylistName, _PodcastFeedUrl);
-}
-
-function removeFromPlaylist(_PlaylistName, _PodcastFeedUrl) {
-    allPlaylist.memory.removePodcastByFeedUrl(_PlaylistName, _PodcastFeedUrl);
+    $('#menu li').removeClass('selected');
 }
