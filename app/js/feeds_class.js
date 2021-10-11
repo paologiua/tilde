@@ -725,6 +725,8 @@ class Feeds {
 
     delete(feedUrl) {
         let i = this.getIofIndexByFeedUrl(feedUrl);
+        if(i == -1)
+            return;
         let indicator = this.index[i].indicator;
         try {
             fs.unlinkSync(this.getFeedPathByIndicator(indicator));
