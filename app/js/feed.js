@@ -71,36 +71,46 @@ function getDurationFromDurationKey(episode) {
     return duration;
 }
 
-function readFeeds() {
+function setRefreshingStateUI() {
     $('#menu-refresh svg').addClass('is-refreshing');
     $('#menu-refresh').off('click');
+}
+
+function unsetRefreshingStateUI() {
+    setTimeout(() => {
+        $('#menu-refresh svg').removeClass('is-refreshing');
+        $('#menu-refresh').click(readFeeds);
+    }, 2000); 
+}
+
+function readFeeds() {
+    setRefreshingStateUI();
 
     if(!allFavoritePodcasts.isEmpty()) {
         let podcasts = allFavoritePodcasts.getAll();
         for (let i in podcasts) {
             allFeeds.lastFeedUrlToReload = podcasts[i].feedUrl;
-            readFeedByFeedUrl(podcasts[i].feedUrl);
+            readFeedByFeedUrl(podcasts[i].feedUrl, (i == podcasts.length - 1));
         }
     } else
-        setTimeout(() => {
-            $('#menu-refresh svg').removeClass('is-refreshing');
-            $('#menu-refresh').click(readFeeds);
-        }, 2000); 
+        unsetRefreshingStateUI();
 }
 
-function readFeedByFeedUrl(feedUrl) {
-    makeRequest(feedUrl, updateFeed);
+function readFeedByFeedUrl(feedUrl, forceUnsetRefreshing) {
+    makeRequest(feedUrl, updateFeed, (jqXHR) => {
+        // ERR_INTERNET_DISCONNECTED
+        if(jqXHR.status == 0 || forceUnsetRefreshing) 
+            unsetRefreshingStateUI();
+    });
 }
 
 function updateFeed(_Content, FeedUrl) {
     allFeeds.initFeed(FeedUrl)
 
     if (isContent302NotFound(_Content)) {
-        // Nothing
         allFeeds.ui.showNothingToShow(FeedUrl);
     } else {
         if (_Content.includes("<html>")) {
-            // Nothing
             allFeeds.ui.showNothingToShow(FeedUrl);
         } else {
             xmlParserWorker.postMessage({
@@ -133,10 +143,7 @@ xmlParserWorker.onmessage = function(ev) {
     })
 
     if(allFeeds.lastFeedUrlToReload == feedUrl)
-        setTimeout(() => {
-            $('#menu-refresh svg').removeClass('is-refreshing');
-            $('#menu-refresh').click(readFeeds);
-        }, 2000);  
+        unsetRefreshingStateUI();
 }
 
 updateFeedWorker.onmessage = function(ev) {

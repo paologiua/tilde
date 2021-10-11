@@ -130,6 +130,8 @@ h1 {
     font-size: 22px;
     font-weight: bold;
     background-color: #eee;
+    margin: 10px;
+    border-radius: 10px;
 }
 
 .statistics-entry {
