@@ -28,11 +28,11 @@ class ArchiveEpisodesUI extends ListUI {
         this.showList(this.dataObject.episodes);
         this.dataObject.update();
     }
-
+/* 
     getShowMoreEpisodesTopHtml() {
         return $(super.getShowMoreEpisodesTopHtml()).addClass('border-top');
     }
-
+ */
     convertItemIntoInfoItemList(obj) {
         let episode = _(obj);
 

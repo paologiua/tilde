@@ -17,21 +17,33 @@ h1 {
     overflow: auto;
     height: 100vh;
     border-left: 1px solid #E7E7E7;
-    display: grid;
+    /* display: grid; */
     /* grid-template-rows: 70px 1fr 60px; */
-    grid-template-rows: 70px 1fr;
+    /* grid-template-rows: 70px 1fr;
     grid-template-columns: 100%;
     grid-template-areas: "right-header" "list" "audio-player";
-    overflow: hidden;
+    overflow: hidden; */
+    background-color: #FFF;
 }
 
 #content-right-header {
-    grid-area: right-header;
+    /* grid-area: right-header; */
     background: #FFF;
     padding: 0;
     margin: 0;
     display: grid;
     grid-template-columns: 1fr 85px;
+}
+
+/* BLUR EFFECT */
+
+div#content-right-header {
+    position: fixed;
+    left: 301px;
+    right: .8em;
+    z-index: 1000;
+    background: #ffffffb3;
+    backdrop-filter: blur(5px) saturate(150%);
 }
 
 #content-right-header h1 {
@@ -40,7 +52,7 @@ h1 {
 }
 
 #content-right-header-actions {
-    opacity: 0.6;
+    /* opacity: 0.6; */
     align-self: center;
 }
 
@@ -88,7 +100,7 @@ h1 {
 }
 
 #content-right-body {
-    grid-area: list;
+    /* grid-area: list; */
     background: #FFF;
     /*height: calc(100% - 4.5em);*/
     overflow: auto;
@@ -105,7 +117,7 @@ h1 {
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 #list {
-    margin: 0;
+    margin: 71px 0 0 0;
     padding: 0;
 }
 
@@ -125,12 +137,11 @@ h1 {
     padding: 0.5em;
     padding-left: 1.5em;
     padding-right: 2em;
-    margin-top: 2em;
-    margin-bottom: 0.5em;
     font-size: 22px;
     font-weight: bold;
     background-color: #eee;
     margin: 10px;
+    margin-top: 30px;
     border-radius: 10px;
 }
 
@@ -165,6 +176,8 @@ h1 {
     border-radius: 15px;
     margin: 10px;
     background-color: #e9e9e9;
+    
+    transition: background-color .1s linear;
 }
 
 .podcast-entry-header {
@@ -760,10 +773,18 @@ h1 {
     font-size: 13px;
     opacity: 0.7;
 }
-
+/* 
 .header-null {
-    /* grid-template-rows: 0px 1fr 60px !important; */
     grid-template-rows: 0px 1fr !important;
+}
+ */
+
+.header-null #content-right-header {
+    display: none;
+}
+
+.header-null #content-right-body #list {
+    margin: 0;
 }
 
 .nothing-to-show {

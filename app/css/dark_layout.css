@@ -52,6 +52,12 @@ body
     background: #333;
 }
 
+/* BLUR EFFECT */
+
+div#content-right-header {
+    background: #333333d4;
+}
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* Left */
 
@@ -174,6 +180,7 @@ input
 
 #content-right {
     border-left: 1px solid #222;
+    background-color: #333;
 }
 
 #content-right-player svg,
