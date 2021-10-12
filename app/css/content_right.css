@@ -345,6 +345,7 @@ div#content-right-header {
     background-color: unset;
 
     margin-top: 5px;
+    transition: none;
 }
 
 .grid-layout .podcast-entry .podcast-entry-header {
