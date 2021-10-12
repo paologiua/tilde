@@ -1,8 +1,9 @@
-<img style="margin-right:30px;" align="left" src="screenshots/tilde.png" alt="drawing" width="200"/><span style="margin: 10px;">
-<p style="font-weight:bold;font-size:30px;">Tilde</p>
-<p style="font-size:20px;">Podcast client to listen to all you favorite podcasts</p>
-<br><br><br><br>
-</span>
+<img style="margin-right:30px;" align="left" src="screenshots/tilde.png" alt="drawing" width="200"/>
+
+# Tilde
+## Podcast client to listen to all you favorite podcasts
+
+<br><br>
 
 # New episodes
 ![alt text](screenshots/dark1.png)
