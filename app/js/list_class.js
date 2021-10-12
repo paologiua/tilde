@@ -167,12 +167,12 @@ class ListUI extends UI {
     getShowMoreEpisodesTopElement() {
         return this.getList().find('.more-episodes-top');
     }
-
+    
     showOther10Elements(feed) {
         let i = this.lastEpisodeDisplayed + 1;
         let delay = 0;
         while(i < feed.length && i < this.lastEpisodeDisplayed + 11) {
-            let episode = allFeeds.getEpisodeByEpisodeUrl(feed[i].feedUrl, feed[i].episodeUrl);
+            let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
             $(this.getNewItemList(episode))
                 .delay(140 * delay++)
                 .hide()
@@ -187,12 +187,11 @@ class ListUI extends UI {
         this.lastEpisodeDisplayed = i - 1;
     }
 
-
     showsPrevious10Elements(feed) {
         let i = this.firstEpisodeDisplayed - 1;
         let delay = 0;
         while(i >= 0 && i >= this.firstEpisodeDisplayed - 10) {
-            let episode = allFeeds.getEpisodeByEpisodeUrl(feed[i].feedUrl, feed[i].episodeUrl);
+            let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
             $(this.getNewItemList(episode))
                 .delay(140 * delay++)
                 .hide()
