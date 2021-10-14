@@ -387,3 +387,13 @@ svg.set-favorite
 #bar-search > svg {
     fill: #fff;
 }
+
+
+.settings-ui-window {
+    background-color: #111;
+}
+
+.settings-ui-title > svg {
+    fill: #fff;
+    opacity: .8;
+}

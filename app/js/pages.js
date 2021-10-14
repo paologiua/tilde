@@ -69,7 +69,7 @@ function showPage(headerHtml, bodyHtml) {
 }
 
 function setScrollPositionOnTop() {
-    $('#content-right-body').scrollTop(0);
+    $('#content-right').scrollTop(0);
 }
 
 function removeContentRightHeader() {

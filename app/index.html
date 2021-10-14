@@ -264,28 +264,26 @@
             </div>
         </div>
 
-        <!-- <div style="
-            position: fixed;
-            height: 100vh;
-            width: 100vw;
-            /* background-color: azure; */
-            /* opacity: 0.2; */
-        ">
-            <div style="
-                height: 300px;
-                width: 450px;
-                border-radius: 20px;
-                background-color: #111;
-                margin: calc(50vh - 150px) calc(50vw - 225px);
-            ">
-                <h1 style=" margin: 10px; width: 300px;">
-                    Impostazioni
-                </h1>
-                <h1 style=" margin: 10px; font-size: 20px; width: 300px; padding: 20px;">
-                    Dark mode
-                </h1>
+        <div class="settings-ui">
+            <div class="settings-ui-bk"></div>
+            <div class="settings-ui-window">
+                <span class="settings-ui-title">
+                    <span class="settings">Settings</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#000">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                    </svg>
+                </span>
+                <span class="settings-ui-row">
+                    <span class="dark-mode-translate">Dark mode</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <div>
+                            <span></span>
+                        </div>
+                    </label>
+                </span>
             </div>
-        </div> -->
-
+        </div>
     </body>
 </html>

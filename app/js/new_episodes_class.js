@@ -133,7 +133,7 @@ class NewEpisodesUI extends ListUI {
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
-                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon')) {
+                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                     e.preventDefault();
                     return;
                 }

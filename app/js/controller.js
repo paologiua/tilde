@@ -32,6 +32,7 @@ function initLink() {
     $('#menu-episodes').click(showNewEpisodesPage)
     $('#menu-favorites').click(showFavoritesPage)
     $('#menu-refresh').click(readFeeds)
+    $('#menu-settings').click(() => {allPreferences.ui.openSettingsUI()})
     $('#menu-archive').click(showArchivePage)
     $('#menu-statistics').click(showStatisticsPage)
 }
@@ -72,10 +73,11 @@ function initInput() {
         setTimeout(() => {
             $("#bar-search").removeClass("search-animation");
         }, 500);
-    })/* 
+    })
     .focusin(function (e) {
-        $("#bar-search").addClass("search-animation");
-    }) */
+        if(this.value != '')
+            $("#bar-search").addClass("search-animation");
+    })
     
 }
 

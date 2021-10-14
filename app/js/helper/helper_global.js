@@ -8,8 +8,60 @@ var allPreferences = null;
 // GLOBAL
 // ---------------------------------------------------------------------------------------------------------------------
 
+class PreferencesUI {
+    constructor(obj) {
+        this.dataObject = obj;
+
+        this.$settingsUI = $('.settings-ui');
+        this.$settingsUIbk = this.$settingsUI.find('.settings-ui-bk');
+        this.$$settingsUIwindow = this.$settingsUI.find('.settings-ui-window');
+        this.$exitButton = this.$settingsUI.find('svg');
+        this.$checkBoxDarkMode = this.$settingsUI.find('input');
+
+        this.menuSettings = $('#menu-settings');
+
+        this.oldselectedMenuItem = undefined;
+
+        this.init();
+    }
+
+    init() {
+        this.$exitButton.click(() => {
+            this.exitSettingsUI();
+        });
+
+        this.$checkBoxDarkMode.change(function() {
+            var DarkModeMenu = getDarkModeMenuItem();
+            DarkModeMenu.checked = $(this).is(':checked');
+            darkMode();
+        });
+
+        this.$settingsUIbk.click(() => {
+            this.exitSettingsUI();
+        });
+    }
+
+    setCheckBoxDarkModeState(state) {
+        this.$checkBoxDarkMode.prop('checked', state);
+    }
+
+    openSettingsUI() {
+        this.oldselectedMenuItem = $('.selected');
+        selectMenuItem(this.menuSettings);
+        this.$settingsUI.css('display', 'block');
+        this.isOpen = true;
+    }
+
+    exitSettingsUI() {
+        selectMenuItem(this.oldselectedMenuItem)
+        this.$settingsUI.css('display', 'none');
+        this.isOpen = false;
+    }
+}
+
 class Preferences {
     constructor() {
+        this.ui = new PreferencesUI(this);
         this.load();
     }
 
@@ -20,6 +72,8 @@ class Preferences {
         let fileContent = ifExistsReadFile(getPreferencesFilePath());
         this.preference = JSON.parse(fileContent == "" ? "{}": fileContent);
         this.check();
+        if(this.getDarkmode())
+            this.ui.setCheckBoxDarkModeState(true);
     }
 
     update() {
@@ -38,6 +92,7 @@ class Preferences {
 
     setDarkmode(darkmode) {
         this.preference.darkmode = darkmode;
+        this.ui.setCheckBoxDarkModeState(darkmode);
         this.update();
     }
 
@@ -56,6 +111,8 @@ class Preferences {
  */
     set(preference, value) {
         this.preference[preference] = value;
+        if(preference == 'darkmode')
+            this.ui.setCheckBoxDarkModeState(value);
         this.update();
     }
 
@@ -207,9 +264,11 @@ function setTitlebarOnWin() {
 
 function setSearchWithoutFocus() {
     $(document).keypress(function (e) {
-        let char = String.fromCharCode(e.which)
-        if(!char.match(/^[^A-Za-z0-9+!?#\.\-\ ]+$/) && !$("input:focus").get(0)) {
-            $('#search-input').focus();
+        if(!allPreferences.ui.isOpen) {
+            let char = String.fromCharCode(e.which)
+            if(!char.match(/^[^A-Za-z0-9+!?#\.\-\ ]+$/) && !$("input:focus").get(0)) {
+                $('#search-input').focus();
+            }
         }
     })
 }
