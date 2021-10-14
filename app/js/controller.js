@@ -62,8 +62,21 @@ function initInput() {
     })
 
     $('#search-input').keyup(function (e) {
+        if(this.value == '')
+            $("#bar-search").removeClass("search-animation");
+        else
+            $("#bar-search").addClass("search-animation");   
         search(this, e);
     })
+    .focusout(function (e) {
+        setTimeout(() => {
+            $("#bar-search").removeClass("search-animation");
+        }, 500);
+    })/* 
+    .focusin(function (e) {
+        $("#bar-search").addClass("search-animation");
+    }) */
+    
 }
 
 function _(obj) {

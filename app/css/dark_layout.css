@@ -47,7 +47,7 @@ body
     color: #DDD;
 }
 
-#content-right-header, #content-right-body, #content-right-footer, #content-right-player
+#content-right-body, #content-right-footer, #content-right-player
 {
     background: #333;
 }
@@ -89,7 +89,7 @@ div#content-right-header {
 }
 
 /* #menu-archive svg, */
-#menu-refresh svg
+#menu-settings svg
 {
     fill: #FFF;
 }
@@ -144,18 +144,13 @@ input
 .podcast-entry {
     background-color: #272727;
 }
-/* 
-.settings
-{
-    border-color: #222;
-}
- */
+
 .statistics-header
 {
     background: #222;
 }
 
-.settings-buttons > *
+.settings-feed-buttons > *
 {
     background: #111;
 }
@@ -184,7 +179,6 @@ input
 }
 
 #content-right-player svg,
-#content-right-header-actions svg,
 .list-item-icon svg
 {
     fill: #FFF;
@@ -284,13 +278,13 @@ svg.set-favorite
   --theme-slider: #222;
 }
 
-.settings-image {
+.settings-feed-image {
     /* border: none; */
     background-color: #222;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.settings-buttons > * svg {
+.settings-feed-buttons > * svg {
     fill: #fff;
 }
 
@@ -323,6 +317,7 @@ svg.set-favorite
 
 #content-right-header-actions svg {
     background-color: #222;
+    fill: #ddd;
 }
 
 #content-right-header-actions svg:hover {
@@ -383,4 +378,12 @@ svg.set-favorite
 
 .orange {
     fill: #ffc247;
+}
+
+#bar-search {
+    background-color: #171717; 
+}
+
+#bar-search > svg {
+    fill: #fff;
 }

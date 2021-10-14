@@ -72,13 +72,13 @@ function getDurationFromDurationKey(episode) {
 }
 
 function setRefreshingStateUI() {
-    $('#menu-refresh svg').addClass('is-refreshing');
+    $('#menu-refresh').addClass('is-refreshing');
     $('#menu-refresh').off('click');
 }
 
 function unsetRefreshingStateUI() {
     setTimeout(() => {
-        $('#menu-refresh svg').removeClass('is-refreshing');
+        $('#menu-refresh').removeClass('is-refreshing');
         $('#menu-refresh').click(readFeeds);
     }, 2000); 
 }

@@ -440,7 +440,7 @@ div#content-right-header {
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-.settings {
+.settings-feed {
     /* border-bottom: 1px solid #E0E0E0; */
     padding: 2em;
     padding-bottom: 0.5em;
@@ -452,7 +452,7 @@ div#content-right-header {
     grid-template-areas: "image name buttons";
 }
 
-.settings-image {
+.settings-feed-image {
     width: 100px;
     height: 100px;
     border-radius: 10px;
@@ -465,7 +465,7 @@ div#content-right-header {
     background-size: cover; */
 }
 
-.settings-header {
+.settings-feed-header {
     grid-area: name;
     padding: 0.5em;
     margin-left: 1em;
@@ -474,25 +474,11 @@ div#content-right-header {
     align-self: center;
 }
 
-/*
-.settings-count::before {
-    content: "All: ";
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.settings-count {
-    grid-area: items;
-    padding: 0.5em;
-    align-self: center;
-}
-*/
-
-.settings-buttons {
+.settings-feed-buttons {
     grid-area: buttons;
 }
 
-.settings-buttons>* {
+.settings-feed-buttons>* {
     background: #ddd;
     /* #898989;*/
     border-radius: 6px;
@@ -505,69 +491,69 @@ div#content-right-header {
     height: 28px;
 }
 
-.settings-buttons {
+.settings-feed-buttons {
     position: relative;
     bottom: 1px;
     opacity: 1;
 }
 
-.settings-buttons>div {
+.settings-feed-buttons>div {
     padding-top:5.5px;
     height:29.5px;
     width:35px;
 }
 
-.settings-buttons>* svg {
+.settings-feed-buttons>* svg {
     fill: #000;
 }
 
-.settings-buttons>*:hover {
+.settings-feed-buttons>*:hover {
     opacity: 1;
 }
 
-.settings-buttons>div>.list-item-icon {
+.settings-feed-buttons>div>.list-item-icon {
     margin-left:auto;
     margin-right:auto;
     width:24px;
     height:24px;
 }
 
-.settings-buttons .list-item-icon svg {
+.settings-feed-buttons .list-item-icon svg {
     fill: #E91E63;
 }
 
-.settings .settings-header .count-header {
+.settings-feed .settings-feed-header .count-header {
     opacity: .5;
     font-size: 13px;
 }
 
-.settings .settings-header .description-header {
+.settings-feed .settings-feed-header .description-header {
     opacity: .7;
     font-size: 15px;
     display: block;
     overflow: hidden;
 }
 
-.settings .settings-header .description-header>p {
+.settings-feed .settings-feed-header .description-header>p {
     opacity: .7;
     font-size: 15px;
     margin: 0;
 }
 
-.settings .settings-header .description-header h1, h2, h3 {
+.settings-feed .settings-feed-header .description-header h1, h2, h3 {
     font-size: 15px;
 }
 
-.settings .settings-header .description-other {
+.settings-feed .settings-feed-header .description-other {
     font-size: 15px;
     color: #5880c7;
 }
 
-.settings .settings-header .description-other:hover {
+.settings-feed .settings-feed-header .description-other:hover {
     text-decoration: underline;
 }
 
-.settings .settings-header .artist-header {
+.settings-feed .settings-feed-header .artist-header {
     opacity: .7;
     font-size: 15px;
     overflow: hidden;

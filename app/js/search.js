@@ -94,8 +94,13 @@ function showSearchList(results) {
     }
 }
 
+function isSearchPage() {
+    return getHeader() == generateHtmlTitle("Search");
+}
+
 function showSearchNothingToShow() {
-    setNothingToShowBody(s_SearchNothingFoundIcon, 'search-nothing-to-show');
+    if(isSearchPage())
+        setNothingToShowBody(s_SearchNothingFoundIcon, 'search-nothing-to-show');
 }
 
 function getHeartButton(_PodcastInfos) { 

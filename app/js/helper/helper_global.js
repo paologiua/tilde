@@ -287,7 +287,7 @@ function getBestArtworkUrl(feedUrl) {
             return Artwork;
     }
 
-    let $settingsImage = $('.settings-image');
+    let $settingsImage = $('.settings-feed-image');
     if(allFeeds.ui.checkPageByFeedUrl(feedUrl) && 
         $settingsImage.get(0) && 
         (Artwork = $settingsImage.attr('src')))

@@ -7,27 +7,27 @@ class FeedsUI extends ListUI {
  */
 
     getHeader() {
-        return $('.settings');
+        return $('.settings-feed');
     }
 
     getHeaderImage() {
-        return $('.settings .settings-image');
+        return $('.settings-feed .settings-feed-image');
     }
 
     getHeaderTitle() {
-        return $('.settings .settings-header .title-header');
+        return $('.settings-feed .settings-feed-header .title-header');
     }
 
     getHeaderArtist() {
-        return $('.settings .settings-header .artist-header');
+        return $('.settings-feed .settings-feed-header .artist-header');
     }
 
     getHeaderCount() {
-        return $('.settings .settings-header .settings-count');
+        return $('.settings-feed .settings-feed-header .settings-feed-count');
     }
 
     getHeaderDescription() {
-        return $('.settings .settings-header .description-header');
+        return $('.settings-feed .settings-feed-header .description-header');
     }
 
     setHeaderArtistContent(artistName) {
@@ -69,20 +69,20 @@ class FeedsUI extends ListUI {
             var RightContent = document.getElementById("list")
 
             var SettingsDiv = document.createElement("div")
-            SettingsDiv.classList.add("settings")
+            SettingsDiv.classList.add("settings-feed")
 
             var PodcastImage = document.createElement("img")
-            PodcastImage.classList.add("settings-image")
+            PodcastImage.classList.add("settings-feed-image")
             $(PodcastImage).on("error", function() {
                 $(this).attr('src', './img/podcast_07prct.svg');
             });
 
             var $settingsHeader = $(
-                `<div class="settings-header">
+                `<div class="settings-feed-header">
                     <span class="title-header"></span><br>
                     <span class="artist-header" style="height: 0;"></span>
                     <span class="count-header">
-                        <span class="settings-count">-</span>
+                        <span class="settings-feed-count">-</span>
                         ${i18n.__('Episodes').toLowerCase()}
                     </span><br>
                     <span class="description-header" style="height:24px"></span>
@@ -141,7 +141,7 @@ class FeedsUI extends ListUI {
             });
 
             var Buttons = document.createElement("div")
-            Buttons.classList.add("settings-buttons")
+            Buttons.classList.add("settings-feed-buttons")
 
             var MoreElement = document.createElement("div")
             MoreElement.innerHTML = s_BackIcon;

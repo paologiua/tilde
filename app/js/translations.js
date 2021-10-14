@@ -3,7 +3,7 @@ function translate() {
   translateByDescriptor(".new-episodes", 'New Episodes');
   translateByDescriptor(".favorites", 'Favorites');
   translateByDescriptor(".archive", 'Archive');
-  translateByDescriptor(".refresh", 'Refresh');
+  translateByDescriptor(".settings", 'Settings');
   translateByDescriptor(".statistics", 'Statistics');
 
   translateByDescriptor('#content-left-player-title>div', 'No episode selected');

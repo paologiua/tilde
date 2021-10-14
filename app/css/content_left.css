@@ -18,10 +18,10 @@
 
 #search
 {
-    grid-area: search;
+    /* grid-area: search;
     margin: 0.8em;
     margin-bottom: 2em;
-    margin-top: 1em;
+    margin-top: 1em; */
     display: flex;
     height: 40px;
     padding-left: 0.5em;
@@ -294,4 +294,40 @@ footer input
 
 #new_list-button > svg {
     fill: #aaa;
+}
+
+#bar-search {
+    background-color: #ddd;/* #171717; */
+    margin: 0.8em;
+    margin-bottom: 2em;
+    margin-top: 1em;
+    height: 42px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 40px;
+    grid-template-areas:
+        'reload'
+        'search';
+    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+#bar-search > svg {
+    margin: 11.5px;
+    margin-right: 10px;
+    grid-area: reload;
+    opacity: 0.6;
+    fill: #000;
+    transition: width .1s linear, margin .1s linear, opacity .1s linear;
+}
+
+#bar-search > svg:hover {
+    opacity: 1;
+}
+
+.search-animation > svg {
+    opacity: 0 !important;
+    width: 0px;
+    margin: 0px !important;
+    margin-top: 10px !important;
 }
