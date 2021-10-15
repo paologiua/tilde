@@ -115,7 +115,7 @@ body {
 
 .switch {
     --line: #e8ebfb;
-    --dot: #275efe;
+    --dot: #448AFF; /* #275efe; */
     --circle: #d3d4ec;
     --background: #fff;
     --duration: 0.3s;
