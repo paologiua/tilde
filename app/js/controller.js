@@ -29,12 +29,12 @@ function enableOpenLinkInDefaultBrowser() {
  */
 
 function initLink() {
-    $('#menu-episodes').click(showNewEpisodesPage)
-    $('#menu-favorites').click(showFavoritesPage)
+    $('#menu-episodes').click(() => showPage('newEpisodes'))
+    $('#menu-favorites').click(() => showPage('favorites'))
     $('#menu-refresh').click(readFeeds)
-    $('#menu-settings').click(() => {allPreferences.ui.openSettingsUI()})
-    $('#menu-archive').click(showArchivePage)
-    $('#menu-statistics').click(showStatisticsPage)
+    $('#menu-settings').click(() => showPage('settings'))
+    $('#menu-archive').click(() => showPage('archive'))
+    $('#menu-statistics').click(() => showPage('statistics'))
 }
 
 /*

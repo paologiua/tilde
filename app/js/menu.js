@@ -136,3 +136,36 @@ function showStatisticsPage() {
     
     list.append(getStatisticsElement("statistics-entry", i18n.__("New Episodes"),  allNewEpisodes.length()));
 }
+
+function showPage(page) {
+    if(allPreferences.ui.isOpen) {
+        if(page == 'settings')
+            return;
+        
+        allPreferences.ui.exitSettingsUI();
+    }
+
+    switch(page) {
+        case 'newEpisodes': 
+            showNewEpisodesPage();
+            break;
+        case 'favorites':
+            showFavoritesPage();
+            break;
+        case 'archive': 
+            showArchivePage();
+            break;
+        case 'statistics':
+            showStatisticsPage();
+            break;
+        case 'settings': 
+            allPreferences.ui.openSettingsUI();
+            break;
+        case 'search': 
+            focusTextField("search-input");
+            break;
+        default:
+            
+            break;
+    }
+}

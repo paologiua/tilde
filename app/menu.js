@@ -62,28 +62,33 @@ const template =
             {
                 label: i18n.__("Search"),
                 accelerator: "CommandOrControl+F",
-                click() { focusTextField("search-input") }
+                click() { showPage('search'); }
             },
             {type: 'separator'},
             {
                 label: i18n.__("New Episodes"),
                 accelerator: "CommandOrControl+1",
-                click() { showNewEpisodesPage(); }
+                click() { showPage('newEpisodes'); }
             },
             {
                 label: i18n.__("Favorites"),
                 accelerator: "CommandOrControl+2",
-                click() { showFavoritesPage(); }
+                click() { showPage('favorites'); }
+            },
+            {
+                label: i18n.__("Settings"),
+                accelerator: "CommandOrControl+3",
+                click() { showPage('settings'); }
             },
             {
                 label: i18n.__("Archive"),
-                accelerator: "CommandOrControl+3",
-                click() { showArchivePage(); }
+                accelerator: "CommandOrControl+4",
+                click() { showPage('archive'); }
             },
             {
                 label: i18n.__("Statistics"),
-                accelerator: "CommandOrControl+4",
-                click() { showStatisticsPage(); }
+                accelerator: "CommandOrControl+5",
+                click() { showPage('statistics'); }
             }/* ,
             {type: 'separator'},
             {

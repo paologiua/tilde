@@ -62,11 +62,11 @@ function generateHtmlTitle(title) {
 /*
  *  Page
  */
-
+/* 
 function showPage(headerHtml, bodyHtml) {
     setHeader(headerHtml)
     setBody(bodyHtml)
-}
+} */
 
 function setScrollPositionOnTop() {
     $('#content-right').scrollTop(0);

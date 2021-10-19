@@ -1,6 +1,5 @@
 <img src="images/logo_github.png" alt="drawing" width="800"/>
 
-# Tilde
 ## Podcast client to listen to all you favorite podcasts
 
 <br><br>

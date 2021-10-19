@@ -21,6 +21,7 @@ class PreferencesUI {
         this.menuSettings = $('#menu-settings');
 
         this.oldselectedMenuItem = undefined;
+        this.isOpen = false;
 
         this.init();
     }
