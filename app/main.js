@@ -115,6 +115,20 @@ function createWindow()
     {
         app.quit()
     })
+
+/*  // FUNCTIONS TO COMMUNICATE WITH THE RENDER
+    function sendToRender(channel, obj) {
+        const { ipcMain } = require('electron');
+        win.send(channel, obj);
+    }
+
+    function listenFromRender(channel, f) {
+        const { ipcMain } = require('electron');
+        ipcMain.on(channel, async (event, obj) => {
+            f(obj);
+        });
+    }
+ */
 }
 
 // Check if this is first instance of the app running.

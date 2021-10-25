@@ -4,6 +4,20 @@ const os = require('os')
 var titlebar = null;
 var allPreferences = null;
 
+/*  // FUNCTIONS TO COMMUNICATE WITH THE MAIN
+function sendToMain(channel, obj) {
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send(channel, obj);
+}
+
+function listenFromMain(channel, f) {
+    var ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.on(channel, function (event, obj) {
+        f(obj);
+    });
+}
+ */
+
 // ---------------------------------------------------------------------------------------------------------------------
 // GLOBAL
 // ---------------------------------------------------------------------------------------------------------------------
