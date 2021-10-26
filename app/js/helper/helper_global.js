@@ -199,6 +199,8 @@ function setTitlebarOnWin() {
         $( '#content-right' ).height('calc(100% - var(--titlebar-height))');
         $('.window-controls-container').height('var(--titlebar-height)');
         
+        $('.titlebar .window-icon-bg').width('51px');
+
         $('.window-title').css('font-size', 'inherit')
                           .css('margin', 'auto')
                           .css('line-height', 'normal');
