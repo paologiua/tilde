@@ -306,7 +306,7 @@ button#content-right-player-speed-indicator {
 
 #content-left-player {
     padding: 10px;
-    margin: 10px;
+    margin: 0 0.8em 0.8em 0.8em;
     border-radius: 15px;
     background-color: #fdfdfd;/* #111111c9; */
     height: min-content;
@@ -377,10 +377,7 @@ button#content-right-player-speed-indicator {
     float: right; 
     text-align: right; 
     font-size: small;
-}
-
-
-
+} 
 
 .content-left-player-btn {
     display: flex;
