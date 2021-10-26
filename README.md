@@ -26,7 +26,7 @@ It allows you to search, subscribe and play all your favorite podcasts.
 
 The search, based on the iTunes API, allows you to reach any Podcast and view its feed in an instant.
 
-![alt text](images/screenshots/dark7.png)
+![alt text](images/screenshots/dark6.png)
 
 # 🗒️ Viewing the Feeds <span id="feed"></span>
 
@@ -36,29 +36,24 @@ By opening the feed of a podcast, the interface shows all the more information a
 * the name of the podcaster
 * the description
 
-![alt text](images/screenshots/dark6.png)
+![alt text](images/screenshots/dark7.png)
 
 After the information section, the list of episodes is shown.
 
 # 🎙️ New episodes <span id="new-episodes"></span>
 ![alt text](images/screenshots/dark1.png)
-![alt text](images/screenshots/light1.png)
 
 # ❤️ Favorites <span id="favorites"></span>
 ![alt text](images/screenshots/dark2.png)
-![alt text](images/screenshots/light2.png)
 
 # 📥 Archive <span id="archive"></span>
 ![alt text](images/screenshots/dark3.png)
-![alt text](images/screenshots/light3.png)
 
 # 📈 Statistics
 ![alt text](images/screenshots/dark4.png)
-![alt text](images/screenshots/light4.png)
 
 # ⚙️ Settings <span id="settings"></span>
-![alt text](images/screenshots/dark6.png)
-![alt text](images/screenshots/light6.png)
+![alt text](images/screenshots/dark5.png)
 
 # Nerdy Things <span id="nerdy-things"><span>
 
