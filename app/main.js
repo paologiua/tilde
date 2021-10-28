@@ -58,13 +58,15 @@ function createWindow() {
         show: false
     });
     
+    let darkMode = getPreference('darkmode');
+
     win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, darkMode ? 'index-dark.html' : 'index.html'),
         protocol: 'file:',
         slashed: true
     }));
 
-    win.setBackgroundColor(getPreference('darkmode') ? '#333' : '#fff');
+    win.setBackgroundColor(darkMode ? '#333' : '#fff');
     win.webContents.on('did-finish-load', function() {
         win.show();
     });

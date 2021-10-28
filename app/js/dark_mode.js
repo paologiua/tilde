@@ -2,41 +2,21 @@ const {Menu} = require('electron').remote
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function darkMode()
-{
-    var DarkModeMenu = getDarkModeMenuItem()
+function darkMode() {
+    var darkModeMenu = getDarkModeMenuItem();
 
-    var Stylesheet = document.createElement("link")
-    Stylesheet.setAttribute("rel", "stylesheet")
-    Stylesheet.setAttribute("href", "./css/dark_layout.css")
-
-    if (DarkModeMenu.checked)
-    {
-        setPreference('darkmode', true)
-
-        document.getElementsByTagName("head")[0].append(Stylesheet)
+    if(darkModeMenu.checked) {
+        setPreference('darkmode', true);
+        $('head').append('<link rel="stylesheet" href="./css/dark_layout.css">');
         
         if(titlebar != null) {
             const customTitlebar = require('custom-electron-titlebar');
             titlebar.updateBackground(customTitlebar.Color.fromHex('#1c1c1c'));
         }
-    }
-    else
-    {
+    } else {
         setPreference('darkmode', false)
-
-        var Links = document.getElementsByTagName("head")[0].getElementsByTagName("link")
-
-        for (var i = 0; i < Links.length; i++)
-        {
-            if (Links[i].getAttribute("href").includes("dark_layout"))
-            {
-                Links[i].parentElement.removeChild(Links[i])
-
-                break
-            }
-        }
-
+        $("head > link[href$='dark_layout.css']").remove();
+        
         if(titlebar != null) {
             const customTitlebar = require('custom-electron-titlebar');
             titlebar.updateBackground(customTitlebar.Color.fromHex('#bbb'));
@@ -45,7 +25,7 @@ function darkMode()
 }
 
 function changeThemeMode() {
-    var darkModeMenu = getDarkModeMenuItem()
+    let darkModeMenu = getDarkModeMenuItem();
     darkModeMenu.checked = !getPreference('darkmode');
 }
 
