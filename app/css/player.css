@@ -313,6 +313,7 @@ button#content-right-player-speed-indicator {
     grid-area: player;
     display: grid;
     grid-template-rows: 120px 35px 60px 20px 20px 60px;
+    grid-template-columns: 100%;
     box-shadow: 0px 2px 5px 0px rgba(150, 150, 150, 0.5);
 }
 
