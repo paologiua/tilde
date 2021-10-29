@@ -7,7 +7,8 @@ function darkMode() {
 
     if(darkModeMenu.checked) {
         setPreference('darkmode', true);
-        $('head').append('<link rel="stylesheet" href="./css/dark_layout.css">');
+        //$('head').append('<link rel="stylesheet" href="./css/dark_layout.css">');
+        $('body').addClass('dark-mode');
         
         if(titlebar != null) {
             const customTitlebar = require('custom-electron-titlebar');
@@ -15,7 +16,8 @@ function darkMode() {
         }
     } else {
         setPreference('darkmode', false)
-        $("head > link[href$='dark_layout.css']").remove();
+        //$("head > link[href$='dark_layout.css']").remove();
+        $('body').removeClass('dark-mode');
         
         if(titlebar != null) {
             const customTitlebar = require('custom-electron-titlebar');

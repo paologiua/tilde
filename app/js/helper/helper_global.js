@@ -314,14 +314,14 @@ function init() {
     loadArchiveEpisodes();
     loadNewEpisodes();
 
-    setSearchWithoutFocus()
+    setSearchWithoutFocus();
 
-    initController()
+    initController();
     
-    readFeeds()
-    setItemCounts()
-    translate()
-    showNewEpisodesPage()
+    readFeeds();
+    setItemCounts();
+    translate();
+    showNewEpisodesPage();
 }
 
 function fileExistsAndIsNotEmpty(_File) {

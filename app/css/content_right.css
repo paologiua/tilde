@@ -342,7 +342,7 @@ div#content-right-header {
 
     border-radius: unset;
     margin: unset;
-    background-color: unset;
+    background-color: unset !important;
 
     margin-top: 5px;
     transition: none;
@@ -519,7 +519,7 @@ div#content-right-header {
 }
 
 .settings-feed-buttons .list-item-icon svg {
-    fill: #E91E63;
+    fill: #E91E63 !important;
 }
 
 .settings-feed .settings-feed-header .count-header {

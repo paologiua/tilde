@@ -98,8 +98,8 @@
 }
 
 .select-episode .list-item-flag {
-    --bk-color1-flag: #296bda; /* rgb(8, 102, 224); */
-    --bk-color2-flag: rgb(29, 75, 228);
+    --bk-color1-flag: #296bda !important; /* rgb(8, 102, 224); */
+    --bk-color2-flag: rgb(29, 75, 228) !important;
 }
 
 .list-item-text,
