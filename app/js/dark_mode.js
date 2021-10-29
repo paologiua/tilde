@@ -7,7 +7,6 @@ function darkMode() {
 
     if(darkModeMenu.checked) {
         setPreference('darkmode', true);
-        //$('head').append('<link rel="stylesheet" href="./css/dark_layout.css">');
         $('body').addClass('dark-mode');
         
         if(titlebar != null) {
@@ -15,8 +14,7 @@ function darkMode() {
             titlebar.updateBackground(customTitlebar.Color.fromHex('#1c1c1c'));
         }
     } else {
-        setPreference('darkmode', false)
-        //$("head > link[href$='dark_layout.css']").remove();
+        setPreference('darkmode', false);
         $('body').removeClass('dark-mode');
         
         if(titlebar != null) {
