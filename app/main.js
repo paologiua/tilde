@@ -46,7 +46,7 @@ function createWindow() {
         width: 1100,
         minWidth: 1000,
         height: 640, 
-        minHeight: (process.platform === 'win32' ? 635 : 600), 
+        minHeight: (process.platform === 'win32' ? 635 : 620), 
         autoHideMenuBar: true,
         icon: trayIcon,
         frame: !(process.platform === "win32"),

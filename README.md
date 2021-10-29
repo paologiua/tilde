@@ -41,20 +41,31 @@ By opening the feed of a podcast, the interface shows all the more information a
 After the information section, the list of episodes is shown.
 
 # 🎙️ New episodes <span id="new-episodes"></span>
+
+The new episodes section is displayed when the app is launched. Shows the most recent episodes published during the last week.
+
 ![alt text](images/screenshots/dark1.png)
 
 # ❤️ Favorites <span id="favorites"></span>
+
+Episodes from a podcast are shown in the new episodes section only after you have added it to your favorites.
+
+The favorites section allows you to have quick links to all the podcasts that are most dear to you.
+
 ![alt text](images/screenshots/dark2.png)
 
 # 📥 Archive <span id="archive"></span>
+
+Keep the most interesting episodes in your personal archive.
+
 ![alt text](images/screenshots/dark3.png)
 
-# 📈 Statistics
-![alt text](images/screenshots/dark4.png)
-
 # ⚙️ Settings <span id="settings"></span>
-![alt text](images/screenshots/dark5.png)
 
-# Nerdy Things <span id="nerdy-things"><span>
+From the settings you can choose the theme you prefer.
+
+![alt text](images/screenshots/theme.gif)
+
+# 👾 Nerdy Things <span id="nerdy-things"><span>
 
 ### This project is a fork of [Poddycast](https://github.com/MrChuckomo/poddycast)
