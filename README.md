@@ -67,5 +67,7 @@ From the settings you can choose the theme you prefer.
 ![alt text](images/screenshots/theme.gif)
 
 # 👾 Nerdy Things <span id="nerdy-things"><span>
+  
+**🚧 Work in progress 🚧**
 
 ### This project is a fork of [Poddycast](https://github.com/MrChuckomo/poddycast)
