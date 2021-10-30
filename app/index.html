@@ -4,34 +4,12 @@
         <meta charset="utf-8">
         <title>Tilde</title>
 
-        <script type="text/javascript" src="./js/pages.js"></script>
-        <script type="text/javascript" src="./js/controller.js"></script>
-        <script type="text/javascript" src="./js/icons.js"></script>
         <script type="text/javascript" src="./js/helper/helper_global.js"></script>
-        <script type="text/javascript" src="./js/helper/helper_navigation.js"></script>
-        <script type="text/javascript" src="./js/helper/helper_entries.js"></script>
-        <script type="text/javascript" src="./js/list_item.js"></script>
-        <script type="text/javascript" src="./js/request.js"></script>
-        <script type="text/javascript" src="./js/podcast_class.js"></script>
-        <script type="text/javascript" src="./js/favorite.js"></script>
-        <script type="text/javascript" src="./js/search.js"></script>
-        <script type="text/javascript" src="./js/menu.js"></script>
-        <script type="text/javascript" src="./js/ui_class.js"></script>
-        <script type="text/javascript" src="./js/player_class.js"></script>
-        <script type="text/javascript" src="./js/list_class.js"></script>
-        <script type="text/javascript" src="./js/episode_class.js"></script>
-        <script type="text/javascript" src="./js/playback_class.js"></script>
-        <script type="text/javascript" src="./js/feeds_class.js"></script>
-        <script type="text/javascript" src="./js/archive_class.js"></script>
-        <script type="text/javascript" src="./js/new_episodes_class.js"></script>
-        <script type="text/javascript" src="./js/feed.js"></script>
+        <script>showWindow();</script>
         <script type="text/javascript" src="./js/dark_mode.js"></script>
         <script>window.i18n = new(require('./translations/i18n'));</script>
         <script type="text/javascript" src="./js/translations.js"></script>
         <script>window.$ = window.jQuery = require('jquery');</script>
-        <script type="text/javascript" src="./js/slider_class.js"></script>
-        <script type="text/javascript" src="./js/lib/jquery.hoverIntent.min.js"></script>
-        <script type="text/javascript" src="./js/lib/jquery.animateRotate.js"></script>
         <script> require('./menu.js') </script>
 
         <link rel="stylesheet" href="./css/main.css">
@@ -42,11 +20,7 @@
         <link rel="stylesheet" href="./css/error.css">
         <link rel="stylesheet" href="./css/dark_layout.css">
     </head>
-    <body onload="init()">
-        <script>
-            if(getPreference('darkmode')) 
-                document.body.classList.add("dark-mode");
-        </script>
+    <body>
         <div id="content">
 
             <!-- CONTENT LEFT -->
@@ -231,5 +205,38 @@
                 </span>
             </div>
         </div>
+        
+        <script>        
+            setTitlebarOnWin();
+
+            if(getPreference('darkmode'))
+                setDark();
+            
+            translate();
+            document.body.onload = init;
+        </script>
+        <script type="text/javascript" src="./js/pages.js"></script>
+        <script type="text/javascript" src="./js/controller.js"></script>
+        <script type="text/javascript" src="./js/icons.js"></script>
+        <script type="text/javascript" src="./js/helper/helper_navigation.js"></script>
+        <script type="text/javascript" src="./js/helper/helper_entries.js"></script>
+        <script type="text/javascript" src="./js/list_item.js"></script>
+        <script type="text/javascript" src="./js/request.js"></script>
+        <script type="text/javascript" src="./js/podcast_class.js"></script>
+        <script type="text/javascript" src="./js/favorite.js"></script>
+        <script type="text/javascript" src="./js/search.js"></script>
+        <script type="text/javascript" src="./js/menu.js"></script>
+        <script type="text/javascript" src="./js/ui_class.js"></script>
+        <script type="text/javascript" src="./js/player_class.js"></script>
+        <script type="text/javascript" src="./js/list_class.js"></script>
+        <script type="text/javascript" src="./js/episode_class.js"></script>
+        <script type="text/javascript" src="./js/playback_class.js"></script>
+        <script type="text/javascript" src="./js/feeds_class.js"></script>
+        <script type="text/javascript" src="./js/archive_class.js"></script>
+        <script type="text/javascript" src="./js/new_episodes_class.js"></script>
+        <script type="text/javascript" src="./js/feed.js"></script>
+        <script type="text/javascript" src="./js/slider_class.js"></script>
+        <script type="text/javascript" src="./js/lib/jquery.hoverIntent.min.js"></script>
+        <script type="text/javascript" src="./js/lib/jquery.animateRotate.js"></script>
     </body>
 </html>

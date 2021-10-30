@@ -46,7 +46,7 @@ function createWindow() {
         width: 1100,
         minWidth: 1000,
         height: 640, 
-        minHeight: (process.platform === 'win32' ? 635 : 620), 
+        minHeight: 620, //(process.platform === 'win32' ? 635 : 620), 
         autoHideMenuBar: true,
         icon: trayIcon,
         frame: !(process.platform === "win32"),
@@ -55,7 +55,8 @@ function createWindow() {
             enableRemoteModule: true,
             zoomFactor: 0.9
         },
-        show: false
+        show: false,
+        backgroundColor: getPreference('darkmode') ? '#333' : '#fff'
     });
     
     win.loadURL(url.format({
@@ -63,11 +64,11 @@ function createWindow() {
         protocol: 'file:',
         slashed: true
     }));
-    
+    /* 
     win.setBackgroundColor(getPreference('darkmode') ? '#333' : '#fff');
     win.webContents.on('did-finish-load', function() {
         win.show();
-    });
+    }); */
 /* 
     // Create tray icon
     appIcon = new Tray(trayIcon)

@@ -294,14 +294,17 @@ function setTitle(title) {
     if(isWindows())
         titlebar.updateTitle(title);
     else {
-        const { BrowserWindow } = require('electron').remote
+        const { BrowserWindow } = require('electron').remote;
         BrowserWindow.getAllWindows()[0].setTitle(title);
     }
 }
 
+function showWindow() {
+    const { BrowserWindow } = require('electron').remote;
+    BrowserWindow.getAllWindows()[0].show();
+}
+
 function init() {
-    setTitlebarOnWin();
-    
     if (!fs.existsSync(getSaveDirPath()))
         fs.mkdirSync(getSaveDirPath());
 
@@ -319,7 +322,6 @@ function init() {
     
     readFeeds();
     setItemCounts();
-    translate();
     showNewEpisodesPage();
 }
 
@@ -427,20 +429,15 @@ function parseFeedEpisodeDuration(_Duration) {
     }
     var Time = {}
 
-    if (_Duration.length == 1)
-    {
+    if (_Duration.length == 1) {
         var Time    = getFullTime(_Duration[0] * 60)
         var Hours   = "0"
         var Minutes = Time.hours.toString()
-    }
-    else if (_Duration.length == 2)
-    {
+    } else if (_Duration.length == 2) {
         var Time    = getFullTime(_Duration[0] * 60)
         var Hours   = Time.hours.toString()
         var Minutes = Time.minutes.toString()
-    }
-    else
-    {
+    } else {
         var Hours   = _Duration[0]
         var Minutes = _Duration[1]
     }
@@ -502,19 +499,19 @@ function getMinimizeMenuItem() {
 // PREFERENCES
 // ---------------------------------------------------------------------------------------------------------------------
 
-function setPreference(_Key, _Value) {
-    if(allPreferences.get(_Key) !== _Value)
-        allPreferences.set(_Key, _Value);
+function setPreference(key, value) {
+    if(allPreferences.get(key) !== value)
+        allPreferences.set(key, value);
 }
 
 
-function getPreference(_Key) {
+function getPreference(key) {
     if(allPreferences)
-        return allPreferences.get(_Key);
+        return allPreferences.get(key);
     
     if (fs.existsSync(getPreferencesFilePath()) && fs.readFileSync(getPreferencesFilePath(), "utf-8") != "") {
-        let JsonContent = JSON.parse(fs.readFileSync(getPreferencesFilePath(), "utf-8"));
-        return JsonContent[_Key];
+        let jsonContent = JSON.parse(fs.readFileSync(getPreferencesFilePath(), "utf-8"));
+        return jsonContent[key];
     }
 }
 

@@ -2,25 +2,33 @@ const {Menu} = require('electron').remote
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+function setDark() {
+    $('body').addClass('dark-mode');
+        
+    if(titlebar != null) {
+        const customTitlebar = require('custom-electron-titlebar');
+        titlebar.updateBackground(customTitlebar.Color.fromHex('#1c1c1c'));
+    }
+}
+
+function setLight() {
+    $('body').removeClass('dark-mode');
+        
+    if(titlebar != null) {
+        const customTitlebar = require('custom-electron-titlebar');
+        titlebar.updateBackground(customTitlebar.Color.fromHex('#bbb'));
+    }
+}
+
 function darkMode() {
     var darkModeMenu = getDarkModeMenuItem();
 
     if(darkModeMenu.checked) {
         setPreference('darkmode', true);
-        $('body').addClass('dark-mode');
-        
-        if(titlebar != null) {
-            const customTitlebar = require('custom-electron-titlebar');
-            titlebar.updateBackground(customTitlebar.Color.fromHex('#1c1c1c'));
-        }
+        setDark();
     } else {
         setPreference('darkmode', false);
-        $('body').removeClass('dark-mode');
-        
-        if(titlebar != null) {
-            const customTitlebar = require('custom-electron-titlebar');
-            titlebar.updateBackground(customTitlebar.Color.fromHex('#bbb'));
-        }
+        setLight();
     }
 }
 
