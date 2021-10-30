@@ -65,10 +65,10 @@ function createWindow() {
         slashed: true
     }));
     /* 
-    win.setBackgroundColor(getPreference('darkmode') ? '#333' : '#fff');
+    win.setBackgroundColor(getPreference('darkmode') ? '#333' : '#fff'); 
     win.webContents.on('did-finish-load', function() {
         win.show();
-    }); */
+    });  */
 /* 
     // Create tray icon
     appIcon = new Tray(trayIcon)

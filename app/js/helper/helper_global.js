@@ -301,7 +301,13 @@ function setTitle(title) {
 
 function showWindow() {
     const { BrowserWindow } = require('electron').remote;
-    BrowserWindow.getAllWindows()[0].show();
+    let win = BrowserWindow.getAllWindows()[0];
+    if(isWindows())
+        win.show();
+    else 
+        win.webContents.on('did-finish-load', function() {
+            win.show();
+        }); 
 }
 
 function init() {
