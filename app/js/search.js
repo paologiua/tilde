@@ -1,8 +1,8 @@
 var searchTimeoutVar = null;
 
-function search(_Self, _Event) {
-    if (_Event.code == "Escape")
-        clearTextField(_Self);
+function search(self, event) {
+    if (event.code == "Escape")
+        clearTextField(self);
     else {
         if(!$('#search-nothing-to-show').get(0))
             clearBody();
@@ -13,29 +13,29 @@ function search(_Self, _Event) {
 
         $('#res').attr('return-value', '');
         
-        getPodcasts(_Self.value);
+        getPodcasts(self.value);
     }
 }
 
-function getPodcasts(_SearchTerm) {
+function getPodcasts(searchTerm) {
     if(searchTimeoutVar)
         clearTimeout(searchTimeoutVar);
 
-    if(!_SearchTerm) {
+    if(!searchTerm) {
         showSearchNothingToShow();
         return;
     }
 
     searchTimeoutVar = setTimeout(() => {
-        _SearchTerm = encodeURIComponent(_SearchTerm);
-        makeRequest(getITunesSearchUrl(_SearchTerm), getResults);
+        searchTerm = encodeURIComponent(searchTerm);
+        makeRequest(getITunesSearchUrl(searchTerm), getResults);
     }, 300);
 }
 
-function getResults(_Data, FeedUrl) {
-    let query = decodeURI(FeedUrl).split('=')[1].split('&')[0];
+function getResults(data, feedUrl) {
+    let query = decodeURI(feedUrl).split('=')[1].split('&')[0];
     
-    let obj = JSON.parse(_Data);
+    let obj = JSON.parse(data);
 
     if(obj.results.length == 0)
         showSearchNothingToShow();
@@ -71,7 +71,7 @@ function showSearchList(results) {
         else
             HeartButton = getHeartButton(podcast);
 
-        let item = buildListItem(new cListElement(
+        let item = buildListItem(
             [
                 getImagePart(results[i].artworkUrl60),
                 getBoldTextPart(podcast.data.collectionName),
@@ -79,7 +79,7 @@ function showSearchList(results) {
                 HeartButton
             ],
             "5em 1fr 1fr 5em"
-        ), eLayout.row);
+        );
 
         $(item).data(podcast);
         item.onclick = function (e) {
@@ -103,38 +103,34 @@ function showSearchNothingToShow() {
         setNothingToShowBody(s_SearchNothingFoundIcon, 'search-nothing-to-show');
 }
 
-function getHeartButton(_PodcastInfos) { 
-    let $heartButtonElement = $('<div></div>');
+function getHeartButton(podcastInfos) { 
+    let $heartButtonElement = $(getIconButtonPart(s_Heart));
 
-    $heartButtonElement.html(s_Heart);
-    $heartButtonElement.addClass('list-item-icon')
     $heartButtonElement.find('svg').click(function () {
-        setFavorite(this, _PodcastInfos.data.artistName, 
-                          _PodcastInfos.data.collectionName, 
-                          _PodcastInfos.data.artworkUrl, 
-                          _PodcastInfos.feedUrl,
-                          _PodcastInfos.data.description
+        setFavorite(this, podcastInfos.data.artistName, 
+                          podcastInfos.data.collectionName, 
+                          podcastInfos.data.artworkUrl, 
+                          podcastInfos.feedUrl,
+                          podcastInfos.data.description
         );
-    })
+    });
     return $heartButtonElement.get(0);
 }
 
-function getFullHeartButton(_PodcastInfos) {
-    let $heartButtonElement = $('<div></div>');
-
-    $heartButtonElement.html(s_FullHeart);
-    $heartButtonElement.addClass('list-item-icon')
-    $heartButtonElement.find('svg').click(function () {
-        unsetFavorite(this, _PodcastInfos.data.artistName, 
-                          _PodcastInfos.data.collectionName, 
-                          _PodcastInfos.data.artworkUrl, 
-                          _PodcastInfos.feedUrl,
-                          _PodcastInfos.data.description
+function getFullHeartButton(podcastInfos) {
+    let $heartButtonElement = $(getIconButtonPart(s_FullHeart));
+    
+    $heartButtonElement.find('svg').click(function() {
+        unsetFavorite(this, podcastInfos.data.artistName, 
+                            podcastInfos.data.collectionName, 
+                            podcastInfos.data.artworkUrl, 
+                            podcastInfos.feedUrl,
+                            podcastInfos.data.description
         );
-    })
+    });
     return $heartButtonElement.get(0);
 }
 
-function getITunesSearchUrl(_SearchTerm) {
-    return 'http://itunes.apple.com/search?term=' + _SearchTerm + '&media=podcast';
+function getITunesSearchUrl(searchTerm) {
+    return 'http://itunes.apple.com/search?term=' + searchTerm + '&media=podcast';
 }

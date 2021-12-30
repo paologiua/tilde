@@ -313,6 +313,9 @@ class FeedsUI extends ListUI {
                 <span class="info-pubdate">
                     ${$obj.find('.list-item-sub-text').get(0).innerHTML}
                 </span>
+                <span class="info-download">
+                    ${allArchiveEpisodes.ui.getDownloadStateButton(episode.episodeUrl)}
+                </span>
                 <br>
                 <br>
             </span>`
@@ -339,10 +342,10 @@ class FeedsUI extends ListUI {
                 });
     }
 
-    convertInfoItemIntoItemList(obj) {
-        if(obj) {
-            let height = obj.offsetHeight;
-            let $obj = $(obj);
+    convertInfoItemIntoItemList($obj) {
+        if($obj.get(0)) {
+            let height = $obj.get(0).offsetHeight;
+            // let $obj = $(obj);
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
@@ -380,23 +383,19 @@ class FeedsUI extends ListUI {
     }
 
     getNewItemList(episode) {
-        let ListElement = buildListItem(new cListElement(
+        let $listElement = $(buildListItem(
             [
                 getBoldTextPart(episode.episodeTitle),
                 getSubTextPart(new Date(episode.pubDate).toLocaleString()),
                 getSubTextPart(getDurationFromDurationKey(episode)),
                 getProgressionFlagPart(episode.episodeUrl),
-                getDescriptionPart(s_InfoIcon, episode.episodeDescription),
-                getAddEpisodeButtonPart(allArchiveEpisodes.findByEpisodeUrl(episode.episodeUrl) != -1 ? 'remove' : 'add')
+                getDescriptionPart(),
+                getAddToArchiveButtonPart(episode.episodeUrl)
             ],
             "3fr 1fr 1fr 6em 5em 5em"
-        ), eLayout.row)
+        ));
 
-
-        if (playerManager.isPlaying(episode.episodeUrl))
-            ListElement.classList.add("select-episode")
-
-        $(ListElement).click(function(e) { 
+        $listElement.click(function(e) { 
             if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                 e.preventDefault();
                 return;
@@ -404,19 +403,38 @@ class FeedsUI extends ListUI {
             playerManager.startsPlaying(_(this));
         });
 
-        $(ListElement).data(episode);
-        $(ListElement).attr('url', episode.episodeUrl);
+        $listElement.data(episode);
+        $listElement.attr('url', episode.episodeUrl);
 
-        $(ListElement).find('.list-item-description').click(() => {
-            if($(ListElement).is('[info-mode]'))
-                this.convertInfoItemIntoItemList(ListElement)
+        if(allArchiveEpisodes.downloadManager.episodeInDownload(episode.episodeUrl))
+            $listElement
+                .css('--progress', `${allArchiveEpisodes.downloadManager.data[episode.episodeUrl].progress || 0}%`)
+                .addClass("download-in-progress");
+
+        switch(allArchiveEpisodes.getStateDownload(episode.episodeUrl)) {
+            case 'in_progress':
+                $listElement.addClass("download-in-progress");
+                break;
+            case 'error':
+                $listElement.addClass("download-error");
+                break;
+            default:
+                break;
+        }
+
+        if(playerManager.isPlaying(episode.episodeUrl))
+            $listElement.addClass("select-episode");
+
+        $listElement.find('.list-item-description').click(() => {
+            if($listElement.is('[info-mode]'))
+                this.convertInfoItemIntoItemList($listElement);
             else {
-                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]').get(0))
-                this.convertItemIntoInfoItemList(ListElement)
+                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]'));
+                this.convertItemIntoInfoItemList($listElement);
             }
         })
         
-        return ListElement;
+        return $listElement;
     }
 
     showLastNFeedElements(feed) {
@@ -440,7 +458,7 @@ class FeedsUI extends ListUI {
         let delay = 0;
         while(i < feed.length && i < this.lastEpisodeDisplayed + 11) {
             let episode = feed[i];
-            $(this.getNewItemList(episode))
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)
@@ -459,7 +477,7 @@ class FeedsUI extends ListUI {
         let delay = 0;
         while(i >= 0 && i >= this.firstEpisodeDisplayed - 10) {
             let episode = feed[i];
-            $(this.getNewItemList(episode))
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)

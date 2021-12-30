@@ -53,5 +53,8 @@
 	"Add to archive": "Archivia",
 	"Remove from archive": "Rimuovi dall'archivio",
 	"Other": "Altro",
-	"Reduce": "Riduci"
+	"Reduce": "Riduci",
+	"Download in progress": "Download in corso",
+	"Download completed": "Download completato",
+	"Download error": "Errore durante il download"
 }

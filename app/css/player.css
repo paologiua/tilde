@@ -425,6 +425,7 @@ button#content-left-player-volume-indicator,
 button#content-left-player-speed-indicator {
     width: 3.3em;
     padding: 0;
+    font-weight: bold;
 }
 
 .content-left-player-btn {
@@ -435,6 +436,23 @@ button#content-left-player-speed-indicator {
 #content-left-player-volume-btn {
     float: left; 
     margin-left: 30px;
+    --volume: 100%;
+    --theme-volume-1: #eee;
+    --theme-volume-2: #fdfdfd;
+}
+
+#content-left-player-volume-indicator svg {
+    height: 23px;
+    opacity: 0.5;
+    transition: opacity .2s linear;
+}
+
+#content-left-player-volume-indicator svg path {
+    fill: black;
+}
+
+.content-left-player-btn:hover #content-left-player-volume-indicator svg {
+    opacity: 1;
 }
 
 #content-left-player-speed-btn {
@@ -444,4 +462,11 @@ button#content-left-player-speed-indicator {
 
 .content-left-player-btn>button>span {
     font-size: 20px;
+}
+
+#content-left-player-volume-btn:hover {
+    background: linear-gradient(to right, var(--theme-volume-1) 0%, 
+                                          var(--theme-volume-1) var(--volume), 
+                                          var(--theme-volume-2) var(--volume), 
+                                          var(--theme-volume-2) 100%);
 }

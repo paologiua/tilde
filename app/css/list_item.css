@@ -29,12 +29,15 @@
 }
 
 .select-episode {
-    background: #448AFF;
+    background-color: #448AFF;
+    --bk-color1-download: #3378fb !important;
+    --bk-color2-download: #448AFF !important;
 }
 
-.select-episode:hover
-{
-    background: #2979FF;
+.select-episode:hover {
+    background-color: #2979FF;
+    --bk-color1-download: #1c65f1 !important;
+    --bk-color2-download: #2979FF !important;
 }
 
 .list-item-row-layout img
@@ -88,9 +91,15 @@
     --percentage: 0%;
 
     background: linear-gradient(to right, var(--bk-color1-flag) 0%, 
-                                          var(--bk-color1-flag) var(--percentage), 
-                                          var(--bk-color2-flag) var(--percentage), 
-                                          var(--bk-color2-flag) 100%);
+                                          var(--bk-color1-flag) 50%, 
+                                          var(--bk-color2-flag) 50%, 
+                                          var(--bk-color2-flag) 100%),
+                var(--bk-color2-flag);
+
+    background-size: calc(var(--percentage)*2);
+    background-repeat: no-repeat;
+    transition: background-size .2s linear;
+    
     font-weight: bold;
     padding-top: 7px;
     padding-bottom: 7px;
@@ -129,8 +138,36 @@
     opacity: 0.4;
 }
 
+.download-in-progress {
+    --bk-color1-download: #d7d7d7;
+    --bk-color2-download: #e9e9e9;
+    --progress: 0%;
+    background: linear-gradient(to right, var(--bk-color1-download) 0%, 
+                                          var(--bk-color1-download) 50%, 
+                                          var(--bk-color2-download) 50%, 
+                                          var(--bk-color2-download) 100%),
+                var(--bk-color2-download);
+    background-size: calc(var(--progress)*2);
+    background-repeat: no-repeat;
+    transition: background-size .2s linear;
+}
+
+.download-in-progress:hover {
+    --bk-color1-download: #d1d1d1;
+    --bk-color2-download: #ddd;
+    
+    background: linear-gradient(to right, var(--bk-color1-download) 0%, 
+                                          var(--bk-color1-download) 50%, 
+                                          var(--bk-color2-download) 50%, 
+                                          var(--bk-color2-download) 100%),
+                var(--bk-color2-download);
+
+    background-size: calc(var(--progress)*2);
+    background-repeat: no-repeat;
+}
+
 #list li[info-mode] {
-    background-color: #d7d7d7;
+    background: #d7d7d7;
 }
 
 #list li[info-mode] svg {
@@ -147,6 +184,41 @@
 
 .list-item-text:hover {
     text-decoration: underline;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+@keyframes pulsation {
+    0% {
+        opacity: 1;
+    } 
+    50% {
+        opacity: .6;
+    }
+    100% {
+        opacity: 1;
+    } 
+}
+
+/* 
+[info-mode].download-in-progress {
+    animation: none;
+} */
+
+.download-in-progress-icon {
+    transform-origin: center; 
+    transform-box: fill-box; 
+    animation: rotation 1.5s infinite linear;
+}
+
+svg .hover-icon {
+    display: none;
+}
+
+svg:hover .default-icon {
+    display: none;
+}
+
+svg:hover .hover-icon {
+    display: inline-block;
 }

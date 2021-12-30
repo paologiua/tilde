@@ -48,5 +48,8 @@
 	"Add to archive": "Add to archive",
 	"Remove from archive": "Remove from archive",
 	"Other": "Other",
-	"Reduce": "Reduce"
+	"Reduce": "Reduce",
+	"Download in progress": "Download in progress",
+	"Download completed": "Download completed",
+	"Download error": "Download error"
 }

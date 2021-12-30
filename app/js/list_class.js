@@ -12,11 +12,11 @@ class ListUI extends UI {
  * LIST
  */
     add(episode, i) {
-        if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) {
+        if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) { 
             if(i < this.firstEpisodeDisplayed) {
                 this.firstEpisodeDisplayed++;
                 this.lastEpisodeDisplayed++;
-            } else if(i <= this.lastEpisodeDisplayed) {
+            } else if(i <= this.lastEpisodeDisplayed + 1) {
                 this.lastEpisodeDisplayed++;
 
                 this.directAdd(episode, i - this.firstEpisodeDisplayed);
@@ -31,12 +31,12 @@ class ListUI extends UI {
         let $el = null;
         if(!$(this.getAllItemsList().get(i)).get(0)) {
             if(this.isEmpty())
-                clearBody();
+                $('#list > .nothing-to-show').remove()
             $el = this.getShowMoreEpisodesBottomElement();
         } else
             $el = $(this.getAllItemsList().get(i));
             
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertBefore($el)
@@ -80,7 +80,7 @@ class ListUI extends UI {
     }
     
     directBottomAdd(episode) {
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertAfter(this.getLastItemList())
@@ -89,7 +89,7 @@ class ListUI extends UI {
     }
 
     directTopAdd(episode) {
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertBefore(this.getFirstItemList())
@@ -173,7 +173,7 @@ class ListUI extends UI {
         let delay = 0;
         while(i < feed.length && i < this.lastEpisodeDisplayed + 11) {
             let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
-            $(this.getNewItemList(episode))
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)
@@ -192,7 +192,7 @@ class ListUI extends UI {
         let delay = 0;
         while(i >= 0 && i >= this.firstEpisodeDisplayed - 10) {
             let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
-            $(this.getNewItemList(episode))
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)

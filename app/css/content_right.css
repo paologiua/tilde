@@ -760,6 +760,28 @@ div#content-right-header {
     font-size: 13px;
     opacity: 0.7;
 }
+
+.info-download {
+    font-size: 13px;
+    opacity: 0.7;
+    font-weight: bold;
+    color: #006b04; /* #4CAF50 */
+}
+
+.download-in-progress .info-download {
+    color: #d06010;
+}
+/* 
+.download-in-progress .list-item-icon:not(.list-item-description) path {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: rotation 1.5s infinite linear;
+}
+ */
+.download-error .info-download {
+    color: #ff1313 !important;
+}
+
 /* 
 .header-null {
     grid-template-rows: 0px 1fr !important;

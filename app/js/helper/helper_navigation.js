@@ -7,8 +7,8 @@ function setItemCounts() {
     $('#menu-favorites .menu-count').html(allFavoritePodcasts.length());
 }
 
-function setGridLayout(_Enable) {
-    if (_Enable)
+function setGridLayout(enable) {
+    if (enable)
         $('#list').addClass("grid-layout");
     else
         $('#list').removeClass("grid-layout");

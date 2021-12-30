@@ -20,7 +20,7 @@ const template =
                 checked: getPreference('darkmode'),
                 click() { 
                     changeThemeMode()
-                    darkMode()
+                    updateUITheme()
                 }
             },
             {role: 'togglefullscreen', label: i18n.__('Toggle Full Screen')}
@@ -117,8 +117,8 @@ const template =
                 accelerator: "CommandOrControl+Shift+L",
                 checked: getPreference('darkmode'),
                 click() { 
-                    changeThemeMode()
-                    darkMode()
+                    changeThemeMode();
+                    updateUITheme();
                 }
             },
             {type: 'separator'},

@@ -9,8 +9,8 @@ function unsubscribeListElement(self) {
     allFavoritePodcasts.removeByFeedUrl(feedUrl);
 }
 
-function unsubscribeContextMenu(_FeedUrl) {
-    allFavoritePodcasts.removeByFeedUrl(_FeedUrl);
+function unsubscribeContextMenu(feedUrl) {
+    allFavoritePodcasts.removeByFeedUrl(feedUrl);
     showFavoritesPage();
 }
 
@@ -42,17 +42,16 @@ function setHeartContent(self, emptyHeart) {
 // PODCAST ENTRY
 // ---------------------------------------------------------------------------------------------------------------------
 
-function getPodcastElement(_Class, _Artwork, _Subtitle, _Title, _IconElement, _TailElement, _HeaderLayout)
-{
-    var ListElement     = document.createElement("li")
-    var HeaderElement   = document.createElement("div")
-    var ActionsElement  = document.createElement("div")
-    var BodyElement     = document.createElement("div")
+function getPodcastElement(_Class, _Artwork, _Subtitle, _Title, _IconElement, _TailElement, _HeaderLayout) {
+    let ListElement = document.createElement("li")
+    let HeaderElement = document.createElement("div")
+    let ActionsElement = document.createElement("div")
+    let BodyElement = document.createElement("div")
 
-    var TitleElement    = document.createElement("div")
-    var SubtitleElement = document.createElement("div")
-    var ImageElement    = document.createElement("img")
-    var TailElement     = document.createElement("div")
+    let TitleElement = document.createElement("div")
+    let SubtitleElement = document.createElement("div")
+    let ImageElement = document.createElement("img")
+    let TailElement = document.createElement("div")
 
     if (_HeaderLayout == null)
         HeaderElement.classList.add("podcast-entry-header")
@@ -99,8 +98,7 @@ function getPodcastElement(_Class, _Artwork, _Subtitle, _Title, _IconElement, _T
     return ListElement
 }
 
-function getStatisticsElement(_Class, _Title, _Value)
-{
+function getStatisticsElement(_Class, _Title, _Value) {
     var ListElement = document.createElement("li")
     var Title = document.createElement("div")
     var Value = document.createElement("div")

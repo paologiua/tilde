@@ -94,6 +94,7 @@ function readFeeds() {
         }
     } else
         unsetRefreshingStateUI();
+    allArchiveEpisodes.downloadManager.saveAll();
 }
 
 function readFeedByFeedUrl(feedUrl, forceUnsetRefreshing) {
@@ -208,44 +209,44 @@ function showAllEpisodes(obj) {
 }
 
 function getAllEpisodesFromFeed(podcast) {
-    let _Feed = podcast.feedUrl;
+    let feedUrl = podcast.feedUrl;
 
     allFeeds.ui.showHeader(podcast);
 
-    let feed = allFeeds.getFeedPodcast(_Feed);
+    let feed = allFeeds.getFeedPodcast(feedUrl);
     allFeeds.ui.showLastNFeedElements(feed);
     
-    makeRequest(_Feed, processEpisodes, () => {
-        allFeeds.ui.showNothingToShow(_Feed);
+    makeRequest(feedUrl, processEpisodes, () => {
+        allFeeds.ui.showNothingToShow(feedUrl);
     });
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 // NOTE: Helper to clear corrupt feeds
 
-function isContent302NotFound(_Content) {
-    return (_Content == "" || _Content.includes("302 Found"));
+function isContent302NotFound(content) {
+    return (content == "" || content.includes("302 Found"));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function processEpisodes(_Content, feedUrl) {
+function processEpisodes(content, feedUrl) {
     xmlParserWorker.postMessage({
-        xml: _Content,
+        xml: content,
         feedUrl: feedUrl,
         artwork: getBestArtworkUrl(feedUrl)
     });
 }
 
-function addToArchive(_Self) {
-    let ListElement = _Self.parentElement.parentElement;
-
-    allArchiveEpisodes.add(_(ListElement));
+function addToArchive(self) {
+    let listElement = self.parentElement.parentElement;
+    
+    allArchiveEpisodes.add(_(listElement));
 
 }
 
-function removeFromArchive(_Self) {
-    let ListElement = _Self.parentElement.parentElement;
+function removeFromArchive(self) {
+    let listElement = self.parentElement.parentElement;
 
-    allArchiveEpisodes.removeByEpisodeUrl(_(ListElement).episodeUrl);
+    allArchiveEpisodes.removeByEpisodeUrl(_(listElement).episodeUrl);
 }

@@ -2,7 +2,7 @@ const {Menu} = require('electron').remote
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function setDark() {
+function setUIDark() {
     $('body').addClass('dark-mode');
         
     if(titlebar != null) {
@@ -11,7 +11,7 @@ function setDark() {
     }
 }
 
-function setLight() {
+function setUILight() {
     $('body').removeClass('dark-mode');
         
     if(titlebar != null) {
@@ -20,15 +20,15 @@ function setLight() {
     }
 }
 
-function darkMode() {
+function updateUITheme() {
     var darkModeMenu = getDarkModeMenuItem();
 
     if(darkModeMenu.checked) {
         setPreference('darkmode', true);
-        setDark();
+        setUIDark();
     } else {
         setPreference('darkmode', false);
-        setLight();
+        setUILight();
     }
 }
 
@@ -43,7 +43,7 @@ function getDarkModeMenuItem() {
     // NOTE: Go through all menu items
     // NOTE: Find the "Dark Mode" menu item
 
-    var menuItem = null;
+    let menuItem = null;
 
     for (let i in Menu.getApplicationMenu().items) {
         appMenuItem = Menu.getApplicationMenu().items[i];

@@ -27,6 +27,15 @@ class PlayerManager extends UI {
     }
 
     initActions() {
+        this.$source.on("error", () => {
+            let path = getAudioPathFromEpisodeUrl(this.episodePlaying.episodeUrl);
+            if (fs.existsSync(path) && this.$source.attr('src') !== `file://${path}`) {
+                this.$source.attr('src', `file://${path}`);
+                this.$player.load();
+                this.$player.play();
+            }
+        });
+
         $('#content-left-player-volume-down').click(() => {
             this.volumeDown();
         })
@@ -202,95 +211,46 @@ class PlayerManager extends UI {
     }
 
     speedUp() {
-        switch (this.$rate.innerHTML) {
-            case "0.5x": this.$rate.innerHTML = "0.6x"; this.$player.playbackRate = 0.6; this.$player.defaultPlaybackRate = 0.6 ; break;
-            case "0.6x": this.$rate.innerHTML = "0.7x"; this.$player.playbackRate = 0.7; this.$player.defaultPlaybackRate = 0.7 ; break;
-            case "0.7x": this.$rate.innerHTML = "0.8x"; this.$player.playbackRate = 0.8; this.$player.defaultPlaybackRate = 0.8 ; break;
-            case "0.8x": this.$rate.innerHTML = "0.9x"; this.$player.playbackRate = 0.9; this.$player.defaultPlaybackRate = 0.9 ; break;
-            case "0.9x": this.$rate.innerHTML = "1.0x"; this.$player.playbackRate = 1.0; this.$player.defaultPlaybackRate = 1.0 ; break;
-            case "1.0x": this.$rate.innerHTML = "1.1x"; this.$player.playbackRate = 1.1; this.$player.defaultPlaybackRate = 1.1 ; break;
-            case "1.1x": this.$rate.innerHTML = "1.2x"; this.$player.playbackRate = 1.2; this.$player.defaultPlaybackRate = 1.2 ; break;
-            case "1.2x": this.$rate.innerHTML = "1.3x"; this.$player.playbackRate = 1.3; this.$player.defaultPlaybackRate = 1.3 ; break;
-            case "1.3x": this.$rate.innerHTML = "1.5x"; this.$player.playbackRate = 1.5; this.$player.defaultPlaybackRate = 1.5 ; break;
-            case "1.5x": this.$rate.innerHTML = "1.7x"; this.$player.playbackRate = 1.7; this.$player.defaultPlaybackRate = 1.7 ; break;
-            case "1.7x": this.$rate.innerHTML = "2.0x"; this.$player.playbackRate = 2.0; this.$player.defaultPlaybackRate = 2.0 ; break;
-            case "2.0x": this.$rate.innerHTML = "2.1x"; this.$player.playbackRate = 2.1; this.$player.defaultPlaybackRate = 2.1 ; break;
-            case "2.1x": this.$rate.innerHTML = "2.2x"; this.$player.playbackRate = 2.2; this.$player.defaultPlaybackRate = 2.2 ; break;
-            case "2.2x": this.$rate.innerHTML = "2.3x"; this.$player.playbackRate = 2.3; this.$player.defaultPlaybackRate = 2.3 ; break;
-            case "2.3x": this.$rate.innerHTML = "2.5x"; this.$player.playbackRate = 2.5; this.$player.defaultPlaybackRate = 2.5 ; break;
-            case "2.5x": this.$rate.innerHTML = "2.7x"; this.$player.playbackRate = 2.7; this.$player.defaultPlaybackRate = 2.7 ; break;
-            case "2.7x": this.$rate.innerHTML = "3.0x"; this.$player.playbackRate = 3.0; this.$player.defaultPlaybackRate = 3.0 ; break;
-            case "3.0x": this.$rate.innerHTML = "3.1x"; this.$player.playbackRate = 3.1; this.$player.defaultPlaybackRate = 3.1 ; break;
-            case "3.1x": this.$rate.innerHTML = "3.2x"; this.$player.playbackRate = 3.2; this.$player.defaultPlaybackRate = 3.2 ; break;
-            case "3.2x": this.$rate.innerHTML = "3.3x"; this.$player.playbackRate = 3.3; this.$player.defaultPlaybackRate = 3.3 ; break;
-            case "3.3x": this.$rate.innerHTML = "3.5x"; this.$player.playbackRate = 3.5; this.$player.defaultPlaybackRate = 3.5 ; break;
-            case "3.5x": this.$rate.innerHTML = "3.7x"; this.$player.playbackRate = 3.7; this.$player.defaultPlaybackRate = 3.7 ; break;
-            case "3.7x": this.$rate.innerHTML = "4.0x"; this.$player.playbackRate = 4.0; this.$player.defaultPlaybackRate = 4.0 ; break;
-            case "4.0x": this.$rate.innerHTML = "0.5x"; this.$player.playbackRate = 0.5; this.$player.defaultPlaybackRate = 0.5 ; break;
-            default: break;
+        if(this.$player.playbackRate < 3) {
+            this.$player.playbackRate = parseFloat(this.$player.playbackRate + 0.1).toFixed(1);
+            this.$player.defaultPlaybackRate = this.$player.playbackRate;
+            this.$rate.innerHTML = `${this.$player.playbackRate}${(this.$player.playbackRate * 10) % 10 === 0 ? '.0' : ''}x`;
         }
     }
 
     speedDown() {
-        switch (this.$rate.innerHTML) {
-            case "4.0x": this.$rate.innerHTML = "3.7x"; this.$player.playbackRate = 3.7; this.$player.defaultPlaybackRate = 3.7 ; break;
-            case "3.7x": this.$rate.innerHTML = "3.5x"; this.$player.playbackRate = 3.5; this.$player.defaultPlaybackRate = 3.5 ; break;
-            case "3.5x": this.$rate.innerHTML = "3.3x"; this.$player.playbackRate = 3.3; this.$player.defaultPlaybackRate = 3.3 ; break;
-            case "3.3x": this.$rate.innerHTML = "3.2x"; this.$player.playbackRate = 3.2; this.$player.defaultPlaybackRate = 3.2 ; break;
-            case "3.2x": this.$rate.innerHTML = "3.1x"; this.$player.playbackRate = 3.1; this.$player.defaultPlaybackRate = 3.1 ; break;
-            case "3.1x": this.$rate.innerHTML = "3.0x"; this.$player.playbackRate = 3.0; this.$player.defaultPlaybackRate = 3.0 ; break;
-            case "3.0x": this.$rate.innerHTML = "2.7x"; this.$player.playbackRate = 2.7; this.$player.defaultPlaybackRate = 2.7 ; break;
-            case "2.7x": this.$rate.innerHTML = "2.5x"; this.$player.playbackRate = 2.5; this.$player.defaultPlaybackRate = 2.5 ; break;
-            case "2.5x": this.$rate.innerHTML = "2.3x"; this.$player.playbackRate = 2.3; this.$player.defaultPlaybackRate = 2.3 ; break;
-            case "2.3x": this.$rate.innerHTML = "2.2x"; this.$player.playbackRate = 2.2; this.$player.defaultPlaybackRate = 2.2 ; break;
-            case "2.2x": this.$rate.innerHTML = "2.1x"; this.$player.playbackRate = 2.1; this.$player.defaultPlaybackRate = 2.1 ; break;
-            case "2.1x": this.$rate.innerHTML = "2.0x"; this.$player.playbackRate = 2.0; this.$player.defaultPlaybackRate = 2.0 ; break;
-            case "2.0x": this.$rate.innerHTML = "1.7x"; this.$player.playbackRate = 1.7; this.$player.defaultPlaybackRate = 1.7 ; break;
-            case "1.7x": this.$rate.innerHTML = "1.5x"; this.$player.playbackRate = 1.5; this.$player.defaultPlaybackRate = 1.5 ; break;
-            case "1.5x": this.$rate.innerHTML = "1.3x"; this.$player.playbackRate = 1.3; this.$player.defaultPlaybackRate = 1.3 ; break;
-            case "1.3x": this.$rate.innerHTML = "1.2x"; this.$player.playbackRate = 1.2; this.$player.defaultPlaybackRate = 1.2 ; break;
-            case "1.2x": this.$rate.innerHTML = "1.1x"; this.$player.playbackRate = 1.1; this.$player.defaultPlaybackRate = 1.1 ; break;
-            case "1.1x": this.$rate.innerHTML = "1.0x"; this.$player.playbackRate = 1.0; this.$player.defaultPlaybackRate = 1.0 ; break;
-            case "1.0x": this.$rate.innerHTML = "0.9x"; this.$player.playbackRate = 0.9; this.$player.defaultPlaybackRate = 0.9 ; break;
-            case "0.9x": this.$rate.innerHTML = "0.8x"; this.$player.playbackRate = 0.8; this.$player.defaultPlaybackRate = 0.8 ; break;
-            case "0.8x": this.$rate.innerHTML = "0.7x"; this.$player.playbackRate = 0.7; this.$player.defaultPlaybackRate = 0.7 ; break;
-            case "0.7x": this.$rate.innerHTML = "0.6x"; this.$player.playbackRate = 0.6; this.$player.defaultPlaybackRate = 0.6 ; break;
-            case "0.6x": this.$rate.innerHTML = "0.5x"; this.$player.playbackRate = 0.5; this.$player.defaultPlaybackRate = 0.5 ; break;
-            case "0.5x": this.$rate.innerHTML = "4.0x"; this.$player.playbackRate = 4.0; this.$player.defaultPlaybackRate = 4.0 ; break;
-            
-            default: break;
+        if(this.$player.playbackRate > 0.5) {
+            this.$player.playbackRate = parseFloat(this.$player.playbackRate - 0.1).toFixed(1);
+            this.$player.defaultPlaybackRate = this.$player.playbackRate;
+            this.$rate.innerHTML = `${this.$player.playbackRate}${(this.$player.playbackRate * 10) % 10 === 0 ? '.0' : ''}x`;
         }
     }
 
     volumeUp() {
-        switch (this.$volume.innerHTML) {
-            case "0%": this.$volume.innerHTML = "10%"; this.$player.volume = 0.1; break;
-            case "10%": this.$volume.innerHTML = "20%"; this.$player.volume = 0.2; break;
-            case "20%": this.$volume.innerHTML = "30%"; this.$player.volume = 0.3; break;
-            case "30%": this.$volume.innerHTML = "40%"; this.$player.volume = 0.4; break;
-            case "40%": this.$volume.innerHTML = "50%"; this.$player.volume = 0.5; break;
-            case "50%": this.$volume.innerHTML = "60%"; this.$player.volume = 0.6; break;
-            case "60%": this.$volume.innerHTML = "70%"; this.$player.volume = 0.7; break;
-            case "70%": this.$volume.innerHTML = "80%"; this.$player.volume = 0.8; break;
-            case "80%": this.$volume.innerHTML = "90%"; this.$player.volume = 0.9; break;
-            case "90%": this.$volume.innerHTML = "100%"; this.$player.volume = 1; break;
-            default: break;
+        if(this.$player.volume < 1) {
+            this.$player.volume = parseFloat(this.$player.volume + 0.1).toFixed(1);
+            switch (this.$player.volume) {
+                case 0.1: this.$volume.innerHTML = s_VolumeMinIcon; break;
+                case 0.4: this.$volume.innerHTML = s_Volume40Icon; break;
+                case 0.7: this.$volume.innerHTML = s_Volume70Icon; break;
+                case 1: this.$volume.innerHTML = s_VolumeMaxIcon; break;
+                default: break;
+            }
+            $('#content-left-player-volume-btn').css('--volume', `${this.$player.volume * 100}%`);
         }
     }
 
     volumeDown() {
-        switch (this.$volume.innerHTML) {
-            case "10%": this.$volume.innerHTML = "0%"; this.$player.volume = 0; break;
-            case "20%": this.$volume.innerHTML = "10%"; this.$player.volume = 0.1; break;
-            case "30%": this.$volume.innerHTML = "20%"; this.$player.volume = 0.2; break;
-            case "40%": this.$volume.innerHTML = "30%"; this.$player.volume = 0.3; break;
-            case "50%": this.$volume.innerHTML = "40%"; this.$player.volume = 0.4; break;
-            case "60%": this.$volume.innerHTML = "50%"; this.$player.volume = 0.5; break;
-            case "70%": this.$volume.innerHTML = "60%"; this.$player.volume = 0.6; break;
-            case "80%": this.$volume.innerHTML = "70%"; this.$player.volume = 0.7; break;
-            case "90%": this.$volume.innerHTML = "80%"; this.$player.volume = 0.8; break;
-            case "100%": this.$volume.innerHTML = "90%"; this.$player.volume = 0.9; break;
-            default: break;
+        if(this.$player.volume > 0) {
+            this.$player.volume = parseFloat(this.$player.volume - 0.1).toFixed(1);
+            switch (this.$player.volume) {
+                case 0: this.$volume.innerHTML = s_VolumeMuteIcon; break;
+                case 0.3: this.$volume.innerHTML = s_VolumeMinIcon; break;
+                case 0.6: this.$volume.innerHTML = s_Volume40Icon; break;
+                case 0.9: this.$volume.innerHTML = s_Volume70Icon; break;
+                default: break;
+            }
+            $('#content-left-player-volume-btn').css('--volume', `${this.$player.volume * 100}%`);
         }
     }
 

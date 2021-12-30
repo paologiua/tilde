@@ -48,7 +48,7 @@ class PreferencesUI {
         this.$checkBoxDarkMode.change(function() {
             var DarkModeMenu = getDarkModeMenuItem();
             DarkModeMenu.checked = $(this).is(':checked');
-            darkMode();
+            updateUITheme();
         });
 
         this.$settingsUIbk.click(() => {
@@ -141,7 +141,7 @@ function loadPreferences() {
 }
 
 function getSaveDirPath() {
-    return os.homedir() + '/.tilde';
+    return os.homedir() + '/.tilde-beta';
 }
 
 function getFeedDirPath() {
@@ -150,6 +150,10 @@ function getFeedDirPath() {
 
 function getIndexFeedFilePath() {
     return getFeedDirPath() + '/index.json';
+}
+
+function getDownloadsDirPath() {
+    return getSaveDirPath() + '/downloads';
 }
 
 function isWindows()
@@ -166,25 +170,28 @@ function isLinux() {
 }
 
 function getSaveFilePath() {
-    return getSaveDirPath() + '/tilde-favorite_podcasts.json';
+    return getSaveDirPath() + '/favorite-podcasts.json';
 }
 
 function getNewEpisodesSaveFilePath() {
-    return getSaveDirPath() + '/tilde-new_episodes.json';
+    return getSaveDirPath() + '/new-episodes.json';
 }
 
 function getArchivedFilePath() {
-    return getSaveDirPath() + '/tilde-archived_episodes.json';
+    return getSaveDirPath() + '/archived-episodes.json';
 }
 
 function getPreferencesFilePath() {
-    return getSaveDirPath() + '/tilde-app_preferences.json';
+    return getSaveDirPath() + '/preferences.json';
 }
 
 function getPlaybackSaveFilePath() {
-    return getSaveDirPath() + '/tilde-playback_episodes.json';
+    return getSaveDirPath() + '/playback-episodes.json';
 }
 
+function getDownloadManagerFilePath() {
+    return getDownloadsDirPath()  + '/download-manager.json';
+}
 
 function setTitlebarOnWin() {
     if(isWindows()) {

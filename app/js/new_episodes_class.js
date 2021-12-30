@@ -37,7 +37,7 @@ class NewEpisodesUI extends ListUI {
 
         let $list = this.getList();
         let epShownCounter = 0;
-        for (let i in this.dataObject.episodes) {
+        for(let i in this.dataObject.episodes) {
             let episode = this.dataObject.get(i);
             if(!checkDateIsInTheLastWeek(episode))
                 this.dataObject.removeByEpisodeUrl(episode.episodeUrl);
@@ -94,6 +94,9 @@ class NewEpisodesUI extends ListUI {
                 <span class="info-pubdate">
                     ${new Date(episode.pubDate).toLocaleString()}
                 </span>
+                <span class="info-download">
+                    ${allArchiveEpisodes.ui.getDownloadStateButton(episode.episodeUrl)}
+                </span>
                 <br>
                 <br>
             </span>`
@@ -126,10 +129,10 @@ class NewEpisodesUI extends ListUI {
                 });
     }
 
-    convertInfoItemIntoItemList(obj) {
-        if(obj) {
-            let height = obj.offsetHeight;
-            let $obj = $(obj);
+    convertInfoItemIntoItemList($obj) {
+        if($obj.get(0)) {
+            let height = $obj.get(0).offsetHeight;
+            // let $obj = $(obj);
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
@@ -177,23 +180,23 @@ class NewEpisodesUI extends ListUI {
     getNewItemList(newEpisode) {
         let episode = getInfoEpisodeByObj(newEpisode);
 
-        let Artwork = episode.artwork;
+        let artwork = episode.artwork;
         let duration = getDurationFromDurationKey(episode);
         
-        let ListElement = buildListItem(new cListElement (
+        let $listElement = $(buildListItem(
             [
-                getImagePart(Artwork),
+                getImagePart(artwork),
                 getBoldTextPart(episode.episodeTitle),
                 getSubTextPart(duration),
                 getTextPart(episode.channelName),
                 getProgressionFlagPart(episode.episodeUrl),
-                getDescriptionPart(s_InfoIcon, episode.episodeDescription),
-                getAddEpisodeButtonPart(allArchiveEpisodes.findByEpisodeUrl(episode.episodeUrl) != -1 ? 'remove' : 'add')
+                getDescriptionPart(),
+                getAddToArchiveButtonPart(episode.episodeUrl)
             ],
             "5em 1fr 6em 1fr 6em 5em 5em"
-        ), eLayout.row)
+        ));
 
-        $(ListElement).click(function(e) {
+        $listElement.click(function(e) {
             if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                 e.preventDefault();
                 return;
@@ -201,22 +204,38 @@ class NewEpisodesUI extends ListUI {
             playerManager.startsPlaying(_(this));
         });
 
-        $(ListElement).data(episode);
-        $(ListElement).attr('url', episode.episodeUrl);
+        $listElement.data(episode);
+        $listElement.attr('url', episode.episodeUrl);
+
+        if(allArchiveEpisodes.downloadManager.episodeInDownload(episode.episodeUrl))
+            $listElement
+                .css('--progress', `${allArchiveEpisodes.downloadManager.data[episode.episodeUrl].progress || 0}%`)
+                .addClass("download-in-progress");
+
+        switch(allArchiveEpisodes.getStateDownload(episode.episodeUrl)) {
+            case 'in_progress':
+                $listElement.addClass("download-in-progress");
+                break;
+            case 'error':
+                $listElement.addClass("download-error");
+                break;
+            default:
+                break;
+        }
         
-        if (playerManager.isPlaying(episode.episodeUrl))
-            ListElement.classList.add("select-episode")
+        if(playerManager.isPlaying(episode.episodeUrl))
+            $listElement.addClass("select-episode")
         
-        $(ListElement).find('.list-item-description').click(() => {
-            if($(ListElement).is('[info-mode]'))
-                this.convertInfoItemIntoItemList(ListElement)
+        $listElement.find('.list-item-description').click(() => {
+            if($listElement.is('[info-mode]'))
+                this.convertInfoItemIntoItemList($listElement);
             else {
-                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]').get(0))
-                this.convertItemIntoInfoItemList(ListElement)
+                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]'));
+                this.convertItemIntoInfoItemList($listElement);
             }
         })
 
-        return ListElement;
+        return $listElement;
     }
 }
 

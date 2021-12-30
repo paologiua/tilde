@@ -164,15 +164,15 @@
 .dark-mode .podcast-edit-entry:hover,
 .dark-mode .list-item-row-layout:hover
 {
-    background: #222;
+    background-color: #222;
 }
-
+/* 
 .dark-mode .select-episode:hover
 {
-    /* background: #0288D1; */
+    /* background: #0288D1; 
     background: #2979FF;
 }
-
+ */
 .dark-mode #content-right {
     border-left: 1px solid #222;
     background-color: #333;
@@ -220,7 +220,11 @@
 }
 
 .dark-mode .select-episode {
-    background: #448AFF;
+    background-color: #448AFF;
+}
+
+.dark-mode .select-episode:hover {
+    background-color: #2979FF;
 }
 
 .dark-mode .content-right-player-speed-btn:hover/*,
@@ -396,4 +400,35 @@
 .dark-mode .settings-ui-title > svg {
     fill: #fff;
     opacity: .8;
+}
+
+.dark-mode #content-left-player-volume-btn {
+    --theme-volume-1: #272727;
+    --theme-volume-2: #333;
+}
+
+.dark-mode #content-left-player-volume-indicator svg {
+    opacity: 0.3;
+}
+
+.dark-mode #content-left-player-volume-indicator svg path {
+    fill: white;
+}
+
+.dark-mode .info-download {
+    color: #28b12d;
+}
+
+.dark-mode .download-in-progress .info-download {
+    color: #ff8100;
+}
+
+.dark-mode .download-in-progress {
+    --bk-color1-download: #202020;
+    --bk-color2-download: #272727;
+}
+
+.dark-mode .download-in-progress:hover {
+    --bk-color1-download: #191919;
+    --bk-color2-download: #222;
 }
