@@ -10,17 +10,34 @@
     width: .8em
 }
 
+.dark-mode ::-webkit-scrollbar {     
+    background-color: #222;
+}
+
 ::-webkit-scrollbar-thumb:hover { 
     background-color: #999;
+} 
+
+.dark-mode ::-webkit-scrollbar-thumb:hover { 
+    background-color: #555;
 } 
 
 ::-webkit-scrollbar-thumb:active { 
     background-color: #888;
 }
 
+.dark-mode ::-webkit-scrollbar-thumb:active { 
+    background-color: #666;
+}  
+
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
     background:  #aaa;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:window-inactive,
+.dark-mode ::-webkit-scrollbar-thumb {
+    background:  #444;
 }
 
 ::selection {
@@ -39,6 +56,33 @@ img {
 
 input {
     font-family: "Montserrat", "Roboto", sans-serif;
+    color: rgb(var(--text-color));
+}
+
+input::placeholder { 
+    transition: color .2s linear;
+}   
+
+input:hover::placeholder { 
+    color: rgb(var(--text-color));
+}
+
+button {
+    color: rgb(var(--text-color));
+}
+
+svg {
+    fill: rgb(var(--text-color));
+}
+
+h1 {
+    margin: 0;
+    padding: 0.5em;
+    display: inline-block;
+    width: calc(100% - 2em);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 a {
@@ -53,26 +97,16 @@ a {
     hyphens: auto;
 }
 
-a:link {
-  color: #364f7a;
-  background-color: transparent;
-  text-decoration: none;
-}
-
+a:link, 
 a:visited {
-  color:#364f7a;
+  color: rgb(var(--link-color));
   background-color: transparent;
   text-decoration: none;
 }
 
-a:hover {
-  color: #364f7a;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
+a:hover, 
 a:active {
-  color: #364f7a;
+  color: rgb(var(--link-color));
   background-color: transparent;
   text-decoration: underline;
 }
@@ -81,41 +115,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Montserrat", "Roboto", sans-serif;
-    background-color: #eee; /* #F2F2F2; */
     user-select: none;
     cursor: default;
-}
-
-/* Tooltip container */
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
-    position: absolute;
-    z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
+    color: rgb(var(--text-color));
 }
 
 .switch {
     --line: #e8ebfb;
-    --dot: #448AFF; /* #275efe; */
+    --dot: rgb(var(--main-color));
     --circle: #d3d4ec;
     --background: #fff;
     --duration: 0.3s;
@@ -124,6 +131,7 @@ body {
     cursor: pointer;
     position: relative;
 }
+
 .switch:before {
     content: '';
     width: 60px;
@@ -135,12 +143,11 @@ body {
     top: 0;
     box-shadow: var(--shadow);
 }
+
 .switch input {
     display: none;
 }
-/* .switch input + div {
-    position: relative;
-} */
+
 .switch input + div:before, .switch input + div:after {
     --s: 1;
     content: '';
@@ -152,22 +159,26 @@ body {
     transform: scaleX(var(--s));
     transition: transform var(--duration) ease;
 }
+
 .switch input + div:before {
     --s: 0;
     left: 4px;
     transform-origin: 0 50%;
     border-radius: 2px 0 0 2px;
 }
+
 .switch input + div:after {
     left: 32px;
     transform-origin: 100% 50%;
     border-radius: 0 2px 2px 0;
 }
+
 .switch input + div span {
     padding-left: 60px;
     line-height: 28px;
     color: var(--text);
 }
+
 .switch input + div span:before {
     --x: 0;
     --b: var(--circle);
@@ -183,15 +194,19 @@ body {
     transform: translateX(var(--x));
     transition: box-shadow var(--duration) ease, transform var(--duration) ease;
 }
+
 .switch input + div span:not(:empty) {
     padding-left: 68px;
 }
+
 .switch input:checked + div:before {
     --s: 1;
 }
+
 .switch input:checked + div:after {
     --s: 0;
 }
+
 .switch input:checked + div span:before {
     --x: 28px;
     --s: 12px;
@@ -215,9 +230,9 @@ body {
     height: min-content;
     width: 390px;
     border-radius: 20px;
-    background-color: #ddd;
+    background-color: rgb(var(--window-color));
     margin: calc(50vh - 100px) calc(50vw - 225px);
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px 0px;
+    box-shadow: var(--box-shadow);
     z-index: 1002;
     padding: 30px;
 }
@@ -230,7 +245,7 @@ body {
 
 .settings-ui-title > svg {
     float: right;
-    opacity: .6;
+    opacity: .7;
     transition: opacity .2s linear;
 }
 

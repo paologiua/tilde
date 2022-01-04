@@ -35,10 +35,8 @@ const template =
                 accelerator: "CommandOrControl+Space",
                 click()
                 {
-                    // NOTE: if focus is not in any input field (search, playlist)
-                    if (document.activeElement.type == undefined)
-                    {
-                        playerManager.togglePlayPause("play-pause")
+                    if (document.activeElement.type == undefined) {
+                        playerManager.togglePlayPause("play-pause");
                     }
                 }
             },

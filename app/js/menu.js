@@ -3,10 +3,7 @@ function selectMenuItem(_MenuId) {
     let $menuItem = _MenuId;
 
     clearTextField($('#search-input').get(0));
-    //clearTextField($('#new_list-input').get(0));
-
     loseFocusTextField("search-input");
-    //loseFocusTextField("new_list-input");
 
     clearMenuSelection();
 
@@ -52,7 +49,7 @@ function showFavoritesPage() {
     for (let i in JsonContent) {
         let Artwork = getBestArtworkUrl(JsonContent[i].feedUrl);
 
-        let ListElement = getPodcastElement("podcast-entry", Artwork, null, JsonContent[i].data.collectionName, s_FullHeart);
+        let ListElement = getPodcastElement(Artwork, JsonContent[i].data.collectionName);
         
         let HeaderElement = ListElement.getElementsByClassName('podcast-entry-header')[0]
 
@@ -120,21 +117,21 @@ function showStatisticsPage() {
 
     let list = document.getElementById("list");
 
-    list.append(getStatisticsElement("statistics-header", "Podcasts", null));
+    list.append(getStatisticsHeaderElement("Podcasts"));
 
-    list.append(getStatisticsElement("statistics-entry", i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
+    list.append(getStatisticsEntryElement(i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
 
     if(!allNewEpisodes.isEmpty()) {
         let channelName = allFavoritePodcasts.getByFeedUrl(allNewEpisodes.get(0).feedUrl).data.collectionName;
-        list.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  channelName));
+        list.append(getStatisticsEntryElement(i18n.__("Last Podcast"),  channelName));
     } else
-        list.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  "None"));
+        list.append(getStatisticsEntryElement(i18n.__("Last Podcast"),  "None"));
 
-    list.append(getStatisticsElement("statistics-header", i18n.__("Episodes"), null));
+    list.append(getStatisticsHeaderElement(i18n.__("Episodes")));
 
-    list.append(getStatisticsElement("statistics-entry", i18n.__("Archive Items"),  allArchiveEpisodes.length()));
+    list.append(getStatisticsEntryElement(i18n.__("Archive Items"),  allArchiveEpisodes.length()));
     
-    list.append(getStatisticsElement("statistics-entry", i18n.__("New Episodes"),  allNewEpisodes.length()));
+    list.append(getStatisticsEntryElement(i18n.__("New Episodes"),  allNewEpisodes.length()));
 }
 
 function showPage(page) {

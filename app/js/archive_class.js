@@ -99,7 +99,6 @@ class ArchiveEpisodesUI extends ListUI {
     convertInfoItemIntoItemList($obj) {
         if($obj.get(0)) {
             let height = $obj.get(0).offsetHeight;
-            // let $obj = $(obj);
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
@@ -172,7 +171,7 @@ class ArchiveEpisodesUI extends ListUI {
         $listElement.data(episode);
         $listElement.attr('url', episode.episodeUrl);
 
-        if(this.dataObject.downloadManager.episodeInDownload(episode.episodeUrl))
+        if(this.dataObject.downloadManager.isDownloadInProgress(episode.episodeUrl))
             $listElement
                 .css('--progress', `${this.dataObject.downloadManager.data[episode.episodeUrl].progress || 0}%`)
                 .addClass("download-in-progress");
@@ -204,22 +203,24 @@ class ArchiveEpisodesUI extends ListUI {
     }
 
     getAndCleanStatusesByEpisodeUrl(episodeUrl) {
-        return this.getByEpisodeUrl(episodeUrl)
-            .removeClass("download-error")
-            .removeClass("download-in-progress")
-            .css('--progress', '');
+        let $el = this.getByEpisodeUrl(episodeUrl);
+        if(!this.dataObject.downloadManager.isDownloadInProgress(episodeUrl))
+            $el.removeClass("download-in-progress")
+               .css('--progress', '');
+
+        return $el.removeClass("download-error");
     }
 
     setDownloadInProgress(episodeUrl) {
         let $el = this.getByEpisodeUrl(episodeUrl)
-        .find('.list-item-icon:not(.list-item-description) svg')
+                        .find('.list-item-icon:not(.list-item-description) svg');
 
         changeIconButton($el, s_DownloadInProgressIcon, i18n.__('Download in progress'));
 
         this.getByEpisodeUrl(episodeUrl)
             .removeClass("download-error")
             .addClass("download-in-progress")
-            .find(".info-download").html(`<br>${i18n.__('Download in progress')}`);
+            .find(".info-download").html(`<br>${getDownloadInProgressText(episodeUrl)}`);
     }
 
     setDownloadCompleted(episodeUrl) {
@@ -230,17 +231,17 @@ class ArchiveEpisodesUI extends ListUI {
                          allArchiveEpisodes.ui.isArchivePage() ? s_DeleteIcon : s_RemoveEpisodeIcon, 
                          i18n.__("Remove from archive"));
 
-        this.setProgress(episodeUrl, '100%');
+        this.setProgress(episodeUrl, 100);
         setTimeout(() => {
             this.getAndCleanStatusesByEpisodeUrl(episodeUrl)
                 .find(".info-download").html(`<br>${i18n.__('Download completed')}`);
         }, 1000);
     }
 
-    setProgress(episodeUrl, percentage) {
+    setProgress(episodeUrl, progress) {
         this.getByEpisodeUrl(episodeUrl)
-            .css('--progress', percentage)
-            .find(".info-download").html(`<br>${i18n.__('Download in progress')} (${percentage})`);
+            .css('--progress', `${progress}%`)
+            .find(".info-download").html(`<br>${getDownloadInProgressText(episodeUrl, progress)}`);
     }
 
     setDownloadError(episodeUrl) {
@@ -271,7 +272,7 @@ class ArchiveEpisodesUI extends ListUI {
                 label = i18n.__('Download error');
                 break;
             case 'in_progress':
-                label = i18n.__('Download in progress');
+                label = getDownloadInProgressText(episodeUrl);
                 break;
             default:
                 break;
@@ -341,7 +342,7 @@ class DownloadManager {
     }
 
     saveAudioInMemory(episodeUrl) {
-        if(this.episodeInDownload(episodeUrl))
+        if(this.isDownloadInProgress(episodeUrl))
             return;
         else
             this.data[episodeUrl] = {};
@@ -375,8 +376,9 @@ class DownloadManager {
                 else if(this.archive.checkEpisode(episodeUrl)) {
                     let progress = parseInt(state.percent * 100);
                     console.log(`${episodeUrl} - ${progress}%`);
-                    this.data[episodeUrl].progress = progress
-                    this.archive.ui.setProgress(episodeUrl, `${progress}%`);
+                    if(this.isDownloadInProgress(episodeUrl))
+                        this.data[episodeUrl].progress = progress;
+                    this.archive.ui.setProgress(episodeUrl, progress);
                 }
             }
         );
@@ -407,8 +409,8 @@ class DownloadManager {
         }
     }
 
-    episodeInDownload(episodeUrl) { 
-        return (this.data[episodeUrl] && this.data[episodeUrl].download);
+    isDownloadInProgress(episodeUrl) { 
+        return (this.data[episodeUrl] && this.data[episodeUrl].download && this.getStateDownload(episodeUrl) === 'in_progress');
     }
 
     saveAll() {
@@ -549,6 +551,17 @@ function loadArchiveEpisodes() {
 
 function getAudioPathFromEpisodeUrl(episodeUrl) {
     return `${getDownloadsDirPath()}/${episodeUrl.replace(/\/|\%/g, '-')}`;
+}
+
+function getDownloadInProgressText(episodeUrl, progress) {
+    let text = i18n.__('Download in progress');
+    if(!progress) {
+        if(allArchiveEpisodes.downloadManager.isDownloadInProgress(episodeUrl))
+            return `${text} (${allArchiveEpisodes.downloadManager.data[episodeUrl].progress || 0}%)`;
+
+        return text;
+    }
+    return `${text} (${progress}%)`;
 }
 
 function getPodcastFromEpisode(episode) {

@@ -345,7 +345,6 @@ class FeedsUI extends ListUI {
     convertInfoItemIntoItemList($obj) {
         if($obj.get(0)) {
             let height = $obj.get(0).offsetHeight;
-            // let $obj = $(obj);
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
@@ -406,7 +405,7 @@ class FeedsUI extends ListUI {
         $listElement.data(episode);
         $listElement.attr('url', episode.episodeUrl);
 
-        if(allArchiveEpisodes.downloadManager.episodeInDownload(episode.episodeUrl))
+        if(allArchiveEpisodes.downloadManager.isDownloadInProgress(episode.episodeUrl))
             $listElement
                 .css('--progress', `${allArchiveEpisodes.downloadManager.data[episode.episodeUrl].progress || 0}%`)
                 .addClass("download-in-progress");

@@ -98,10 +98,8 @@ class Preferences {
     check() {
         if(!this.preference.darkmode)
             this.preference.darkmode = false;
-        /* if(!this.preference.minimize)
-            this.preference.minimize = false; */
-        
-        if(!this.preference.darkmode /* || !this.preference.minimize */ )
+
+        if(!this.preference.darkmode)
             this.update();
     }
 
@@ -114,16 +112,7 @@ class Preferences {
     getDarkmode() {
         return this.preference.darkmode;
     }
-/* 
-    setMinimize(minimize) {
-        this.preference.minimize = minimize;
-        this.update();
-    }
-
-    getMinimize() {
-        return this.preference.minimize;
-    }
- */
+    
     set(preference, value) {
         this.preference[preference] = value;
         if(preference == 'darkmode')
@@ -156,8 +145,7 @@ function getDownloadsDirPath() {
     return getSaveDirPath() + '/downloads';
 }
 
-function isWindows()
-{
+function isWindows() {
     return process.platform == 'win32';
 }
 
@@ -199,7 +187,6 @@ function setTitlebarOnWin() {
         titlebar = new customTitlebar.Titlebar({
             backgroundColor: customTitlebar.Color.fromHex('#bbb')
         });
-        $(':root').css('--titlebar-height', '35px');
         $('.titlebar').height('var(--titlebar-height)');
         $('.container-after-titlebar').css('top', 'var(--titlebar-height)');
         $( '#content-left' ).height('calc(100% - var(--titlebar-height))');
@@ -479,35 +466,7 @@ function changeSettings(_FeedUrl, excludeFromNewEpisodes) {
     allFavoritePodcasts.setExcludeFromNewEpisodesByFeedUrl(_FeedUrl, excludeFromNewEpisodes);
     
 }
-/* 
-function setMinimize() {
-    let MinimizeMenuItem = getMinimizeMenuItem()
-    
-    if (MinimizeMenuItem.checked)
-        setPreference('minimize', true)
-    else
-        setPreference('minimize', false)
-}
- */
-/* 
-function changeMinimizeMenuItem() {
-    let MinimizeMenuItem = getMinimizeMenuItem()
-    MinimizeMenuItem.checked = !getPreference('minimize');
-}
 
-function getMinimizeMenuItem() {
-    const { Menu } = require('electron').remote
-
-    var MenuItems = Menu.getApplicationMenu().items
-
-    for (var i = MenuItems.length - 1; i >= 0; i--) {
-        if (MenuItems[i].label == i18n.__('Settings')) {
-
-            return MenuItems[i].submenu.items[1];
-        }
-    }
-}
- */
 // ---------------------------------------------------------------------------------------------------------------------
 // PREFERENCES
 // ---------------------------------------------------------------------------------------------------------------------

@@ -1,61 +1,31 @@
-/*
-.list-item-box-layout
-{
-
-}
-*/
-
-.list-item-row-layout
-{
+.list-item-row-layout {
     display: grid;
     grid-template-rows: 1fr;
     font-size: 14px;
-    height: 3.2em; /*2.86em;*/
-    /* border-bottom: 1px solid #EEE; */
+    height: 3.2em;
     padding: 0.5em;
     padding-left: 2em;
-    color: #222;
 
     border-radius: 15px;
     margin: 10px;
-    background-color: #e9e9e9;
+    background-color: rgb(var(--right-list-el-color));
     
     transition: background-color .1s linear;
 }
 
-.list-item-row-layout:hover
-{
-    background-color: #ddd;
+.list-item-row-layout:hover {
+    background-color: rgb(var(--right-list-el-color-hover));
 }
 
-.select-episode {
-    background-color: #448AFF;
-    --bk-color1-download: #3378fb !important;
-    --bk-color2-download: #448AFF !important;
-}
-
-.select-episode:hover {
-    background-color: #2979FF;
-    --bk-color1-download: #1c65f1 !important;
-    --bk-color2-download: #2979FF !important;
-}
-
-.list-item-row-layout img
-{
-    border-radius: 5px; /*4px*/
+.list-item-row-layout img {
+    border-radius: 5px; 
     width: 40px;
     height: 40px;
     margin: 2.396px 0;
-    box-shadow: 0px 2px 5px 0px rgba(100, 100, 100, 0.5);
+    box-shadow: var(--box-shadow);
 }
-/* 
-.list-item-row-layout[info-mode] img
-{
-    margin: 0;
-}
- */
-.list-item-icon
-{
+
+.list-item-icon {
     opacity: 0.6;
     align-self: center;
     text-align: center;
@@ -69,13 +39,11 @@
     transform: translateY(-50%);
 }
 
-.list-item-icon:hover
-{
+.list-item-icon:hover {
     opacity: 0.8;
 }
 
-.list-item-flag
-{
+.list-item-flag {
     border-radius: 4px;
     text-align: center;
     width: 80%;
@@ -85,16 +53,13 @@
     white-space: nowrap;
     overflow: hidden;
 
-    --color-flag: #000;
-    --bk-color1-flag: #999;
-    --bk-color2-flag: #bbb;
     --percentage: 0%;
 
-    background: linear-gradient(to right, var(--bk-color1-flag) 0%, 
-                                          var(--bk-color1-flag) 50%, 
-                                          var(--bk-color2-flag) 50%, 
-                                          var(--bk-color2-flag) 100%),
-                var(--bk-color2-flag);
+    background: linear-gradient(to right, rgb(var(--flag-color-1)) 0%, 
+                                          rgb(var(--flag-color-1)) 50%, 
+                                          rgb(var(--flag-color-2)) 50%, 
+                                          rgb(var(--flag-color-2)) 100%),
+                rgb(var(--flag-color-2));
 
     background-size: calc(var(--percentage)*2);
     background-repeat: no-repeat;
@@ -106,16 +71,10 @@
     margin-left: 5px;
 }
 
-.select-episode .list-item-flag {
-    --bk-color1-flag: #296bda !important; /* rgb(8, 102, 224); */
-    --bk-color2-flag: rgb(29, 75, 228) !important;
-}
-
 .list-item-text,
 .list-item-bold-text,
 .list-item-description,
-.list-item-sub-text
-{
+.list-item-sub-text {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -128,19 +87,17 @@
     max-width: fit-content;
 }
 
-.list-item-bold-text
-{
+.list-item-bold-text {
     font-weight: bold;
 }
 
-.list-item-sub-text
-{
-    opacity: 0.4;
+.list-item-sub-text {
+    color: rgba(var(--opaque-text-color));
 }
 
 .download-in-progress {
-    --bk-color1-download: #d7d7d7;
-    --bk-color2-download: #e9e9e9;
+    --bk-color1-download: rgb(var(--progress-download-color));
+    --bk-color2-download: rgb(var(--right-list-el-color));
     --progress: 0%;
     background: linear-gradient(to right, var(--bk-color1-download) 0%, 
                                           var(--bk-color1-download) 50%, 
@@ -153,8 +110,8 @@
 }
 
 .download-in-progress:hover {
-    --bk-color1-download: #d1d1d1;
-    --bk-color2-download: #ddd;
+    --bk-color1-download: rgb(var(--progress-download-color-hover));
+    --bk-color2-download: rgb(var(--right-list-el-color-hover));
     
     background: linear-gradient(to right, var(--bk-color1-download) 0%, 
                                           var(--bk-color1-download) 50%, 
@@ -167,11 +124,7 @@
 }
 
 #list li[info-mode] {
-    background: #d7d7d7;
-}
-
-#list li[info-mode] svg {
-    fill: #222;
+    background: rgb(var(--right-list-el-color-info));
 }
 
 #list li[info-mode] .list-item-description {
@@ -199,11 +152,6 @@
         opacity: 1;
     } 
 }
-
-/* 
-[info-mode].download-in-progress {
-    animation: none;
-} */
 
 .download-in-progress-icon {
     transform-origin: center; 
