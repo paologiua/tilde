@@ -3,7 +3,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 function setItemCounts() {
-    $('#menu-episodes .menu-count').html(allNewEpisodes.length());
+    $('#menu-episodes .menu-count').html(allNewEpisodes.length() > allNewEpisodes.ui.bufferSize ? 
+                                            allNewEpisodes.ui.bufferSize : allNewEpisodes.length());
     $('#menu-favorites .menu-count').html(allFavoritePodcasts.length());
 }
 

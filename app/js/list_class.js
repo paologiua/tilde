@@ -5,7 +5,7 @@ class ListUI extends UI {
         this.dataObject = obj;
         this.firstEpisodeDisplayed = 0;
         this.lastEpisodeDisplayed = null;
-        this.bufferSize = 80; //120
+        this.bufferSize = 50; //120
     }
 
 /*
@@ -54,27 +54,28 @@ class ListUI extends UI {
                 .slideUp(150, () => { 
                     $episodeItem.remove(); 
 
-                    this.showNothingToShow();
-                    
-                    if(feed) {
-                        let episodeToAdd = feed[this.lastEpisodeDisplayed + 1];
-                        if(episodeToAdd) {
-                            this.directBottomAdd(episodeToAdd);
-                            this.lastEpisodeDisplayed++;
-                            if(this.lastEpisodeDisplayed == feed.length - 1)
-                                this.getShowMoreEpisodesBottomElement().hide();
-                            return;
+                    if(this.length() < this.bufferSize)
+                        if(feed) {
+                            let episodeToAdd = feed[this.lastEpisodeDisplayed + 1];
+                            if(episodeToAdd) {
+                                this.directBottomAdd(episodeToAdd);
+                                this.lastEpisodeDisplayed++;
+                                if(this.lastEpisodeDisplayed == feed.length - 1)
+                                    this.getShowMoreEpisodesBottomElement().hide();
+                                return;
+                            }
+
+                            episodeToAdd = feed[this.firstEpisodeDisplayed - 1];
+                            if(episodeToAdd) {
+                                this.directTopAdd(episodeToAdd);
+                                this.firstEpisodeDisplayed--;
+                                if(this.firstEpisodeDisplayed == 0)
+                                    this.getShowMoreEpisodesTopElement().hide();
+                                return;
+                            }
                         }
 
-                        episodeToAdd = feed[this.firstEpisodeDisplayed - 1];
-                        if(episodeToAdd) {
-                            this.directTopAdd(episodeToAdd);
-                            this.firstEpisodeDisplayed--;
-                            if(this.firstEpisodeDisplayed == 0)
-                                this.getShowMoreEpisodesTopElement().hide();
-                            return;
-                        }
-                    }
+                    this.showNothingToShow();
                 });
         }
     }

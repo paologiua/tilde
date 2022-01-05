@@ -26,7 +26,7 @@ class NewEpisodesUI extends ListUI {
 
     removeByEpisodeUrl(episodeUrl) {
         if(this.isNewEpisodesPage()) 
-            super.removeByEpisodeUrl(episodeUrl);
+            super.removeByEpisodeUrl(episodeUrl, this.dataObject.getAll());
 
         setItemCounts();
     }
