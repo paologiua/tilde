@@ -118,9 +118,9 @@ const template =
                     changeThemeMode();
                     updateUITheme();
                 }
-            },
+            }/* ,
             {type: 'separator'},
-            {role: 'toggledevtools'}
+            {role: 'toggledevtools'} */
         ]
     }
 ]
@@ -156,13 +156,15 @@ if(process.platform === 'win32') {
 }
  */
 
-if (process.platform === 'darwin')
-{
-    template.unshift
-    ({
+if(isDevMode()) {
+    template[template.length - 1].submenu.push({type: 'separator'});
+    template[template.length - 1].submenu.push({role: 'toggledevtools'});
+}
+
+if (process.platform === 'darwin') {
+    template.unshift({
         label: app.getName(),
-        submenu:
-        [
+        submenu: [
             {role: 'about'},
             {type: 'separator'},
             {role: 'services', submenu: []},

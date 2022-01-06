@@ -125,12 +125,25 @@ class Preferences {
     }
 }
 
+function getArgument(index) {
+    try {
+        const remote = require('electron').remote;
+        return remote.process.argv[index];
+    } catch(error) {
+        return process.argv[index];
+    }
+}
+
+function isDevMode() {
+    return getArgument(2) == 'dev';
+}
+
 function loadPreferences() {
     allPreferences = new Preferences();
 }
 
 function getSaveDirPath() {
-    return os.homedir() + '/.tilde-beta';
+    return os.homedir() + `/.tilde${isDevMode() ? '-beta' : ''}`;
 }
 
 function getFeedDirPath() {

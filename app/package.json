@@ -5,10 +5,11 @@
     "version": "0.9.9",
     "license": "MIT",
     "author": "paologiuaa <paologiuaa@gmail.com>",
-    "homepage": "https://github.com/paologiua/TildePodcastPlayer",
+    "homepage": "https://github.com/paologiua/tilde",
     "scripts": {
-        "tilde": "electron main.js",
         "start": "npm install && electron main.js",
+        "tilde": "electron main.js",
+        "tilde-beta": "electron main.js dev",
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
