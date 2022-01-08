@@ -111,15 +111,10 @@ function updateFeed(_Content, FeedUrl) {
     if (isContent302NotFound(_Content)) {
         allFeeds.ui.showNothingToShow(FeedUrl);
     } else {
-        if (_Content.includes("<html>")) {
+        if (_Content.includes("<html>")) 
             allFeeds.ui.showNothingToShow(FeedUrl);
-        } else {
-            xmlParserWorker.postMessage({
-                xml: _Content,
-                feedUrl: FeedUrl,
-                artwork: getBestArtworkUrl(FeedUrl)
-            })
-        }
+        else 
+            processEpisodes(_Content, FeedUrl);
     }
 }
 

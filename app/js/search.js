@@ -12,9 +12,76 @@ function search(self, event) {
         setHeader(generateHtmlTitle("Search"), '');
 
         $('#res').attr('return-value', '');
-        
-        getPodcasts(self.value);
+
+        if(isUrl(self.value))
+            getPodcastInfoFromFeedUrl(self.value);
+        else
+            getPodcasts(self.value);
     }
+}
+
+function isUrl(str) {
+    let url = str.match(/\b(https?:\/\/\S*\b)/g);
+    return (url && url[0] == str);
+}
+
+function getPodcastInfoFromFeedUrl(feedUrl) {
+    makeRequest(feedUrl, (xml) => getPodcastInfoFromXml(xml, feedUrl), () => getPodcasts(feedUrl));
+}
+
+function getPodcastInfoFromXml(xml, feedUrl) {
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(xml, "text/xml");
+
+    let channel = xmlDoc.getElementsByTagName("channel")[0];
+    if(!channel) {
+        showSearchNothingToShow();
+        return;
+    }
+
+    let channelName = channel.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    
+    let artworkUrl = channel.getElementsByTagName("itunes:image")[0];
+    if(artworkUrl)
+    	artworkUrl = artworkUrl.getAttribute('href');
+    else {
+		artworkUrl = channel.getElementsByTagName("image")[0];
+		if(artworkUrl) {
+			artworkUrl = artworkUrl.getElementsByTagName("url")[0];
+			if(artworkUrl)
+				artworkUrl = artworkUrl.textContent;
+		}
+    }
+
+    let artistName = channel.getElementsByTagName("itunes:author")[0];
+    if(artistName)
+        artistName = artistName.textContent;
+    else {
+        let artistName = channel.getElementsByTagName("author")[0];
+        if(artistName)
+            artistName = artistName.childNodes[0].nodeValue;
+        else 
+            artistName = '';
+    }
+
+    let podcastDescription = '';
+    let podcastSubtitle = channel.getElementsByTagName('itunes:subtitle')[0];
+    if(podcastSubtitle)
+        podcastDescription = podcastSubtitle.textContent;
+    podcastSubtitle = channel.getElementsByTagName('description')[0];
+    if(podcastSubtitle && podcastSubtitle.textContent.length > podcastDescription.length)
+        podcastDescription = podcastSubtitle.textContent;
+    
+    podcastSubtitle = channel.getElementsByTagName('itunes:summary')[0];
+    if(podcastSubtitle && podcastSubtitle.textContent.length > podcastDescription.length)
+        podcastDescription = podcastSubtitle.textContent;
+
+    showSearchList([{
+        artworkUrl60: artworkUrl,
+        collectionName: channelName,
+        artistName: artistName,
+        feedUrl: feedUrl
+    }])
 }
 
 function getPodcasts(searchTerm) {
@@ -33,7 +100,7 @@ function getPodcasts(searchTerm) {
 }
 
 function getResults(data, feedUrl) {
-    let query = decodeURI(feedUrl).split('=')[1].split('&')[0];
+    let query = decodeURIComponent(feedUrl).split('=')[1].split('&')[0];
     
     let obj = JSON.parse(data);
 
@@ -99,8 +166,8 @@ function isSearchPage() {
 }
 
 function showSearchNothingToShow() {
-    if(isSearchPage())
-        setNothingToShowBody(s_SearchNothingFoundIcon, 'search-nothing-to-show');
+    if(isSearchPage()) 
+        setNothingToShowBody(s_SearchNothingFoundIcon, 'search-nothing-to-show', 'Try typing the feed url into the search field!');
 }
 
 function getHeartButton(podcastInfos) { 

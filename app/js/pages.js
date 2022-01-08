@@ -15,7 +15,7 @@ function getBody() {
     return $('#content-right #content-right-body #list').html();
 }
 
-function setNothingToShowBody(icon, id) {
+function setNothingToShowBody(icon, id, warning) {
     if(!id || !$('#' + id).get(0)) {
         id = !id ? '' : id;
 
@@ -26,6 +26,11 @@ function setNothingToShowBody(icon, id) {
             ${icon}
             <br><br>
             ${i18n.__('Nothing to show')}
+            ${(warning ?
+            `<br><br>
+            <span class="warning">
+                ${i18n.__(warning)}
+            </span>` : '')}
         </span>`;
 
         if(id === 'feed-nothing-to-show') 

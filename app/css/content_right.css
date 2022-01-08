@@ -531,3 +531,8 @@
     display: inline-block; 
     font-size: 20px;
 }
+
+.nothing-to-show .warning {
+    color: rgba(var(--opaque-text-color));
+    font-size: 15px;
+}
