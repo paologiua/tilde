@@ -55,6 +55,9 @@ function urlify(text) {
 }
 
 function getInfoFromDescription(episodeDescription) {
+    episodeDescription = episodeDescription.replaceAll('\n<br>', '<br>')
+                                           .replaceAll('<br>\n', '<br>')
+                                           .replaceAll('\n', '<br>');
     return (episodeDescription.indexOf('</a>') == -1 ? urlify(episodeDescription) : episodeDescription);
 }
 
