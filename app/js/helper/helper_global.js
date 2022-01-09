@@ -4,12 +4,79 @@ const os = require('os')
 var titlebar = null;
 var allPreferences = null;
 
+/*  // FUNCTIONS TO COMMUNICATE WITH THE MAIN
+function sendToMain(channel, obj) {
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send(channel, obj);
+}
+
+function listenFromMain(channel, f) {
+    var ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.on(channel, function (event, obj) {
+        f(obj);
+    });
+}
+ */
+
 // ---------------------------------------------------------------------------------------------------------------------
 // GLOBAL
 // ---------------------------------------------------------------------------------------------------------------------
 
+class PreferencesUI {
+    constructor(obj) {
+        this.dataObject = obj;
+
+        this.$settingsUI = $('.settings-ui');
+        this.$settingsUIbk = this.$settingsUI.find('.settings-ui-bk');
+        this.$$settingsUIwindow = this.$settingsUI.find('.settings-ui-window');
+        this.$exitButton = this.$settingsUI.find('svg');
+        this.$checkBoxDarkMode = this.$settingsUI.find('input');
+
+        this.menuSettings = $('#menu-settings');
+
+        this.oldselectedMenuItem = undefined;
+        this.isOpen = false;
+
+        this.init();
+    }
+
+    init() {
+        this.$exitButton.click(() => {
+            this.exitSettingsUI();
+        });
+
+        this.$checkBoxDarkMode.change(function() {
+            var DarkModeMenu = getDarkModeMenuItem();
+            DarkModeMenu.checked = $(this).is(':checked');
+            updateUITheme();
+        });
+
+        this.$settingsUIbk.click(() => {
+            this.exitSettingsUI();
+        });
+    }
+
+    setCheckBoxDarkModeState(state) {
+        this.$checkBoxDarkMode.prop('checked', state);
+    }
+
+    openSettingsUI() {
+        this.oldselectedMenuItem = $('.selected');
+        selectMenuItem(this.menuSettings);
+        this.$settingsUI.css('display', 'block');
+        this.isOpen = true;
+    }
+
+    exitSettingsUI() {
+        selectMenuItem(this.oldselectedMenuItem)
+        this.$settingsUI.css('display', 'none');
+        this.isOpen = false;
+    }
+}
+
 class Preferences {
     constructor() {
+        this.ui = new PreferencesUI(this);
         this.load();
     }
 
@@ -20,6 +87,8 @@ class Preferences {
         let fileContent = ifExistsReadFile(getPreferencesFilePath());
         this.preference = JSON.parse(fileContent == "" ? "{}": fileContent);
         this.check();
+        if(this.getDarkmode())
+            this.ui.setCheckBoxDarkModeState(true);
     }
 
     update() {
@@ -29,44 +98,25 @@ class Preferences {
     check() {
         if(!this.preference.darkmode)
             this.preference.darkmode = false;
-        if(!this.preference.minimize)
-            this.preference.minimize = false;
-        if(!this.preference.proxymode)
-            this.preference.proxymode = false;
-        
-        if(!this.preference.darkmode || !this.preference.minimize || !this.preference.proxymode )
+
+        if(!this.preference.darkmode)
             this.update();
     }
 
     setDarkmode(darkmode) {
         this.preference.darkmode = darkmode;
+        this.ui.setCheckBoxDarkModeState(darkmode);
         this.update();
     }
 
     getDarkmode() {
         return this.preference.darkmode;
     }
-
-    setMinimize(minimize) {
-        this.preference.minimize = minimize;
-        this.update();
-    }
-
-    getMinimize() {
-        return this.preference.minimize;
-    }
-
-    setProxymode(proxymode) {
-        this.preference.proxymode = proxymode;
-        this.update();
-    }
-
-    getProxymode() {
-        return this.preference.proxymode;
-    }
-
+    
     set(preference, value) {
         this.preference[preference] = value;
+        if(preference == 'darkmode')
+            this.ui.setCheckBoxDarkModeState(value);
         this.update();
     }
 
@@ -75,12 +125,25 @@ class Preferences {
     }
 }
 
+function getArgument(index) {
+    try {
+        const remote = require('electron').remote;
+        return remote.process.argv[index];
+    } catch(error) {
+        return process.argv[index];
+    }
+}
+
+function isDevMode() {
+    return getArgument(2) == 'dev';
+}
+
 function loadPreferences() {
     allPreferences = new Preferences();
 }
 
 function getSaveDirPath() {
-    return os.homedir() + '/tilde-data';
+    return os.homedir() + `/.tilde${isDevMode() ? '-beta' : ''}`;
 }
 
 function getFeedDirPath() {
@@ -91,8 +154,11 @@ function getIndexFeedFilePath() {
     return getFeedDirPath() + '/index.json';
 }
 
-function isWindows()
-{
+function getDownloadsDirPath() {
+    return getSaveDirPath() + '/downloads';
+}
+
+function isWindows() {
     return process.platform == 'win32';
 }
 
@@ -105,29 +171,28 @@ function isLinux() {
 }
 
 function getSaveFilePath() {
-    return getSaveDirPath() + '/tilde-favorite_podcasts.json';
+    return getSaveDirPath() + '/favorite-podcasts.json';
 }
 
 function getNewEpisodesSaveFilePath() {
-    return getSaveDirPath() + '/tilde-new_episodes.json';
+    return getSaveDirPath() + '/new-episodes.json';
 }
 
 function getArchivedFilePath() {
-    return getSaveDirPath() + '/tilde-archived_episodes.json';
-}
-
-function getPlaylistFilePath() {
-    return getSaveDirPath() + '/tilde-playlists.json';
+    return getSaveDirPath() + '/archived-episodes.json';
 }
 
 function getPreferencesFilePath() {
-    return getSaveDirPath() + '/tilde-app_preferences.json';
+    return getSaveDirPath() + '/preferences.json';
 }
 
 function getPlaybackSaveFilePath() {
-    return getSaveDirPath() + '/tilde-playback_episodes.json';
+    return getSaveDirPath() + '/playback-episodes.json';
 }
 
+function getDownloadManagerFilePath() {
+    return getDownloadsDirPath()  + '/download-manager.json';
+}
 
 function setTitlebarOnWin() {
     if(isWindows()) {
@@ -135,13 +200,14 @@ function setTitlebarOnWin() {
         titlebar = new customTitlebar.Titlebar({
             backgroundColor: customTitlebar.Color.fromHex('#bbb')
         });
-        $(':root').css('--titlebar-height', '35px');
         $('.titlebar').height('var(--titlebar-height)');
         $('.container-after-titlebar').css('top', 'var(--titlebar-height)');
         $( '#content-left' ).height('calc(100% - var(--titlebar-height))');
         $( '#content-right' ).height('calc(100% - var(--titlebar-height))');
         $('.window-controls-container').height('var(--titlebar-height)');
         
+        $('.titlebar .window-icon-bg').width('51px');
+
         $('.window-title').css('font-size', 'inherit')
                           .css('margin', 'auto')
                           .css('line-height', 'normal');
@@ -222,9 +288,11 @@ function setTitlebarOnWin() {
 
 function setSearchWithoutFocus() {
     $(document).keypress(function (e) {
-        let char = String.fromCharCode(e.which)
-        if(!char.match(/^[^A-Za-z0-9+!?#\.\-\ ]+$/) && !$("input:focus").get(0)) {
-            $('#search-input').focus();
+        if(!allPreferences.ui.isOpen) {
+            let char = String.fromCharCode(e.which)
+            if(!char.match(/^[^A-Za-z0-9+!?#\.\-\ ]+$/) && !$("input:focus").get(0)) {
+                $('#search-input').focus();
+            }
         }
     })
 }
@@ -233,35 +301,41 @@ function setTitle(title) {
     if(isWindows())
         titlebar.updateTitle(title);
     else {
-        const { BrowserWindow } = require('electron').remote
+        const { BrowserWindow } = require('electron').remote;
         BrowserWindow.getAllWindows()[0].setTitle(title);
     }
 }
 
+function showWindow() {
+    const { BrowserWindow } = require('electron').remote;
+    let win = BrowserWindow.getAllWindows()[0];
+    if(isWindows())
+        win.show();
+    else 
+        win.webContents.on('did-finish-load', function() {
+            win.show();
+        }); 
+}
+
 function init() {
-    setTitlebarOnWin();
-    
     if (!fs.existsSync(getSaveDirPath()))
         fs.mkdirSync(getSaveDirPath());
 
     loadPreferences();
-    darkMode();
     loadPlayerManager();
 
     loadFavoritePodcasts();
     loadFeeds();
     loadArchiveEpisodes();
     loadNewEpisodes();
-    loadPlaylists();
 
-    setSearchWithoutFocus()
+    setSearchWithoutFocus();
 
-    initController()
+    initController();
     
-    readFeeds()
-    setItemCounts()
-    translate()
-    showNewEpisodesPage()
+    readFeeds();
+    setItemCounts();
+    showNewEpisodesPage();
 }
 
 function fileExistsAndIsNotEmpty(_File) {
@@ -274,11 +348,6 @@ function isAlreadyFavorite(_FeedUrl) {
 
 function episodeIsAlreadyInNewEpisodes(episodeUrl) {
     return (allNewEpisodes.findByEpisodeUrl(episodeUrl) != -1);
-}
-
-function isAlreadyInPlaylist(_ListName, _PodcastFeed) {
-    let i = allPlaylist.memory.findByName(_ListName);
-    return (allPlaylist.memory.findPodcast(i, _PodcastFeed) != -1);
 }
 
 function getFileValue(filePath, _DestinationTag, _ReferenceTag, _Value) {
@@ -308,7 +377,7 @@ function getBestArtworkUrl(feedUrl) {
             return Artwork;
     }
 
-    let $settingsImage = $('.settings-image');
+    let $settingsImage = $('.settings-feed-image');
     if(allFeeds.ui.checkPageByFeedUrl(feedUrl) && 
         $settingsImage.get(0) && 
         (Artwork = $settingsImage.attr('src')))
@@ -318,26 +387,7 @@ function getBestArtworkUrl(feedUrl) {
     Artwork = getGenericArtwork();
     return Artwork;
 }
-/*
-function getArtworkFromFeed(xmlDoc) {
-    if (xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("media:thumbnail")[0] !== undefined) 
-        return xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("media:thumbnail")[0].getAttribute("url")
-    
-    if (xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("itunes:image")[0] !== undefined) 
-        return xmlDoc.getElementsByTagName("channel")[0].getElementsByTagName("itunes:image")[0].getAttribute("href")
-    
-    // Find any element with 'href' or 'url' attribute containing an image (podcast thumbnail)
-    for (let i in xmlDoc.getElementsByTagName("channel")) {
-        if (xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").length !== 0) {
-            return xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").getAttribute('href')
-        } else if (xmlDoc.getElementsByTagName("channel")[i].querySelector("*[url*='.jpeg'], *[url*='.jpg'], *[url*='.png']").length !== 0) {
-            return xmlDoc.getElementsByTagName("channel")[i].querySelector("*[href*='.jpeg'], *[href*='.jpg'], *[href*='.png']").getAttribute('url')
-        }
-    }
-    
-    return getGenericArtwork();
-}
-*/
+
 function getGenericArtwork() {
     return 'img/generic_podcast_image.png';
 }
@@ -392,20 +442,15 @@ function parseFeedEpisodeDuration(_Duration) {
     }
     var Time = {}
 
-    if (_Duration.length == 1)
-    {
+    if (_Duration.length == 1) {
         var Time    = getFullTime(_Duration[0] * 60)
         var Hours   = "0"
         var Minutes = Time.hours.toString()
-    }
-    else if (_Duration.length == 2)
-    {
+    } else if (_Duration.length == 2) {
         var Time    = getFullTime(_Duration[0] * 60)
         var Hours   = Time.hours.toString()
         var Minutes = Time.minutes.toString()
-    }
-    else
-    {
+    } else {
         var Hours   = _Duration[0]
         var Minutes = _Duration[1]
     }
@@ -426,40 +471,6 @@ function parseFeedEpisodeDuration(_Duration) {
 // SETTINGS
 // ---------------------------------------------------------------------------------------------------------------------
 
-function getProxyModeMenuItem() {
-    const { Menu } = require('electron').remote
-
-    let MenuItems = Menu.getApplicationMenu().items
-
-    for (let i = MenuItems.length - 1; i >= 0; i--)
-    {
-        if (MenuItems[i].label == i18n.__('Settings'))
-        {
-            // NOTE: Item 0 is "Use Proxy" for now
-
-            return MenuItems[i].submenu.items[0];
-        }
-    }
-}
-
-function changeProxyModeMenuItem() {
-    let ProxyModeMenuItem = getProxyModeMenuItem()
-    ProxyModeMenuItem.checked = !getPreference('proxymode');
-}
-
-function setProxyMode() {
-    let ProxyModeMenuItem = getProxyModeMenuItem()
-    
-    if (ProxyModeMenuItem.checked)
-        setPreference('proxymode', true)
-    else
-        setPreference('proxymode', false)
-}
-
-function isProxySet() {
-    return getPreference('proxymode');
-}
- 
 function getSettings(_FeedUrl) {
     return allFavoritePodcasts.getExcludeFromNewEpisodesByFeedUrl(_FeedUrl);
 }
@@ -469,50 +480,23 @@ function changeSettings(_FeedUrl, excludeFromNewEpisodes) {
     
 }
 
-function setMinimize() {
-    let MinimizeMenuItem = getMinimizeMenuItem()
-    
-    if (MinimizeMenuItem.checked)
-        setPreference('minimize', true)
-    else
-        setPreference('minimize', false)
-}
-
-function changeMinimizeMenuItem() {
-    let MinimizeMenuItem = getMinimizeMenuItem()
-    MinimizeMenuItem.checked = !getPreference('minimize');
-}
-
-function getMinimizeMenuItem() {
-    const { Menu } = require('electron').remote
-
-    var MenuItems = Menu.getApplicationMenu().items
-
-    for (var i = MenuItems.length - 1; i >= 0; i--) {
-        if (MenuItems[i].label == i18n.__('Settings')) {
-
-            return MenuItems[i].submenu.items[1];
-        }
-    }
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 // PREFERENCES
 // ---------------------------------------------------------------------------------------------------------------------
 
-function setPreference(_Key, _Value) {
-    if(allPreferences.get(_Key) !== _Value)
-        allPreferences.set(_Key, _Value);
+function setPreference(key, value) {
+    if(allPreferences.get(key) !== value)
+        allPreferences.set(key, value);
 }
 
 
-function getPreference(_Key) {
+function getPreference(key) {
     if(allPreferences)
-        return allPreferences.get(_Key);
+        return allPreferences.get(key);
     
     if (fs.existsSync(getPreferencesFilePath()) && fs.readFileSync(getPreferencesFilePath(), "utf-8") != "") {
-        let JsonContent = JSON.parse(fs.readFileSync(getPreferencesFilePath(), "utf-8"));
-        return JsonContent[_Key];
+        let jsonContent = JSON.parse(fs.readFileSync(getPreferencesFilePath(), "utf-8"));
+        return jsonContent[key];
     }
 }
 

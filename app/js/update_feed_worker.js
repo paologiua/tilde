@@ -18,11 +18,6 @@ function getDifferenceFeed(oldFeed, newFeed) {
         initialLength: oldFeed.length,
         feed: feed
     });
-
-    /*
-    let updated_episodes = [].concat(...deleted_episodes.map(d => new_episodes.map(e => Object.assign({oldEpisodeUrl: d, newEpisodeUrl: e}))))
-                             .filter(x => x.newEpisodeUrl.split("?")[0] == x.oldEpisodeUrl.split("?")[0]);
-    */
 }
 
 onmessage = function (ev) { 

@@ -1,14 +1,3 @@
-h1 {
-    margin: 0;
-    padding: 0.5em;
-    display: inline-block;
-    width: calc(100% - 2em);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-/* ------------------------------------------------------------------------------------------------------------------ */
 
 #content-right {
     position: fixed;
@@ -16,21 +5,22 @@ h1 {
     right: 0em;
     overflow: auto;
     height: 100vh;
-    border-left: 1px solid #E7E7E7;
-    display: grid;
-    grid-template-rows: 70px 1fr 60px;
-    grid-template-columns: 100%;
-    grid-template-areas: "right-header" "list" "audio-player";
-    overflow: hidden;
+    border-left: 1px solid rgb(var(--layer-1-color));
+    background-color: rgb(var(--layer-0-color));
 }
 
 #content-right-header {
-    grid-area: right-header;
-    background: #FFF;
     padding: 0;
     margin: 0;
     display: grid;
     grid-template-columns: 1fr 85px;
+
+    position: fixed;
+    left: 301px;
+    right: .8em;
+    z-index: 1000;
+    background: rgba(var(--layer-0-color), 0.8);
+    backdrop-filter: blur(5px) saturate(150%);
 }
 
 #content-right-header h1 {
@@ -39,57 +29,31 @@ h1 {
 }
 
 #content-right-header-actions {
-    opacity: 0.6;
     align-self: center;
 }
 
-/*
 #content-right-header-actions svg {
-    border: 1px solid #888; /*#EEE;*/
-
-/*
-    border-radius: 4px;
+    background-color: rgb(var(--btn-1-color));
+    border-radius: 7px;
     padding: 0.2em;
     padding-left: 0.8em;
     padding-right: 0.8em;
     height: 30px;
     width: 30px;
+    opacity: 0.6;
+    transition: opacity .1s linear;
 }
 
 #content-right-header-actions svg:hover {
-    border-color: #bbb;/*#CCC;*/
-
-/*
+    opacity: 1;
+    background-color: rgb(var(--btn-1-color-hover));
 }
 
 #content-right-header-actions svg:active {
-    background-color: #EEE;
-}
-*/
-
-#content-right-header-actions svg {
-    background-color: #ddd;
-    fill: #000;
-    border-radius: 4px;
-    padding: 0.2em;
-    padding-left: 0.8em;
-    padding-right: 0.8em;
-    height: 30px;
-    width: 30px;
-}
-
-#content-right-header-actions svg:hover {
-    background-color: #bbb;
-}
-
-#content-right-header-actions svg:active {
-    background-color: #ccc;
+    background-color: rgb(var(--btn-1-color-active));
 }
 
 #content-right-body {
-    grid-area: list;
-    background: #FFF;
-    /*height: calc(100% - 4.5em);*/
     overflow: auto;
 }
 
@@ -104,36 +68,32 @@ h1 {
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 #list {
-    margin: 0;
+    margin: 71px 0 0 0;
     padding: 0;
-}
-
-#list>.statistics-header:first-child {
-    margin-top: 0;
 }
 
 #list li:last-of-type {
     border-bottom: 0;
 }
 
-#list .more-episodes-bottom:last-child {
-    border-top: 1px solid #EEE;
-}
-
 .statistics-header {
     padding: 0.5em;
     padding-left: 1.5em;
     padding-right: 2em;
-    margin-top: 2em;
-    margin-bottom: 0.5em;
     font-size: 22px;
     font-weight: bold;
-    background-color: #F2F2F2;
+    background-color: rgb(var(--layer-1-color));
+    margin: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.statistics-header:first-child {
+    margin-top: 0;
 }
 
 .statistics-entry {
     background-color: inherit;
-    /* border-bottom: 1px solid #DDD; */
     padding: 0.5em;
     padding-left: 2em;
     padding-right: 2em;
@@ -153,30 +113,24 @@ h1 {
 
 .podcast-entry {
     background-color: inherit;
-    border-bottom: 1px solid #DDD;
     display: grid;
-    grid-template-rows: 1fr none;
+    grid-template-rows: 1fr;
     grid-template-columns: 1fr 4em;
-    grid-template-areas: "header actions" "body body";
+    grid-template-areas: "header actions";
+
+    border-radius: 15px;
+    margin: 10px;
+    background-color: rgb(var(--right-list-el-color));
+    
+    transition: background-color .1s linear;
 }
 
 .podcast-entry-header {
     grid-area: header;
     display: grid;
-    grid-template-columns: 115px 1fr 70px;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "image title tail" "image subtitle tail";
-}
-
-.podcast-episode-header {
-    grid-area: header;
-    background-color: inherit;
-    padding: 0.5em;
-    padding-left: 2em;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "title" "subtitle";
+    grid-template-columns: 115px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "image title";
 }
 
 .podcast-entry-actions {
@@ -184,43 +138,29 @@ h1 {
     align-self: center;
 }
 
-.podcast-entry-body {
-    grid-area: body;
+.podcast-entry:hover {
+    background-color: rgb(var(--right-list-el-color-hover));
 }
 
-.podcast-entry:hover, .podcast-episode-entry:hover, .podcast-favorites-entry:hover {
-    background-color: #F2F2F2;
-}
-
-.podcast-entry svg, .podcast-episode-entry svg, .podcast-favorites-entry svg {
+.podcast-entry svg {
     grid-area: icons;
     align-self: center;
     margin-left: 0.5em;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
-.podcast-entry svg:hover, .podcast-episode-entry svg:hover, .podcast-favorites-entry svg:hover {
-    fill: #E91E63;
-    opacity: 0.7;
-}
-
-.set-favorite {
-    fill: #E91E63;
-    opacity: 1;
-}
-
-.podcast-entry img, .podcast-favorites-entry img {
+.podcast-entry img {
     grid-area: image;
-    border-radius: 4px;
+    border-radius: 9px;
     margin: 0.5em;
     margin-left: 2em;
     width: 60px;
     height: 60px;
+    box-shadow: var(--box-shadow);
 }
 
 .podcast-entry-title {
     grid-area: title;
-    /*align-self: flex-end;*/
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -229,43 +169,15 @@ h1 {
     font-weight: bold;
     font-size: 16px;
     position: relative;
-    top: 50%;
+    align-self: center;
 }
 
 .grid-layout .podcast-entry-title {
     top: 0;
 }
 
-.podcast-entry-subtitle {
-    grid-area: subtitle;
-    align-self: flex-start;
-    font-size: 14px;
-    color: #777;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.podcast-entry-tail {
-    grid-area: tail;
-    opacity: 0.4;
-    font-size: 12px;
-    align-self: center;
-    justify-self: center;
-}
-
-.done::after {
-    content: "Done";
-    font-size: 11px;
-    /*background: #039BE5;*/
-    background: #4CAF50;
-    color: #FFF;
-    padding: 0.3em;
-    padding-left: 0.8em;
-    padding-right: 0.8em;
-    vertical-align: middle;
-    border-radius: 3px;
-    margin-left: 1em;
+.set-favorite {
+    fill: #e91e63;
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -318,6 +230,13 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 0px;
     border-bottom: none;
+
+    border-radius: unset;
+    margin: unset;
+    background-color: unset !important;
+
+    margin-top: 5px;
+    transition: none;
 }
 
 .grid-layout .podcast-entry .podcast-entry-header {
@@ -335,14 +254,13 @@ h1 {
     padding: 0;
     align-self: center;
     justify-self: center;
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: var(--box-shadow);
 }
 
 .grid-layout .podcast-entry .podcast-entry-title {
     grid-area: ptitle;
     text-align: center;
     font-size: 14px;
-    /*color: #777;*/
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -356,7 +274,7 @@ h1 {
 }
 
 .grid-layout .podcast-entry .podcast-entry-header img:hover {
-    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: var(--box-shadow);
 }
 
 .grid-layout .podcast-entry .podcast-entry-header img:active {
@@ -369,69 +287,60 @@ h1 {
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-.select-episode {
-    /* background: #039BE5; */
-    background: #448AFF;
+.select-episode:not([info-mode]) {
+    background-color: rgb(var(--main-color));
+    --bk-color1-download: #3378fb !important;
+    --bk-color2-download: rgb(var(--main-color)) !important;
 }
 
-.select-episode:hover {
-    /* background: #0288D1; */
-    background: #2979FF;
+.select-episode:not([info-mode]):hover {
+    background-color: rgb(var(--main-color-hover));
+    --bk-color1-download: #1c65f1 !important;
+    --bk-color2-download: rgb(var(--main-color-hover)) !important;
 }
 
-.select-episode div {
-    color: #FFF;
+.select-episode:not([info-mode]) .list-item-flag {
+    --flag-color-1: 41, 107, 218; /* #296bda */
+    --flag-color-2: 29, 75, 228; /* #1d4be4 */
 }
 
-.select-episode .list-item-sub-text {
+.select-episode:not([info-mode]) > img {
+    border-color: transparent;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5); 
+}
+
+.select-episode:not([info-mode]) > div {
+    --text-color: 255, 255, 255; /* #fff */
+    color: rgb(var(--text-color));
+}
+
+.select-episode:not([info-mode]) > .list-item-icon {
     opacity: 0.8;
 }
 
-.select-episode .list-item-icon {
-    fill: #FFF;
-    opacity: 0.8;
-}
-
-.select-episode .list-item-icon:hover {
-    fill: #FFF;
+.select-episode:not([info-mode]) > .list-item-icon:hover {
     opacity: 1;
 }
 
-/* ------------------------------------------------------------------------------------------------------------------ */
-
-/*
-.delete-icon {*/
-
-/*fill: #F44336;*/
-
-/*opacity: 0.3;*/
-
-/*
-}
-*/
-
-/* ------------------------------------------------------------------------------------------------------------------ */
-
-.settings {
-    border-bottom: 1px solid #E0E0E0;
+.settings-feed {
     padding: 2em;
     padding-bottom: 0.5em;
     display: grid;
-    /* grid-template-columns: 60px 1fr 1fr 35px; */
     grid-template-columns: 100px 1fr 35px;
     grid-template-rows: 1fr;
-    /* grid-template-areas: "image name items button"; */
     grid-template-areas: "image name buttons";
 }
 
-.settings-image {
+.settings-feed-image {
     width: 100px;
     height: 100px;
-    border-radius: 6px;
-    border: .1px solid #ddd;
+    border-radius: 10px;
+
+    background-color: rgb(var(--layer-1-color));
+    box-shadow: var(--box-shadow);
 }
 
-.settings-header {
+.settings-feed-header {
     grid-area: name;
     padding: 0.5em;
     margin-left: 1em;
@@ -440,183 +349,85 @@ h1 {
     align-self: center;
 }
 
-/*
-.settings-count::before {
-    content: "All: ";
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.settings-count {
-    grid-area: items;
-    padding: 0.5em;
-    align-self: center;
-}
-*/
-
-.settings-buttons {
+.settings-feed-buttons {
     grid-area: buttons;
 }
 
-.settings-buttons>* {
-    background: #ddd;
-    /* #898989;*/
+.settings-feed-buttons>* {
+    background: rgb(var(--btn-1-color));
     border-radius: 6px;
     text-align: center;
     padding-top: 0.2em;
     margin-bottom: 1em;
-    /*margin-right: 1em;*/
     opacity: 0.8;
-    /*align-self: center;*/
     height: 28px;
 }
 
-.settings-buttons .list-item-icon {
+.settings-feed-buttons {
     position: relative;
     bottom: 1px;
     opacity: 1;
 }
 
-.settings-buttons>* svg {
-    fill: #000;
+.settings-feed-buttons>div {
+    padding-top: 5.5px;
+    height: 29.5px;
+    width: 35px;
 }
 
-.settings-buttons>*:hover {
+.settings-feed-buttons>*:hover {
     opacity: 1;
 }
 
-.settings-buttons .list-item-icon svg {
-    fill: #E91E63;
+.settings-feed-buttons>div>.list-item-icon {
+    margin-left: auto;
+    margin-right: auto;
+    width: 24px;
+    height: 24px;
+    opacity: 1;
 }
 
-.settings .settings-header .count-header {
-    opacity: .5;
+.settings-feed-buttons .list-item-icon svg {
+    fill: #e91e63;
+}
+
+.settings-feed .settings-feed-header .count-header {
+    color: rgba(var(--opaque-text-color));
     font-size: 13px;
 }
 
-.settings .settings-header .description-header {
+.settings-feed .settings-feed-header .description-header {
     opacity: .7;
     font-size: 15px;
     display: block;
     overflow: hidden;
 }
 
-.settings .settings-header .description-header>p {
+.settings-feed .settings-feed-header .description-header>p {
     opacity: .7;
     font-size: 15px;
     margin: 0;
 }
 
-.settings .settings-header .description-header h1, h2, h3 {
+.settings-feed .settings-feed-header .description-header h1, h2, h3 {
     font-size: 15px;
 }
 
-.settings .settings-header .description-other {
+.settings-feed .settings-feed-header .description-other {
     font-size: 15px;
     color: #5880c7;
 }
 
-.settings .settings-header .description-other:hover {
+.settings-feed .settings-feed-header .description-other:hover {
     text-decoration: underline;
 }
 
-.settings .settings-header .artist-header {
+.settings-feed .settings-feed-header .artist-header {
     opacity: .7;
     font-size: 15px;
     overflow: hidden;
     display: block;
     line-height: 2;
-}
-
-/* ------------------------------------------------------------------------------------------------------------------ */
-
-/* NOTE: Playlist Edit */
-
-/* ------------------------------------------------------------------------------------------------------------------ */
-
-.edit-header {
-    display: grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 1fr 100px;
-}
-
-.edit-header button {
-    height: 45px;
-    color: #000;
-    /* #FFF */
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    /* #333; */
-    background: #ddd;
-    /* #333; */
-    align-self: center;
-    margin-right: 2em;
-    outline: none;
-    font-size: 14px;
-    font-weight: bolder;
-}
-
-.edit-header button:hover {
-    color: #FFF;
-    background: rgb(76, 175, 80);
-    border-color: rgb(76, 175, 80);
-}
-
-.podcast-edit-entry {
-    display: grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 20px 20px 1fr;
-    padding: 2em;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
-}
-
-.podcast-edit-entry:hover {
-    background: #F2F2F2;
-}
-
-.podcast-edit-entry span {
-    align-self: center;
-}
-
-.podcast-edit-entry svg {
-    align-self: center;
-    justify-self: center;
-}
-
-.uncheck svg {
-    fill: #DDD;
-}
-
-.check svg {
-    fill: #448AFF;
-}
-
-/* .podcast-edit-entry img
-{
-    border-radius: 4px;
-    align-self: center;
-    justify-self: center;
-    width: 20px;
-    height: 20px;
-} */
-
-.playlist-edit-input {
-    width: calc(100% - 6em);
-    margin: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
-    outline: none;
-    border-radius: 4px;
-    border: 1px solid #DDD;
-    font-size: 16px;
-    padding: 0.8em;
-
-    background-color: #f2f2f2;/* #eee; */
-}
-
-.delete-playlist-button svg:hover {
-    fill: #E53935 !important;
 }
 
 .show-more-episodes-row {
@@ -626,16 +437,23 @@ h1 {
 .show-more-episodes-button {
     font-weight: bold;
     display: inline-block;
-    padding: 30px;
+    padding: 15px; /* 20px */
     opacity: 0.7;
+
+    margin: 10px;
+    border-radius: 30px;
+    background-color: rgb(var(--right-list-el-color));
+
+    box-shadow: var(--box-shadow);
+    transition: opacity .2s ease-out;
 }
 
 .show-more-episodes-button:hover {
     opacity: 1.0;
 }
 
-.more-episodes-top {
-    border-bottom: 1px solid #EEE;
+.more-episodes-bottom {
+    margin-bottom: 10px;
 }
 
 #info-item-list, .description-header {
@@ -648,45 +466,6 @@ h1 {
 
 #info-item-list strong {
     font-weight: normal;
-}
-
-.border-top {
-    border-top: 1px solid #EEE;
-}
-
-/*
-.description-header-wrapper {
-  display: block;
-  overflow: hidden;
-  transition: max-height 300ms;
-  max-height: 32px; 
-}*/
-
-.select-episode .list-item-icon {
-    fill: #FFF;
-}
-
-/*
-.list-item-row-layout > img {
-    position: relative;
-    bottom: 1px;
-}
-*/
-
-.list-item-row-layout>img {
-    border: .5px solid #ddd;
-}
-
-.select-episode>img {
-    border-color: transparent;
-}
-
-.podcast-entry-header>img {
-    border: .5px solid #ddd;
-}
-
-.grid-layout .podcast-entry-header>img {
-    border: none;
 }
 
 .info-title {
@@ -704,7 +483,7 @@ h1 {
 
 .info-duration {
     font-size: 13px;
-    opacity: 0.7;
+    color: rgba(var(--opaque-text-color));
 }
 
 .info-description {
@@ -713,9 +492,47 @@ h1 {
 
 .info-pubdate {
     font-size: 13px;
-    opacity: 0.7;
+    color: rgba(var(--opaque-text-color));
 }
 
-.header-null {
-    grid-template-rows: 0px 1fr 60px !important;
+.info-download {
+    font-size: 13px;
+    font-weight: bold;
+    color: #006b04; 
+}
+
+.dark-mode .info-download {
+    color: #28b12d;
+}
+
+.download-in-progress .info-download {
+    color: #d06010;
+}
+
+.dark-mode .download-in-progress .info-download {
+    color: #ff8100;
+}
+
+.download-error .info-download {
+    color: #ff1313;
+}
+
+.header-null #content-right-header {
+    display: none;
+}
+
+.header-null #content-right-body #list {
+    margin: 0;
+}
+
+.nothing-to-show {
+    text-align: center; 
+    width: 100%; 
+    display: inline-block; 
+    font-size: 20px;
+}
+
+.nothing-to-show .warning {
+    color: rgba(var(--opaque-text-color));
+    font-size: 15px;
 }

@@ -29,10 +29,6 @@ class ArchiveEpisodesUI extends ListUI {
         this.dataObject.update();
     }
 
-    getShowMoreEpisodesTopHtml() {
-        return $(super.getShowMoreEpisodesTopHtml()).addClass('border-top');
-    }
-
     convertItemIntoInfoItemList(obj) {
         let episode = _(obj);
 
@@ -64,6 +60,9 @@ class ArchiveEpisodesUI extends ListUI {
                 <br>
                 <span class="info-pubdate">
                     ${new Date(episode.pubDate).toLocaleString()}
+                </span>
+                <span class="info-download">
+                    ${this.getDownloadStateButton(episode.episodeUrl)}
                 </span>
                 <br>
                 <br>
@@ -97,14 +96,13 @@ class ArchiveEpisodesUI extends ListUI {
                 });
     }
 
-    convertInfoItemIntoItemList(obj) {
-        if(obj) {
-            let height = obj.offsetHeight;
-            let $obj = $(obj);
+    convertInfoItemIntoItemList($obj) {
+        if($obj.get(0)) {
+            let height = $obj.get(0).offsetHeight;
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
-                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon')) {
+                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                     e.preventDefault();
                     return;
                 }
@@ -128,7 +126,7 @@ class ArchiveEpisodesUI extends ListUI {
                 .css('height', height)
                 .stop()
                 .animate(
-                    {height: '2.86em'}, // 2.7em => 37.7778px
+                    {height: '3.2em'}, 
                     300, 
                     function () {
                         $obj.css('height', '');
@@ -146,27 +144,23 @@ class ArchiveEpisodesUI extends ListUI {
     }
 
     getNewItemList(archiveEpisode) {
-        //let episode = getInfoEpisodeByObj(archiveEpisode);
         let episode = getEpisodeFromArchiveEpisode(archiveEpisode);
 
-        let Artwork = episode.artwork; //getBestArtworkUrl(episode.feedUrl);
+        let artwork = episode.artwork;
         
-        let ListElement = buildListItem(new cListElement (
+        let $listElement = $(buildListItem(
             [
-                getImagePart(Artwork),
+                getImagePart(artwork),
                 getBoldTextPart(episode.episodeTitle),
                 getTextPart(episode.channelName),
-                getProgressionFlagPart(episode.episodeUrl),// getFlagPart('Done', 'white', '#4CAF50'),
-                getDescriptionPart(s_InfoIcon, episode.episodeDescription),
-                getDeleteButtonPart()
+                getProgressionFlagPart(episode.episodeUrl),
+                getDescriptionPart(),
+                getAddToArchiveButtonPart(episode.episodeUrl)
             ],
             "5em 1fr 1fr 6em 5em 5em"
-        ), eLayout.row)
+        ));
 
-        // if (!allFeeds.getPlaybackDoneByEpisodeUrl(episode.episodeUrl))
-        //    $(ListElement).find('.list-item-flag').css('opacity', 0);//ListElement.replaceChild(getIconButtonPart(''), ListElement.children[3]);
-        
-        $(ListElement).click(function(e) {
+        $listElement.click(function(e) {
             if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                 e.preventDefault();
                 return;
@@ -174,22 +168,277 @@ class ArchiveEpisodesUI extends ListUI {
             playerManager.startsPlaying(_(this));
         });
 
-        $(ListElement).data(episode);
-        $(ListElement).attr('url', episode.episodeUrl);
+        $listElement.data(episode);
+        $listElement.attr('url', episode.episodeUrl);
 
-        if (playerManager.isPlaying(episode.episodeUrl))
-            ListElement.classList.add("select-episode")
+        if(this.dataObject.downloadManager.isDownloadInProgress(episode.episodeUrl))
+            $listElement
+                .css('--progress', `${this.dataObject.downloadManager.data[episode.episodeUrl].progress || 0}%`)
+                .addClass("download-in-progress");
         
-        $(ListElement).find('.list-item-description').click(() => {
-            if($(ListElement).is('[info-mode]'))
-                this.convertInfoItemIntoItemList(ListElement)
+        switch(this.dataObject.getStateDownload(episode.episodeUrl)) {
+            case 'in_progress':
+                $listElement.addClass("download-in-progress");
+                break;
+            case 'error':
+                $listElement.addClass("download-error");
+                break;
+            default:
+                break;
+        }
+
+        if(playerManager.isPlaying(episode.episodeUrl))
+            $listElement.addClass("select-episode");
+        
+        $listElement.find('.list-item-description').click(() => {
+            if($listElement.is('[info-mode]'))
+                this.convertInfoItemIntoItemList($listElement);
             else {
-                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]').get(0))
-                this.convertItemIntoInfoItemList(ListElement)
+                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]'));
+                this.convertItemIntoInfoItemList($listElement);
             }
         })
 
-        return ListElement;
+        return $listElement;
+    }
+
+    getAndCleanStatusesByEpisodeUrl(episodeUrl) {
+        let $el = this.getByEpisodeUrl(episodeUrl);
+        if(!this.dataObject.downloadManager.isDownloadInProgress(episodeUrl))
+            $el.removeClass("download-in-progress")
+               .css('--progress', '');
+
+        return $el.removeClass("download-error");
+    }
+
+    setDownloadInProgress(episodeUrl) {
+        let $el = this.getByEpisodeUrl(episodeUrl)
+                        .find('.list-item-icon:not(.list-item-description) svg');
+
+        changeIconButton($el, s_DownloadInProgressIcon, i18n.__('Download in progress'));
+
+        this.getByEpisodeUrl(episodeUrl)
+            .removeClass("download-error")
+            .addClass("download-in-progress")
+            .find(".info-download").html(`<br>${getDownloadInProgressText(episodeUrl)}`);
+    }
+
+    setDownloadCompleted(episodeUrl) {
+        let $el = this.getByEpisodeUrl(episodeUrl)
+            .find('.list-item-icon:not(.list-item-description) svg')
+
+        changeIconButton($el, 
+                         allArchiveEpisodes.ui.isArchivePage() ? s_DeleteIcon : s_RemoveEpisodeIcon, 
+                         i18n.__("Remove from archive"));
+
+        this.setProgress(episodeUrl, 100);
+        setTimeout(() => {
+            this.getAndCleanStatusesByEpisodeUrl(episodeUrl)
+                .find(".info-download").html(`<br>${i18n.__('Download completed')}`);
+        }, 1000);
+    }
+
+    setProgress(episodeUrl, progress) {
+        this.getByEpisodeUrl(episodeUrl)
+            .css('--progress', `${progress}%`)
+            .find(".info-download").html(`<br>${getDownloadInProgressText(episodeUrl, progress)}`);
+    }
+
+    setDownloadError(episodeUrl) {
+        let $el = this.getByEpisodeUrl(episodeUrl)
+                .find('.list-item-icon:not(.list-item-description) svg')
+        
+        changeIconButton($el, s_DownloadErrorIcon, i18n.__('Download error'));
+        
+        this.getAndCleanStatusesByEpisodeUrl(episodeUrl)
+            .addClass("download-error")
+            .find(".info-download").html(`<br>${i18n.__('Download error')}`);
+    }
+
+    setNotDownloadedYet(episodeUrl) {
+        let $el = this.getAndCleanStatusesByEpisodeUrl(episodeUrl)
+                .find('.list-item-icon:not(.list-item-description) svg');
+        
+        changeIconButton($el, s_AddEpisodeIcon, i18n.__("Add to archive"));
+    }
+
+    getDownloadStateButton(episodeUrl) {
+        let label = '';
+        switch(this.dataObject.downloadManager.getStateDownload(episodeUrl)) {
+            case 'completed': 
+                label = i18n.__('Download completed');
+                break;
+            case 'error':
+                label = i18n.__('Download error');
+                break;
+            case 'in_progress':
+                label = getDownloadInProgressText(episodeUrl);
+                break;
+            default:
+                break;
+        }
+        return label ? `<br>${label}` : '';
+    }
+}
+
+class DownloadManager { 
+    constructor(obj) {
+        this.load();
+        this.archive = obj;
+        this.MAX_REDOWNLOADS = 5;
+    }
+
+    load() {
+        if (!fs.existsSync(getDownloadsDirPath()))
+            fs.mkdirSync(getDownloadsDirPath());
+
+        if (!fs.existsSync(getDownloadManagerFilePath()))
+            fs.openSync(getDownloadManagerFilePath(), 'w');
+            
+        let fileContent = ifExistsReadFile(getDownloadManagerFilePath());
+        this.episodes = JSON.parse(fileContent == "" ? "{}": fileContent);
+        this.data = {};
+    }
+
+    update() {
+        fs.writeFileSync(getDownloadManagerFilePath(), JSON.stringify(this.episodes, null, "\t"));
+    }
+    
+    length() {
+        return this.episodes.length;
+    }
+
+    isEmpty() {
+        return (this.length() == 0);
+    }
+
+    getAll() {
+        return this.episodes;
+    }
+
+    getByEpisodeUrl(episodeUrl) {
+        return this.episodes[episodeUrl];
+    }
+    
+    add(episodeUrl) {
+        if(!this.getByEpisodeUrl(episodeUrl)) {
+            this.saveAudioInMemory(episodeUrl);
+            this.update();
+            return episodeUrl;
+        } 
+        return null;
+    }
+    
+    removeByEpisodeUrl(episodeUrl, unlink) {
+        if(unlink)
+            this.deleteAudioInMemory(episodeUrl);
+
+        if(this.getByEpisodeUrl(episodeUrl)) {
+            delete this.episodes[episodeUrl];
+            this.update();
+            return true;
+        }
+        return false;
+    }
+
+    saveAudioInMemory(episodeUrl) {
+        if(this.isDownloadInProgress(episodeUrl))
+            return;
+        else
+            this.data[episodeUrl] = {};
+        
+        this.data[episodeUrl].download = downloadFile(
+            episodeUrl, 
+            getAudioPathFromEpisodeUrl(episodeUrl),
+            (e) => {
+                if(this.archive.checkEpisode(episodeUrl)) {
+                    console.log(e);
+                    if(window.navigator.onLine && this.data[episodeUrl] && this.data[episodeUrl].counter <= this.MAX_REDOWNLOADS) {
+                        delete this.data[episodeUrl].download;
+                        this.saveAudioInMemory(episodeUrl);
+                        this.data[episodeUrl].counter++;
+                    } else
+                        delete this.data[episodeUrl];
+                    this.setDownloadError(episodeUrl);
+                }
+            },
+            () => {
+                if(this.archive.checkEpisode(episodeUrl)) {
+                    this.removeByEpisodeUrl(episodeUrl);
+                    delete this.data[episodeUrl];
+                    this.setDownloadCompleted(episodeUrl);
+                    console.log(`${episodeUrl} - Download completed`);
+                }
+            },
+            (state) => {
+                if(!window.navigator.onLine)
+                    this.setDownloadError(episodeUrl);
+                else if(this.archive.checkEpisode(episodeUrl)) {
+                    let progress = parseInt(state.percent * 100);
+                    console.log(`${episodeUrl} - ${progress}%`);
+                    if(this.isDownloadInProgress(episodeUrl))
+                        this.data[episodeUrl].progress = progress;
+                    this.archive.ui.setProgress(episodeUrl, progress);
+                }
+            }
+        );
+
+        if(!this.data[episodeUrl].counter)
+            this.data[episodeUrl].counter = 1;
+
+        this.archive.ui.setDownloadInProgress(episodeUrl);
+
+        this.setDownloadInProgress(episodeUrl);
+    }
+
+    endDownload(episodeUrl) {
+        if(this.data[episodeUrl]) {
+            this.data[episodeUrl].download.stream.end();
+            this.data[episodeUrl].download.request.abort();
+            delete this.data[episodeUrl];
+        }
+    }
+
+    deleteAudioInMemory(episodeUrl) {
+        try { 
+            this.endDownload(episodeUrl);
+            fs.unlinkSync(getAudioPathFromEpisodeUrl(episodeUrl));
+            console.log(`${episodeUrl} - Successfully deleted`);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    isDownloadInProgress(episodeUrl) { 
+        return (this.data[episodeUrl] && this.data[episodeUrl].download && this.getStateDownload(episodeUrl) === 'in_progress');
+    }
+
+    saveAll() {
+        for(let episodeUrl in this.episodes) 
+            if(this.episodes[episodeUrl] != 'completed')
+                this.saveAudioInMemory(episodeUrl);
+    }
+
+    setDownloadError(episodeUrl) {
+        this.episodes[episodeUrl] = 'error';
+        this.update();
+        this.archive.ui.setDownloadError(episodeUrl);
+    }
+
+    setDownloadInProgress(episodeUrl) {
+        this.episodes[episodeUrl] = 'in_progress';
+        this.update();
+        this.archive.ui.setDownloadInProgress(episodeUrl);
+    }
+
+    setDownloadCompleted(episodeUrl) {
+        this.episodes[episodeUrl] = 'completed';
+        this.update();
+        this.archive.ui.setDownloadCompleted(episodeUrl);
+    }
+
+    getStateDownload(episodeUrl) {
+        return this.episodes[episodeUrl];
     }
 }
 
@@ -197,6 +446,7 @@ class ArchiveEpisodes {
     constructor() {
         this.load();
         this.ui = new ArchiveEpisodesUI(this);
+        this.downloadManager = new DownloadManager(this);
     }
 
     load() {
@@ -251,6 +501,7 @@ class ArchiveEpisodes {
     add(episode) {
         if(this.findByEpisodeUrl(episode.episodeUrl) == -1) {
             this.episodes.unshift(episode);
+            this.downloadManager.add(episode.episodeUrl);
             this.update();
             this.ui.add(episode, 0);
             return episode;
@@ -261,26 +512,56 @@ class ArchiveEpisodes {
     removeByEpisodeUrl(episodeUrl) {
         let i = this.findByEpisodeUrl(episodeUrl);
         if(i != -1) {
+            this.downloadManager.removeByEpisodeUrl(episodeUrl, true);
             this.episodes.splice(i, 1);
             this.update();
             this.ui.removeByEpisodeUrl(episodeUrl);
             return true;
-        }
+        } 
+
         return false;
     }
 
     removePodcastEpisodes(feedUrl) {
         for(let i = this.episodes.length - 1; i >= 0; i--) {
-            if(this.episodes[i].feedUrl == feedUrl)  
+            if(this.episodes[i].feedUrl == feedUrl) {
+                this.downloadManager.removeByEpisodeUrl(this.episodes[i].episodeUrl, true);
                 this.episodes.splice(i, 1);
+            }
         }
         this.update();
     }
 
+    checkEpisode(episodeUrl) {
+        return this.findByEpisodeUrl(episodeUrl) != -1;
+    }
+
+    isNotDownloaded(episodeUrl) {
+        return this.downloadManager.getByEpisodeUrl(episodeUrl) != undefined;
+    }
+
+    getStateDownload(episodeUrl) {
+        return this.downloadManager.getStateDownload(episodeUrl);
+    }
 }
 
 function loadArchiveEpisodes() {
     allArchiveEpisodes = new ArchiveEpisodes();
+}
+
+function getAudioPathFromEpisodeUrl(episodeUrl) {
+    return `${getDownloadsDirPath()}/${episodeUrl.replace(/\/|\%/g, '-')}`;
+}
+
+function getDownloadInProgressText(episodeUrl, progress) {
+    let text = i18n.__('Download in progress');
+    if(!progress) {
+        if(allArchiveEpisodes.downloadManager.isDownloadInProgress(episodeUrl))
+            return `${text} (${allArchiveEpisodes.downloadManager.data[episodeUrl].progress || 0}%)`;
+
+        return text;
+    }
+    return `${text} (${progress}%)`;
 }
 
 function getPodcastFromEpisode(episode) {

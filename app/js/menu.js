@@ -3,10 +3,7 @@ function selectMenuItem(_MenuId) {
     let $menuItem = _MenuId;
 
     clearTextField($('#search-input').get(0));
-    clearTextField($('#new_list-input').get(0));
-
     loseFocusTextField("search-input");
-    loseFocusTextField("new_list-input");
 
     clearMenuSelection();
 
@@ -52,11 +49,8 @@ function showFavoritesPage() {
     for (let i in JsonContent) {
         let Artwork = getBestArtworkUrl(JsonContent[i].feedUrl);
 
-        let ListElement = getPodcastElement("podcast-entry", Artwork, null, JsonContent[i].data.collectionName, s_FullHeart);
+        let ListElement = getPodcastElement(Artwork, JsonContent[i].data.collectionName);
         
-        ListElement.setAttribute('draggable', true);
-        ListElement.addEventListener('dragstart', handleDragStart, false);
-
         let HeaderElement = ListElement.getElementsByClassName('podcast-entry-header')[0]
 
         HeaderElement.getElementsByTagName("img")[0].setAttribute("draggable", false)
@@ -121,25 +115,54 @@ function showStatisticsPage() {
 
     setGridLayout(false);
 
-    let List = document.getElementById("list");
+    let list = document.getElementById("list");
 
-    List.append(getStatisticsElement("statistics-header", "Podcasts", null));
+    list.append(getStatisticsHeaderElement("Podcasts"));
 
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
+    list.append(getStatisticsEntryElement(i18n.__("Favorite Podcasts"), allFavoritePodcasts.length()));
 
     if(!allNewEpisodes.isEmpty()) {
         let channelName = allFavoritePodcasts.getByFeedUrl(allNewEpisodes.get(0).feedUrl).data.collectionName;
-        List.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  channelName));
+        list.append(getStatisticsEntryElement(i18n.__("Last Podcast"),  channelName));
     } else
-        List.append(getStatisticsElement("statistics-entry", i18n.__("Last Podcast"),  "None"));
+        list.append(getStatisticsEntryElement(i18n.__("Last Podcast"),  "None"));
 
-    List.append(getStatisticsElement("statistics-header", i18n.__("Episodes"), null));
+    list.append(getStatisticsHeaderElement(i18n.__("Episodes")));
 
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Archive Items"),  allArchiveEpisodes.length()));
+    list.append(getStatisticsEntryElement(i18n.__("Archive Items"),  allArchiveEpisodes.length()));
     
-    List.append(getStatisticsElement("statistics-entry", i18n.__("New Episodes"),  allNewEpisodes.length()));
+    list.append(getStatisticsEntryElement(i18n.__("New Episodes"),  allNewEpisodes.length()));
+}
 
-    List.append(getStatisticsElement("statistics-header", i18n.__("Playlists"), null));
+function showPage(page) {
+    if(allPreferences.ui.isOpen) {
+        if(page == 'settings')
+            return;
+        
+        allPreferences.ui.exitSettingsUI();
+    }
 
-    List.append(getStatisticsElement("statistics-entry", i18n.__("Playlists"),  allPlaylist.memory.length()));
+    switch(page) {
+        case 'newEpisodes': 
+            showNewEpisodesPage();
+            break;
+        case 'favorites':
+            showFavoritesPage();
+            break;
+        case 'archive': 
+            showArchivePage();
+            break;
+        case 'statistics':
+            showStatisticsPage();
+            break;
+        case 'settings': 
+            allPreferences.ui.openSettingsUI();
+            break;
+        case 'search': 
+            focusTextField("search-input");
+            break;
+        default:
+            
+            break;
+    }
 }

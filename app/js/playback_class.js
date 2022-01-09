@@ -11,7 +11,7 @@ class PlaybackUI extends UI {
     updateDone(episodeUrl) {
         this.getByEpisodeUrl(episodeUrl).find('.list-item-flag')
                                         .css('--percentage', '100%')
-                                        .css('--bk-color1-flag', '#798')
+                                        .css('--flag-color-1', '119, 153, 136')
                                         .html('Done');
     }
 
@@ -20,7 +20,7 @@ class PlaybackUI extends UI {
         if(done)
             return getFlagPart('Done')
                     .css('--percentage', '100%')
-                    .css('--bk-color1-flag', '#798')
+                    .css('--flag-color-1', '119, 153, 136')
                     .get(0);
 
         let duration = this.dataObject.getDuration(episodeUrl);
@@ -183,7 +183,6 @@ class Playback {
         if(!this.data[episodeUrl].duration || duration)
             this.data[episodeUrl].duration = duration;
         this.update();
-        //if(!this.data[episodeUrl].done)
         this.ui.updatePosition(episodeUrl, getPercentage(position, duration));
     }
 

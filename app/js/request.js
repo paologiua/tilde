@@ -1,113 +1,65 @@
+const request = require('request');
+const progress = require('request-progress');
 
-var http  = require('http');
-var https = require('https');
-
-var eRequest = {
-    http: 1,
-    https: 2,
+function makeRequest(url, callback, error) {
+    $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "text",
+        cache: false,
+        success: (data) => {
+            callback(data, url);
+        },
+        error: (e) => {
+            if(error)
+                error(e);
+        }
+    });
 }
 
-function makeRequest(_Options, _FallbackOptions, _Callback, _eRequest)
-{
-    // NOTE: Give the result JSON string to the given _Callback methode
-    // NOTE: The _Callback methode need one argument to catch the JSON result string
-
-    let Req = null;
-
-    switch (_eRequest) {
-        case eRequest.http:
-            Req = http.request(_Options, function (_Res) {
-                let Chunks = [];
-
-                _Res.on("data", function (_Chunk) { 
-                    Chunks.push(_Chunk); 
-                });
-
-                _Res.on("end",  function () { 
-                    _Callback(Buffer.concat(Chunks).toString().trim(), _eRequest, _Options);
-                });
-            });
-            break;
-        case eRequest.https:
-            Req = https.request(_Options, function (_Res) {
-                var Chunks = [];
-
-                _Res.on("data", function (_Chunk) { 
-                    Chunks.push(_Chunk); 
-                });
-
-                _Res.on("end",  function () { 
-                    _Callback(Buffer.concat(Chunks).toString().trim(), _eRequest, _Options) 
-                });
-            });
-            break;
-    }
-
-    // NOTE: In case of any error try the given fallback options (can be proxy settings)
-
-    if (Req != null) {
-        Req.on('error', function (_Error) {
-            console.log('Problem with request: ' + _Error.message);
-
-            if (_FallbackOptions != null) {
-                console.log('Use fallback options: ' + _FallbackOptions);
-                makeRequest(_FallbackOptions, null, _Callback, _eRequest);
+function downloadFile(url, path, error, end, _progress) {
+    let stream = fs.createWriteStream(path);
+    let _request = request({
+        url: url,
+        method: 'GET',
+        agentOptions: {
+            rejectUnauthorized: false,
+            timeout: 5000
+        }}/* , (e) => {
+            if(!(e instanceof Error))
+                success();
+        } */)
+        progress(_request).on('progress', (state) => {
+            //console.log(state);
+            if(_progress)
+                _progress(state);
+            /*
+            {
+                percentage: 0.5,        // Overall percentage (between 0 to 1)
+                speed: 554732,          // The download speed in bytes/sec
+                size: {
+                    total: 90044871,      // The total payload size in bytes
+                    transferred: 27610959 // The transferred payload size in bytes
+                },
+                time: {
+                    elapsed: 36.235,      // The total elapsed seconds since the start (3 decimals)
+                    remaining: 81.403     // The remaining seconds to finish (3 decimals)
+                }
             }
+            */
+        
+        }).on('error', function (e) {
+            if(error)
+                error(e);
+        }).on('end', () => {
+            if(end)
+                end();
+        }).pipe(stream);
 
-            let feedUrl = (_Options instanceof Object ? _Options.path: _Options);
-            if(allFeeds.lastFeedUrlToReload == feedUrl)
-                setTimeout(() => {
-                    $('#menu-refresh svg').removeClass('is-refreshing');
-                    $('#menu-refresh').click(readFeeds);
-                }, 2000);  
-        });
+        let download = {
+            'stream': stream,
+            'request': _request
+        }
 
-        Req.end();
-    }
-}
-
-function makeFeedRequest(_Feed, _Callback) {
-    if (_Feed instanceof Object) {
-        makeRequest(_Feed, null, _Callback, eRequest.http);
-        return;
-    }
-
-    if (_Feed.includes("https")) 
-        makeRequest(_Feed, getFeedProxyOptions(_Feed), _Callback, eRequest.https);
-    else 
-        makeRequest(_Feed, getFeedProxyOptions(_Feed), _Callback, eRequest.http);
-    
-}
-
-function getITunesOptions(_SearchTerm) {
-    var Options = {
-        method: 'GET',
-        host: 'itunes.apple.com',
-        port: 443,
-        path: '/search?term=' + _SearchTerm + '&media=podcast'
-    };
-
-    return Options;
-}
-
-function getITunesProxyOptions(_SearchTerm) {
-    var Options = {
-        method: 'GET',
-        host: 'proxy',
-        port: 8080,
-        path: 'http://itunes.apple.com/search?term=' + _SearchTerm + '&media=podcast'
-    };
-
-    return Options;
-}
-
-function getFeedProxyOptions(_Url) {
-    let Options = {
-        method: 'GET',
-        host: 'proxy',
-        port: 8080,
-        path: _Url
-    };
-
-    return Options;
+    return download;
 }

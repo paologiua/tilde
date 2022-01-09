@@ -29,18 +29,18 @@ function enableOpenLinkInDefaultBrowser() {
  */
 
 function initLink() {
-    $('#menu-episodes').click(showNewEpisodesPage)
-    $('#menu-favorites').click(showFavoritesPage)
+    $('#menu-episodes').click(() => showPage('newEpisodes'))
+    $('#menu-favorites').click(() => showPage('favorites'))
     $('#menu-refresh').click(readFeeds)
-    $('#menu-archive').click(showArchivePage)
-    $('#menu-statistics').click(showStatisticsPage)
-    $('#new_list-button').click(createNewPlaylist)
+    $('#menu-settings').click(() => showPage('settings'))
+    $('#menu-archive').click(() => showPage('archive'))
+    $('#menu-statistics').click(() => showPage('statistics'))
 }
 
 /*
  *  Input
  */
-
+/* 
 function matchText(e) {
     var char = String.fromCharCode(e.which)
     if (char.match(/^[^A-Za-z0-9+!?#\.\-]+$/)) 
@@ -52,23 +52,33 @@ function matchTextSearch(e) {
     if (char.match(/^[^A-Za-z0-9+!?#\.\-\ ']+$/)) 
         e.preventDefault();
 }
-
+ */
 function initInput() {
-    $('input').not('#search-input').keypress(function (e) {
+    /* $('input').not('#search-input').keypress(function (e) {
         matchText(e)
     })
     
     $('#search-input').keypress(function (e) {
         matchTextSearch(e)
-    })
+    }) */
 
     $('#search-input').keyup(function (e) {
+        if(this.value == '')
+            $("#bar-search").removeClass("search-animation");
+        else
+            $("#bar-search").addClass("search-animation");   
         search(this, e);
     })
-
-    $('#new_list-input').keyup(function (e) {
-        inputNewPlaylist(this, e);
+    .focusout(function (e) {
+        setTimeout(() => {
+            $("#bar-search").removeClass("search-animation");
+        }, 500);
     })
+    .focusin(function (e) {
+        if(this.value != '')
+            $("#bar-search").addClass("search-animation");
+    })
+    
 }
 
 function _(obj) {

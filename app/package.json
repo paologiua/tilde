@@ -2,12 +2,14 @@
     "main": "main.js",
     "description": "Podcast client to listen to all you favorite podcasts",
     "name": "tilde-podcast",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "license": "MIT",
     "author": "paologiuaa <paologiuaa@gmail.com>",
-    "homepage": "https://github.com/paologiua/TildePodcastPlayer",
+    "homepage": "https://github.com/paologiua/tilde",
     "scripts": {
         "start": "npm install && electron main.js",
+        "tilde": "electron main.js",
+        "tilde-beta": "electron main.js dev",
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
@@ -53,6 +55,8 @@
     },
     "dependencies": {
         "custom-electron-titlebar": "^3.2.5",
-        "jquery": "^3.5.1"
+        "jquery": "^3.5.1",
+        "request": "^2.88.2",
+        "request-progress": "^3.0.0"
     }
 }

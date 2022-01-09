@@ -14,7 +14,7 @@ function xmlParser(xml, feedUrl, artwork) {
     else {
 		artworkUrl = channel.getElementsByTagName("image")[0];
 		if(artworkUrl) {
-			artworkUrl = artworkUrl.getElementsByTagName("url")[0]
+			artworkUrl = artworkUrl.getElementsByTagName("url")[0];
 			if(artworkUrl)
 				artworkUrl = artworkUrl.textContent;
 		}

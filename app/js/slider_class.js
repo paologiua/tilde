@@ -46,7 +46,7 @@ class Slider {
     }
 
     updateProgress() {
-        this.$el.css("background", "linear-gradient(to right, #448AFF 0%, #448AFF " + this.value + "%, var(--theme-slider) " + this.value + "%, var(--theme-slider) 100%)");
+        this.$el.css("--progress-slider", `${this.value}%`);
     }
 
     getValue() {

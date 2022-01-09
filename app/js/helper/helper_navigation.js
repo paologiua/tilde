@@ -3,12 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 function setItemCounts() {
-    $('#menu-episodes .menu-count').html(allNewEpisodes.length());
+    $('#menu-episodes .menu-count').html(allNewEpisodes.length() > allNewEpisodes.ui.bufferSize ? 
+                                            allNewEpisodes.ui.bufferSize : allNewEpisodes.length());
     $('#menu-favorites .menu-count').html(allFavoritePodcasts.length());
 }
 
-function setGridLayout(_Enable) {
-    if (_Enable)
+function setGridLayout(enable) {
+    if (enable)
         $('#list').addClass("grid-layout");
     else
         $('#list').removeClass("grid-layout");
@@ -59,17 +60,9 @@ function toggleList(_View) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// MENU & PLAYLISTS
+// MENU
 // ---------------------------------------------------------------------------------------------------------------------
 
 function clearMenuSelection() {
-    $('#menu li, #playlists li').removeClass('selected');
-}
-
-function addToPlaylist(_PlaylistName, _PodcastFeedUrl) {
-    allPlaylist.memory.addPodcastByFeedUrl(_PlaylistName, _PodcastFeedUrl);
-}
-
-function removeFromPlaylist(_PlaylistName, _PodcastFeedUrl) {
-    allPlaylist.memory.removePodcastByFeedUrl(_PlaylistName, _PodcastFeedUrl);
+    $('#menu li').removeClass('selected');
 }

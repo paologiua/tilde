@@ -55,6 +55,9 @@ function urlify(text) {
 }
 
 function getInfoFromDescription(episodeDescription) {
+    episodeDescription = episodeDescription.replaceAll('\n<br>', '<br>')
+                                           .replaceAll('<br>\n', '<br>')
+                                           .replaceAll('\n', '<br>');
     return (episodeDescription.indexOf('</a>') == -1 ? urlify(episodeDescription) : episodeDescription);
 }
 
@@ -71,46 +74,50 @@ function getDurationFromDurationKey(episode) {
     return duration;
 }
 
-function readFeeds() {
-    $('#menu-refresh svg').addClass('is-refreshing');
+function setRefreshingStateUI() {
+    $('#menu-refresh').addClass('is-refreshing');
     $('#menu-refresh').off('click');
+}
+
+function unsetRefreshingStateUI() {
+    setTimeout(() => {
+        $('#menu-refresh').removeClass('is-refreshing');
+        $('#menu-refresh').click(readFeeds);
+    }, 2000); 
+}
+
+function readFeeds() {
+    setRefreshingStateUI();
 
     if(!allFavoritePodcasts.isEmpty()) {
         let podcasts = allFavoritePodcasts.getAll();
         for (let i in podcasts) {
             allFeeds.lastFeedUrlToReload = podcasts[i].feedUrl;
-            readFeedByFeedUrl(podcasts[i].feedUrl);
+            readFeedByFeedUrl(podcasts[i].feedUrl, (i == podcasts.length - 1));
         }
     } else
-        setTimeout(() => {
-            $('#menu-refresh svg').removeClass('is-refreshing');
-            $('#menu-refresh').click(readFeeds);
-        }, 2000); 
+        unsetRefreshingStateUI();
+    allArchiveEpisodes.downloadManager.saveAll();
 }
 
-function readFeedByFeedUrl(feedUrl) {
-    if (isProxySet()) 
-        makeFeedRequest(getFeedProxyOptions(feedUrl), updateFeed);
-    else 
-        makeFeedRequest(feedUrl, updateFeed);
+function readFeedByFeedUrl(feedUrl, forceUnsetRefreshing) {
+    makeRequest(feedUrl, updateFeed, (jqXHR) => {
+        // ERR_INTERNET_DISCONNECTED
+        if(jqXHR.status == 0 || forceUnsetRefreshing) 
+            unsetRefreshingStateUI();
+    });
 }
 
-function updateFeed(_Content, _eRequest, _Options) {
-    let FeedUrl = (_Options instanceof Object ? _Options.path: _Options);
+function updateFeed(_Content, FeedUrl) {
     allFeeds.initFeed(FeedUrl)
 
-    if (isContent302NotFound(_Content))
-        makeFeedRequest(getChangedFeed(_Options, _eRequest), updateFeed);
-    else {
-        if (_Content.includes("<html>")) {
-            // Nothing
-        } else  {
-            xmlParserWorker.postMessage({
-                xml: _Content,
-                feedUrl: FeedUrl,
-                artwork: getBestArtworkUrl(FeedUrl)
-            })
-        }
+    if (isContent302NotFound(_Content)) {
+        allFeeds.ui.showNothingToShow(FeedUrl);
+    } else {
+        if (_Content.includes("<html>")) 
+            allFeeds.ui.showNothingToShow(FeedUrl);
+        else 
+            processEpisodes(_Content, FeedUrl);
     }
 }
 
@@ -135,10 +142,7 @@ xmlParserWorker.onmessage = function(ev) {
     })
 
     if(allFeeds.lastFeedUrlToReload == feedUrl)
-        setTimeout(() => {
-            $('#menu-refresh svg').removeClass('is-refreshing');
-            $('#menu-refresh').click(readFeeds);
-        }, 2000);  
+        unsetRefreshingStateUI();
 }
 
 updateFeedWorker.onmessage = function(ev) {
@@ -180,7 +184,6 @@ function addEpisodesFromTheLastWeek(feedUrl, feed) {
                 allNewEpisodes.add(episode);
             else 
                 return;
-            
         }
     }
 }
@@ -204,76 +207,44 @@ function showAllEpisodes(obj) {
 }
 
 function getAllEpisodesFromFeed(podcast) {
-    let _Feed = podcast.feedUrl;
+    let feedUrl = podcast.feedUrl;
 
     allFeeds.ui.showHeader(podcast);
 
-    let feed = allFeeds.getFeedPodcast(_Feed);
+    let feed = allFeeds.getFeedPodcast(feedUrl);
     allFeeds.ui.showLastNFeedElements(feed);
-
-    if (isProxySet()) {
-        if (_Feed instanceof Object)
-            makeFeedRequest(_Feed, checkContent);
-        else
-            makeFeedRequest(getFeedProxyOptions(_Feed), checkContent);
-    } else {
-        makeFeedRequest(_Feed, checkContent);
-    }
-}
-
-function checkContent(_Content, _eRequest, _Options) {
-    if (isContent302NotFound(_Content)) {
-        clearBody();
-        getAllEpisodesFromFeed(getChangedFeed(_Options, _eRequest));
-    } else {
-        processEpisodes(_Content, _Options);
-    }
+    
+    makeRequest(feedUrl, processEpisodes, () => {
+        allFeeds.ui.showNothingToShow(feedUrl);
+    });
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 // NOTE: Helper to clear corrupt feeds
 
-function isContent302NotFound(_Content) {
-    return (_Content == "" || _Content.includes("302 Found"));
-}
-
-function getChangedFeed(_Feed, _eRequest) {
-    if (_Feed instanceof Object) {
-        let Path = _Feed.path.toString()
-
-        if      (Path.includes("http" )) { _Feed.path = Path.replace("http", "https") }
-        else if (Path.includes("https")) { _Feed.path = Path.replace("https", "http") }
-    } else {
-        switch (_eRequest) {
-            case eRequest.https: _Feed = _Feed.replace("https", "http"); break;
-            case eRequest.http:  _Feed = _Feed.replace("http", "https"); break;
-            default: break;
-        }
-    }
-
-    return _Feed;
+function isContent302NotFound(content) {
+    return (content == "" || content.includes("302 Found"));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function processEpisodes(_Content, _Options) {
-    let feedUrl = (_Options instanceof Object ? _Options.path: _Options);
+function processEpisodes(content, feedUrl) {
     xmlParserWorker.postMessage({
-        xml: _Content,
+        xml: content,
         feedUrl: feedUrl,
         artwork: getBestArtworkUrl(feedUrl)
     });
 }
 
-function addToArchive(_Self) {
-    let ListElement = _Self.parentElement.parentElement;
-
-    allArchiveEpisodes.add(_(ListElement));
+function addToArchive(self) {
+    let listElement = self.parentElement.parentElement;
+    
+    allArchiveEpisodes.add(_(listElement));
 
 }
 
-function removeFromArchive(_Self) {
-    let ListElement = _Self.parentElement.parentElement;
+function removeFromArchive(self) {
+    let listElement = self.parentElement.parentElement;
 
-    allArchiveEpisodes.removeByEpisodeUrl(_(ListElement).episodeUrl);
+    allArchiveEpisodes.removeByEpisodeUrl(_(listElement).episodeUrl);
 }

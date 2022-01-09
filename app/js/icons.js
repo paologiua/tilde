@@ -37,16 +37,6 @@ const s_DeleteIcon =
 </svg>
 `
 
-/*
-const s_AddEpisodeIcon =
-`
-<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 0h24v24H0z" fill="none"/>
-    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
-</svg>
-`
-*/
-
 const s_AddEpisodeIcon =
 `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -63,19 +53,9 @@ const s_RemoveEpisodeIcon =
 </svg>
 `
 
-/*
-const s_RemoveEpisodeIcon =
-`
-<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-    <path d="M0 0h24v24H0z" fill="none"/>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
-</svg>
-`
-*/
-
 const s_MoreOptionIcon =
 `
-<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 0h24v24H0z" fill="none"/>
     <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 </svg>
@@ -121,16 +101,6 @@ const s_CheckBoxOutline =
 </svg>
 `
 
-/*
-const s_GridView =
-`
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="24px" height="24px">
-    <path d="M0 0h24v24H0z" fill="none"/>
-    <path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4v-4h4v4zm0-6H4v-4h4v4zm0-6H4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4z"/>
-</svg>
-`
-*/
-
 const s_GridView =
 `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -149,7 +119,7 @@ const s_ListView =
 
 const s_InfoIcon =
 `
-<svg fill="#fffff" style="isolation:isolate" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28px" height="28px">
+<svg style="isolation:isolate" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28px" height="28px">
     <path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"/>
 </svg>
 `
@@ -158,7 +128,7 @@ const s_SearchNothingFoundIcon =
 `
 <svg viewBox="0 0 100 100" fill="white" width="80px" height="80px" class="dNWARe">
     <circle cx="50%" cy="50%" r="50" fill="#BDC1C6" width="100%" height="100%"></circle>
-    <path d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z" transform="translate(25 25)"></path>
+    <path fill="#ffffff" d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z" transform="translate(25 25)"></path>
     <path d="M0 0h48v48H0z" fill="none"></path>
 </svg>
 `
@@ -333,5 +303,83 @@ const s_FavoritesNothingFoundIcon =
             <path d="M2,24v-22h44v22z" fill="none" stroke-width="1" />
         </g>
     </g>
+</svg>
+`
+
+const s_FeedNothingFoundIcon = 
+`
+<svg viewBox="0 0 100 100" fill="white" width="80px" height="80px" class="dNWARe" version="1.1" id="svg8" 
+    sodipodi:docname="nothing_found.svg" inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)" 
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" 
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" 
+    xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs12" />
+  <sodipodi:namedview id="namedview10" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" showgrid="false" inkscape:zoom="2.9" inkscape:cx="67.241379"
+     inkscape:cy="37.586207" inkscape:window-width="1366" inkscape:window-height="699" inkscape:window-x="0"
+     inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg8" />
+  <circle cx="50%" cy="50%" r="50" fill="#BDC1C6" width="100%" height="100%" id="circle2" />
+  <path d="M0 0h48v48H0z" fill="none" id="path6" />
+  <g style="fill:#ffffff;fill-opacity:1" id="g841" transform="matrix(1.75,0,0,1.75,-21.78765,0.066809)">
+    <path d="m 49.021514,18.533252 h -16 c -1.1,0 -1.99,0.9 -1.99,2 l -0.01,18 4,-4 h 14 c 1.1,0 2,-0.9 2,-2 v -12 c 0,-1.1 -0.9,-2 -2,-2 z m 0,14 h -14.83 l -0.59,0.59 -0.58,0.58 v -13.17 h 16 z m -9,-4 h 2 v 2 h -2 z m 0,-6 h 2 v 4 h -2 z"
+       id="path831" style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>
+`
+
+const s_VolumeMaxIcon = 
+`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path fill="#ffffff" d="M12.43,4.1a1,1,0,0,0-1,.12L6.65,8H3A1,1,0,0,0,2,9v6a1,1,0,0,0,1,1H6.65l4.73,3.78A1,1,0,0,0,12,20a.91.91,0,0,0,.43-.1A1,1,0,0,0,13,19V5A1,1,0,0,0,12.43,4.1ZM11,16.92l-3.38-2.7A1,1,0,0,0,7,14H4V10H7a1,1,0,0,0,.62-.22L11,7.08ZM15.14,4.09a1,1,0,1,0-.28,2,6,6,0,0,1,0,11.86,1,1,0,0,0,.14,2h.14a8,8,0,0,0,0-15.82Zm-.46,9.78a1,1,0,0,0,.32,2,1.13,1.13,0,0,0,.32-.05,4,4,0,0,0,0-7.54,1,1,0,0,0-.64,1.9,2,2,0,0,1,0,3.74Z"/>
+</svg>
+`
+
+const s_Volume70Icon = 
+`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path fill="#ffffff" d="M12.43,4.1a1,1,0,0,0-1,.12L6.65,8H3A1,1,0,0,0,2,9v6a1,1,0,0,0,1,1H6.65l4.73,3.78A1,1,0,0,0,12,20a.91.91,0,0,0,.43-.1A1,1,0,0,0,13,19V5A1,1,0,0,0,12.43,4.1ZM11,16.92l-3.38-2.7A1,1,0,0,0,7,14H4V10H7a1,1,0,0,0,.62-.22L11,7.08ZM19.66,6.34a1,1,0,0,0-1.42,1.42,6,6,0,0,1-.38,8.84,1,1,0,0,0,.64,1.76,1,1,0,0,0,.64-.23,8,8,0,0,0,.52-11.79ZM16.83,9.17a1,1,0,1,0-1.42,1.42A2,2,0,0,1,16,12a2,2,0,0,1-.71,1.53,1,1,0,0,0-.13,1.41,1,1,0,0,0,1.41.12A4,4,0,0,0,18,12,4.06,4.06,0,0,0,16.83,9.17Z">
+</svg>
+`
+
+const s_Volume40Icon = 
+`
+<svg viewBox="0 0 24 24" version="1.1" id="svg4" inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs8" />
+  <path fill="#ffffff" d="m 12.43,4.1 c -0.330616,-0.1430349 -0.712612,-0.097195 -1,0.12 L 6.65,8 H 3 C 2.4477153,8 2,8.4477153 2,9 v 6 c 0,0.552285 0.4477153,1 1,1 h 3.65 l 4.73,3.78 c 0.175939,0.141161 0.394436,0.218692 0.62,0.22 0.149369,0.0025 0.297048,-0.03188 0.43,-0.1 C 12.777284,19.734597 12.998911,19.384659 13,19 V 5 C 12.998911,4.6153406 12.777284,4.2654027 12.43,4.1 Z M 11,16.92 7.62,14.22 C 7.4440607,14.078839 7.2255642,14.001308 7,14 H 4 V 10 H 7 C 7.2255642,9.9986916 7.4440607,9.9211606 7.62,9.78 L 11,7.08 Z m 5.83,-7.75 c -0.946666,-0.9466663 -2.366666,0.4733337 -1.42,1.42 0.375588,0.37335 0.587767,0.880423 0.59,1.41 4.82e-4,0.589735 -0.259334,1.149621 -0.71,1.53 -0.425921,0.353113 -0.484177,0.984963 -0.13,1.41 0.356052,0.42283 0.987616,0.47658 1.41,0.12 C 17.47506,14.301145 17.998481,13.181098 18,12 17.994351,10.94011 17.57445,9.9244495 16.83,9.17 Z" id="path2" sodipodi:nodetypes="cccsssscccccccccccccccccccccccc"/>
+</svg>
+`
+
+const s_VolumeMinIcon = 
+`
+<svg viewBox="0 0 24 24" version="1.1" id="svg4" inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs8" />
+  <path fill="#ffffff" d="m 12.43,4.1 c -0.330616,-0.1430349 -0.712612,-0.097195 -1,0.12 L 6.65,8 H 3 C 2.4477153,8 2,8.4477153 2,9 v 6 c 0,0.552285 0.4477153,1 1,1 h 3.65 l 4.73,3.78 c 0.175939,0.141161 0.394436,0.218692 0.62,0.22 0.149369,0.0025 0.297048,-0.03188 0.43,-0.1 C 12.777284,19.734597 12.998911,19.384659 13,19 V 5 C 12.998911,4.6153406 12.777284,4.2654027 12.43,4.1 Z M 11,16.92 7.62,14.22 C 7.4440607,14.078839 7.2255642,14.001308 7,14 H 4 V 10 H 7 C 7.2255642,9.9986916 7.4440607,9.9211606 7.62,9.78 L 11,7.08 Z" id="path2" sodipodi:nodetypes="cccsssscccccccccccccccc"/>
+</svg>
+`
+
+const s_VolumeMuteIcon = 
+`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path fill="#ffffff" d="M12.43,4.1a1,1,0,0,0-1,.12L6.65,8H3A1,1,0,0,0,2,9v6a1,1,0,0,0,1,1H6.65l4.73,3.78A1,1,0,0,0,12,20a.91.91,0,0,0,.43-.1A1,1,0,0,0,13,19V5A1,1,0,0,0,12.43,4.1ZM11,16.92l-3.38-2.7A1,1,0,0,0,7,14H4V10H7a1,1,0,0,0,.62-.22L11,7.08ZM19.91,12l1.8-1.79a1,1,0,0,0-1.42-1.42l-1.79,1.8-1.79-1.8a1,1,0,0,0-1.42,1.42L17.09,12l-1.8,1.79a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l1.79-1.8,1.79,1.8a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
+</svg>
+`
+
+const s_DownloadInProgressIcon = 
+`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">  
+    <path class="default-icon download-in-progress-icon"
+        d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+    <path class="hover-icon"
+        d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
+</svg>
+`
+
+const s_DownloadErrorIcon = 
+`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+    <path class="default-icon"
+        d="M3 12c0 2.21.91 4.2 2.36 5.64L3 20h6v-6l-2.24 2.24C5.68 15.15 5 13.66 5 12c0-2.61 1.67-4.83 4-5.65V4.26C5.55 5.15 3 8.27 3 12zm8 5h2v-2h-2v2zM21 4h-6v6l2.24-2.24C18.32 8.85 19 10.34 19 12c0 2.61-1.67 4.83-4 5.65v2.09c3.45-.89 6-4.01 6-7.74 0-2.21-.91-4.2-2.36-5.64L21 4zm-10 9h2V7h-2v6z"/>
+    <path class="hover-icon"
+        d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
 </svg>
 `

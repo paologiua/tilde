@@ -5,20 +5,14 @@ class NewEpisodesUI extends ListUI {
     showNothingToShow() {
         if(this.isNewEpisodesPage()) 
             super.showNothingToShow(s_NewEpisodesNothingFoundIcon, 'new_episodes-nothing-to-show');
-        else if(this.isPlaylistPage())
-            super.showNothingToShow(s_PlaylistNothingFoundIcon, 'playlist-nothing-to-show');
     }
 
     isNewEpisodesPage() {
         return (this.getPageType() == 'newEpisodes');
     }
 
-    isPlaylistPage() {
-        return (this.getPageType() == 'playlist');
-    }
-
     add(episode, i) {
-        if(this.isNewEpisodesPage() || this.isPlaylistPage())
+        if(this.isNewEpisodesPage())
             super.add(episode, i);
 
         setItemCounts();
@@ -28,28 +22,11 @@ class NewEpisodesUI extends ListUI {
     directAdd(episode, i, forceOriginalDirectAdd) {
         if(this.isNewEpisodesPage() || forceOriginalDirectAdd)
             super.directAdd(episode, i);
-        else if(this.isPlaylistPage())
-            this.addPlaylist(episode);
-    }
-    
-    addPlaylist(episode) {
-        let playlistName = getHeader();
-        let indexPlaylist = allPlaylist.memory.findByName(playlistName);
-        let feedUrl = episode.feedUrl;
-        if(allPlaylist.memory.findPodcast(indexPlaylist, feedUrl) == -1)
-            return;
-
-        let playlistEpisodes = this.dataObject.getPlaylistEpisodes(playlistName);
-        for(let j in playlistEpisodes)
-            if(playlistEpisodes[j].episodeUrl == episode.episodeUrl) {
-                this.directAdd(episode, j - this.firstEpisodeDisplayed, true);
-                return;
-            }
     }
 
     removeByEpisodeUrl(episodeUrl) {
-        if(this.isNewEpisodesPage() || this.isPlaylistPage()) 
-            super.removeByEpisodeUrl(episodeUrl);
+        if(this.isNewEpisodesPage()) 
+            super.removeByEpisodeUrl(episodeUrl, this.dataObject.getAll());
 
         setItemCounts();
     }
@@ -60,7 +37,7 @@ class NewEpisodesUI extends ListUI {
 
         let $list = this.getList();
         let epShownCounter = 0;
-        for (let i in this.dataObject.episodes) {
+        for(let i in this.dataObject.episodes) {
             let episode = this.dataObject.get(i);
             if(!checkDateIsInTheLastWeek(episode))
                 this.dataObject.removeByEpisodeUrl(episode.episodeUrl);
@@ -78,7 +55,10 @@ class NewEpisodesUI extends ListUI {
         
         this.appendShowMoreEpisodesButton();
         this.prependShowMoreEpisodesButton();
-
+/* 
+        if(this.bufferSize < this.dataObject.length())
+            this.getShowMoreEpisodesBottomElement().show();
+ */
         setScrollPositionOnTop();
     }
 
@@ -114,6 +94,9 @@ class NewEpisodesUI extends ListUI {
                 <span class="info-pubdate">
                     ${new Date(episode.pubDate).toLocaleString()}
                 </span>
+                <span class="info-download">
+                    ${allArchiveEpisodes.ui.getDownloadStateButton(episode.episodeUrl)}
+                </span>
                 <br>
                 <br>
             </span>`
@@ -146,14 +129,13 @@ class NewEpisodesUI extends ListUI {
                 });
     }
 
-    convertInfoItemIntoItemList(obj) {
-        if(obj) {
-            let height = obj.offsetHeight;
-            let $obj = $(obj);
+    convertInfoItemIntoItemList($obj) {
+        if($obj.get(0)) {
+            let height = $obj.get(0).offsetHeight;
             $obj.removeAttr('info-mode');
 
             $obj.click(function(e) {
-                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon')) {
+                if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                     e.preventDefault();
                     return;
                 }
@@ -176,7 +158,7 @@ class NewEpisodesUI extends ListUI {
                 .css('height', height)
                 .stop()
                 .animate(
-                    {height: '2.86em'}, // 2.7em => 37.7778px
+                    {height: '3.2em'}, //2.86em
                     300, 
                     function () {
                         $obj.css('height', '');
@@ -197,23 +179,23 @@ class NewEpisodesUI extends ListUI {
     getNewItemList(newEpisode) {
         let episode = getInfoEpisodeByObj(newEpisode);
 
-        let Artwork = episode.artwork;
+        let artwork = episode.artwork;
         let duration = getDurationFromDurationKey(episode);
         
-        let ListElement = buildListItem(new cListElement (
+        let $listElement = $(buildListItem(
             [
-                getImagePart(Artwork),
+                getImagePart(artwork),
                 getBoldTextPart(episode.episodeTitle),
                 getSubTextPart(duration),
                 getTextPart(episode.channelName),
                 getProgressionFlagPart(episode.episodeUrl),
-                getDescriptionPart(s_InfoIcon, episode.episodeDescription),
-                getAddEpisodeButtonPart(allArchiveEpisodes.findByEpisodeUrl(episode.episodeUrl) != -1 ? 'remove' : 'add')
+                getDescriptionPart(),
+                getAddToArchiveButtonPart(episode.episodeUrl)
             ],
             "5em 1fr 6em 1fr 6em 5em 5em"
-        ), eLayout.row)
+        ));
 
-        $(ListElement).click(function(e) {
+        $listElement.click(function(e) {
             if($(e.target).is('svg') || $(e.target).is('path') || $(e.target).hasClass('list-item-icon') || $(e.target).hasClass('list-item-text')) {
                 e.preventDefault();
                 return;
@@ -221,22 +203,38 @@ class NewEpisodesUI extends ListUI {
             playerManager.startsPlaying(_(this));
         });
 
-        $(ListElement).data(episode);
-        $(ListElement).attr('url', episode.episodeUrl);
+        $listElement.data(episode);
+        $listElement.attr('url', episode.episodeUrl);
+
+        if(allArchiveEpisodes.downloadManager.isDownloadInProgress(episode.episodeUrl))
+            $listElement
+                .css('--progress', `${allArchiveEpisodes.downloadManager.data[episode.episodeUrl].progress || 0}%`)
+                .addClass("download-in-progress");
+
+        switch(allArchiveEpisodes.getStateDownload(episode.episodeUrl)) {
+            case 'in_progress':
+                $listElement.addClass("download-in-progress");
+                break;
+            case 'error':
+                $listElement.addClass("download-error");
+                break;
+            default:
+                break;
+        }
         
-        if (playerManager.isPlaying(episode.episodeUrl))
-            ListElement.classList.add("select-episode")
+        if(playerManager.isPlaying(episode.episodeUrl))
+            $listElement.addClass("select-episode")
         
-        $(ListElement).find('.list-item-description').click(() => {
-            if($(ListElement).is('[info-mode]'))
-                this.convertInfoItemIntoItemList(ListElement)
+        $listElement.find('.list-item-description').click(() => {
+            if($listElement.is('[info-mode]'))
+                this.convertInfoItemIntoItemList($listElement);
             else {
-                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]').get(0))
-                this.convertItemIntoInfoItemList(ListElement)
+                this.convertInfoItemIntoItemList(this.getAllItemsList().filter('[info-mode]'));
+                this.convertItemIntoInfoItemList($listElement);
             }
         })
 
-        return ListElement;
+        return $listElement;
     }
 }
 
@@ -326,19 +324,6 @@ class NewEpisodes {
         }
         this.update();
     }
-
-    getPlaylistEpisodes(playlistName) {
-        let episodes = [];
-        let playlist = allPlaylist.memory.getByName(playlistName);
-        if(playlist == undefined)
-            return episodes;
-
-        for(let i in this.episodes)
-            if(playlist.list.includes(this.episodes[i].feedUrl))
-                episodes.push(this.episodes[i]);
-        return episodes;
-    }
-
 }
 
 function loadNewEpisodes() {

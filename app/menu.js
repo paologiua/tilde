@@ -1,25 +1,13 @@
 const { app, Menu } = require('electron').remote
-const { webFrame } = require('electron')
+/* const { webFrame } = require('electron') */
 
 const template =
-[
-	/*
-    {
-        label: i18n.__('Edit'),
-        submenu:
-        [
-            {role: 'cut', label: i18n.__('Cut')},
-            {role: 'copy', label: i18n.__('Copy')},
-            {role: 'paste', label: i18n.__('Paste')}
-        ]
-    },
-    */
-    {
+[/* 
+	{
         label: i18n.__('View'),
         submenu:
         [
             {role: 'reload', label: i18n.__('Reload')},
-            // {role: 'forcereload'},
             {type: 'separator'},
             {role: 'resetzoom', label: i18n.__('Reset Zoom')},
             {role: 'zoomin', label: i18n.__('Zoom In'), accelerator: "CommandOrControl+="},
@@ -32,40 +20,35 @@ const template =
                 checked: getPreference('darkmode'),
                 click() { 
                     changeThemeMode()
-                    darkMode()
+                    updateUITheme()
                 }
             },
             {role: 'togglefullscreen', label: i18n.__('Toggle Full Screen')}
         ]
-    },
+    }, */
     {
         label: i18n.__('Player'),
         submenu:
         [
             {
                 label: i18n.__('Play/Pause'),
-                accelerator: "Space",
+                accelerator: "CommandOrControl+Space",
                 click()
                 {
-                    // NOTE: if focus is not in any input field (search, playlist)
-                    if (document.activeElement.type == undefined)
-                    {
-                        // console.log(document.activeElement);
-                        // console.log(document.activeElement.type);
-                        // console.log(Object.prototype.toString.call(document.activeElement));
-                        playerManager.togglePlayPause("play-pause")
+                    if (document.activeElement.type == undefined) {
+                        playerManager.togglePlayPause("play-pause");
                     }
                 }
             },
             {type: 'separator'},
             {
                 label: i18n.__('30sec Reply'),
-                accelerator: "Left",
+                accelerator: "CommandOrControl+Left",
                 click() { playerManager.reply(); }
             },
             {
                 label: i18n.__("30sec Forward"),
-                accelerator: "Right",
+                accelerator: "CommandOrControl+Right",
                 click() { playerManager.forward(); }
             }
         ]
@@ -77,51 +60,46 @@ const template =
             {
                 label: i18n.__("Search"),
                 accelerator: "CommandOrControl+F",
-                click() { focusTextField("search-input") }
+                click() { showPage('search'); }
             },
             {type: 'separator'},
             {
                 label: i18n.__("New Episodes"),
                 accelerator: "CommandOrControl+1",
-                click() { showNewEpisodesPage(); }
+                click() { showPage('newEpisodes'); }
             },
             {
                 label: i18n.__("Favorites"),
                 accelerator: "CommandOrControl+2",
-                click() { showFavoritesPage(); }
+                click() { showPage('favorites'); }
+            },
+            {
+                label: i18n.__("Settings"),
+                accelerator: "CommandOrControl+3",
+                click() { showPage('settings'); }
             },
             {
                 label: i18n.__("Archive"),
-                accelerator: "CommandOrControl+3",
-                click() { showArchivePage(); }
+                accelerator: "CommandOrControl+4",
+                click() { showPage('archive'); }
             },
             {
                 label: i18n.__("Statistics"),
-                accelerator: "CommandOrControl+4",
-                click() { showStatisticsPage(); }
-            },
+                accelerator: "CommandOrControl+5",
+                click() { showPage('statistics'); }
+            }/* ,
             {type: 'separator'},
             {
                 label: i18n.__("New List"),
                 accelerator: "CommandOrControl+N",
                 click() { focusTextField("new_list-input") }
-            }
+            } */
         ]
     },
     {
         label: i18n.__('Settings'),
         submenu:
-        [
-            {
-                label: i18n.__("Proxy Mode"),
-                type: "checkbox",
-                checked: getPreference('proxymode'),
-                accelerator: "CommandOrControl+Shift+P",
-                click() { 
-                    changeProxyModeMenuItem()
-                    setProxyMode() 
-                }
-            },{
+        [/* {
                 label: i18n.__("Minimize"),
                 type: "checkbox",
                 checked: getPreference('minimize'),
@@ -130,22 +108,23 @@ const template =
                     changeMinimizeMenuItem()
                     setMinimize() 
                 }
-            },
+            }, */
+            {
+                label: i18n.__('Dark Mode'),
+                type: "checkbox",
+                accelerator: "CommandOrControl+Shift+L",
+                checked: getPreference('darkmode'),
+                click() { 
+                    changeThemeMode();
+                    updateUITheme();
+                }
+            }/* ,
             {type: 'separator'},
-            {role: 'toggledevtools'}
+            {role: 'toggledevtools'} */
         ]
     }
 ]
-
-// System Tray works on ubuntu if you install 
-// 'AppIndicator and KStatusNotifierItem Support' shell extension
 /* 
-* // Remove minimize setting from the menubar on linux 
-* // Electron tray doesn't work on linux
-* if(process.platform === 'linux') 
-*     template[3].submenu.splice(1, 1);
-*/
-
 if(process.platform === 'win32') {
     template[0].submenu.splice(2, 3, 
             {
@@ -175,14 +154,17 @@ if(process.platform === 'win32') {
             }
     );
 }
+ */
 
-if (process.platform === 'darwin')
-{
-    template.unshift
-    ({
+if(isDevMode()) {
+    template[template.length - 1].submenu.push({type: 'separator'});
+    template[template.length - 1].submenu.push({role: 'toggledevtools'});
+}
+
+if (process.platform === 'darwin') {
+    template.unshift({
         label: app.getName(),
-        submenu:
-        [
+        submenu: [
             {role: 'about'},
             {type: 'separator'},
             {role: 'services', submenu: []},

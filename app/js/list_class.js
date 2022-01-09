@@ -5,26 +5,18 @@ class ListUI extends UI {
         this.dataObject = obj;
         this.firstEpisodeDisplayed = 0;
         this.lastEpisodeDisplayed = null;
-        this.bufferSize = 120;
+        this.bufferSize = 50; //120
     }
 
 /*
  * LIST
  */
-    /*
-    length() {
-        if(this.firstEpisodeDisplayed && this.lastEpisodeDisplayed)
-            return (this.lastEpisodeDisplayed - this.firstEpisodeDisplayed + 1);
-        return super.length();
-    }
-    */
-    
     add(episode, i) {
-        if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) {
+        if(!this.getByEpisodeUrl(episode.episodeUrl).get(0)) { 
             if(i < this.firstEpisodeDisplayed) {
                 this.firstEpisodeDisplayed++;
                 this.lastEpisodeDisplayed++;
-            } else if(i <= this.lastEpisodeDisplayed) {
+            } else if(i <= this.lastEpisodeDisplayed + 1) {
                 this.lastEpisodeDisplayed++;
 
                 this.directAdd(episode, i - this.firstEpisodeDisplayed);
@@ -35,17 +27,16 @@ class ListUI extends UI {
         }
     }
 
-
     directAdd(episode, i) {
         let $el = null;
         if(!$(this.getAllItemsList().get(i)).get(0)) {
             if(this.isEmpty())
-                clearBody();
+                $('#list > .nothing-to-show').remove()
             $el = this.getShowMoreEpisodesBottomElement();
         } else
             $el = $(this.getAllItemsList().get(i));
             
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertBefore($el)
@@ -63,33 +54,34 @@ class ListUI extends UI {
                 .slideUp(150, () => { 
                     $episodeItem.remove(); 
 
-                    this.showNothingToShow();
-                    
-                    if(feed) {
-                        let episodeToAdd = feed[this.lastEpisodeDisplayed + 1];
-                        if(episodeToAdd) {
-                            this.directBottomAdd(episodeToAdd);
-                            this.lastEpisodeDisplayed++;
-                            if(this.lastEpisodeDisplayed == feed.length - 1)
-                                this.getShowMoreEpisodesBottomElement().hide();
-                            return;
+                    if(this.length() < this.bufferSize)
+                        if(feed) {
+                            let episodeToAdd = feed[this.lastEpisodeDisplayed + 1];
+                            if(episodeToAdd) {
+                                this.directBottomAdd(episodeToAdd);
+                                this.lastEpisodeDisplayed++;
+                                if(this.lastEpisodeDisplayed == feed.length - 1)
+                                    this.getShowMoreEpisodesBottomElement().hide();
+                                return;
+                            }
+
+                            episodeToAdd = feed[this.firstEpisodeDisplayed - 1];
+                            if(episodeToAdd) {
+                                this.directTopAdd(episodeToAdd);
+                                this.firstEpisodeDisplayed--;
+                                if(this.firstEpisodeDisplayed == 0)
+                                    this.getShowMoreEpisodesTopElement().hide();
+                                return;
+                            }
                         }
 
-                        episodeToAdd = feed[this.firstEpisodeDisplayed - 1];
-                        if(episodeToAdd) {
-                            this.directTopAdd(episodeToAdd);
-                            this.firstEpisodeDisplayed--;
-                            if(this.firstEpisodeDisplayed == 0)
-                                this.getShowMoreEpisodesTopElement().hide();
-                            return;
-                        }
-                    }
+                    this.showNothingToShow();
                 });
         }
     }
     
     directBottomAdd(episode) {
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertAfter(this.getLastItemList())
@@ -98,7 +90,7 @@ class ListUI extends UI {
     }
 
     directTopAdd(episode) {
-        $(this.getNewItemList(episode))
+        this.getNewItemList(episode)
             .hide()
             .css('opacity', 0.0)
             .insertBefore(this.getFirstItemList())
@@ -176,13 +168,13 @@ class ListUI extends UI {
     getShowMoreEpisodesTopElement() {
         return this.getList().find('.more-episodes-top');
     }
-
+    
     showOther10Elements(feed) {
         let i = this.lastEpisodeDisplayed + 1;
         let delay = 0;
         while(i < feed.length && i < this.lastEpisodeDisplayed + 11) {
-            let episode = allFeeds.getEpisodeByEpisodeUrl(feed[i].feedUrl, feed[i].episodeUrl);
-            $(this.getNewItemList(episode))
+            let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)
@@ -196,13 +188,12 @@ class ListUI extends UI {
         this.lastEpisodeDisplayed = i - 1;
     }
 
-
     showsPrevious10Elements(feed) {
         let i = this.firstEpisodeDisplayed - 1;
         let delay = 0;
         while(i >= 0 && i >= this.firstEpisodeDisplayed - 10) {
-            let episode = allFeeds.getEpisodeByEpisodeUrl(feed[i].feedUrl, feed[i].episodeUrl);
-            $(this.getNewItemList(episode))
+            let episode = this.dataObject.getByEpisodeUrl(feed[i].episodeUrl);
+            this.getNewItemList(episode)
                 .delay(140 * delay++)
                 .hide()
                 .css('opacity', 0.0)
@@ -245,7 +236,7 @@ class ListUI extends UI {
             let $button = obj.getList().find('.more-episodes-bottom').find('.show-more-episodes-button');
             $button.off('click');
             
-            let feed = this.dataObject.getAll();
+            let feed = obj.dataObject.getAll();/* this.dataObject.getAll(); */
 
             obj.showOther10Elements(feed);
             obj.removeExtraPreviousElements();
@@ -286,7 +277,7 @@ class ListUI extends UI {
             let $button = obj.getList().find('.more-episodes-top').find('.show-more-episodes-button');
             $button.off('click');
             
-            let feed = this.dataObject.getAll();
+            let feed = obj.dataObject.getAll(); /* this.dataObject.getAll(); */
 
             obj.showsPrevious10Elements(feed);
             let timeout = 130 * (obj.getAllItemsList().length - obj.bufferSize);
@@ -324,19 +315,3 @@ class ListUI extends UI {
             });
     }
 }
-/*
-function getEpisodeClassFromAttr(obj) {
-    let $obj = $(obj);
-    return new Episode(
-        $obj.attr('channel'),
-        $obj.attr('feedUrl'),
-        $obj.attr('title'),
-        $obj.attr('url'),
-        $obj.attr('type'),
-        $obj.attr('length'),
-        $obj.attr('description'),
-        $obj.attr('durationkey'),
-        $obj.attr('pubdate')
-    );
-}
-*/
