@@ -70,7 +70,7 @@
     padding: 10px;
     margin: 0 0.8em 0.8em 0.8em;
     border-radius: 15px;
-    background-color: rgb(var(--layer-0-color));
+    background-color: rgba(var(--layer-0-color), 1);
     height: min-content;
     grid-area: player;
     display: grid;
@@ -90,7 +90,7 @@
     border-radius: 10px;
     height: 100px;
     width: auto;
-    background-color: rgb(var(--layer-1-color));
+    background-color: rgba(var(--layer-1-color), 1);
     box-shadow: var(--box-shadow);
 }
 
@@ -149,9 +149,9 @@
     font-size: 12px;
     height: 40px;
     width: 80px;
-    border: .1em solid rgb(var(--layer-1-color));
+    border: .1em solid rgba(var(--layer-1-color), 1);
     border-radius: 10px;
-    background-color: rgb(var(--layer-1-color));
+    background-color: rgba(var(--layer-1-color), 1);
 }
 
 .content-left-player-btn button {
@@ -173,11 +173,11 @@
 }
 
 .content-left-player-btn:hover {
-    border-color: rgb(var(--btn-1-color-hover));
+    border-color: rgba(var(--btn-1-color-hover));
 }
 
 .content-left-player-btn:active {
-    border-color: rgb(var(--btn-1-color-active));
+    border-color: rgba(var(--btn-1-color-active));
 }
  
 button#content-left-player-volume-indicator,

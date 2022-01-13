@@ -8,13 +8,13 @@
 
     border-radius: 15px;
     margin: 10px;
-    background-color: rgb(var(--right-list-el-color));
+    background-color: rgba(var(--right-list-el-color));
     
     transition: background-color .1s linear;
 }
 
 .list-item-row-layout:hover {
-    background-color: rgb(var(--right-list-el-color-hover));
+    background-color: rgba(var(--right-list-el-color-hover));
 }
 
 .list-item-row-layout img {
@@ -97,7 +97,7 @@
 
 .download-in-progress {
     --bk-color1-download: rgb(var(--progress-download-color));
-    --bk-color2-download: rgb(var(--right-list-el-color));
+    --bk-color2-download: rgba(var(--right-list-el-color));
     --progress: 0%;
     background: linear-gradient(to right, var(--bk-color1-download) 0%, 
                                           var(--bk-color1-download) 50%, 
@@ -111,7 +111,7 @@
 
 .download-in-progress:hover {
     --bk-color1-download: rgb(var(--progress-download-color-hover));
-    --bk-color2-download: rgb(var(--right-list-el-color-hover));
+    --bk-color2-download: rgba(var(--right-list-el-color-hover));
     
     background: linear-gradient(to right, var(--bk-color1-download) 0%, 
                                           var(--bk-color1-download) 50%, 

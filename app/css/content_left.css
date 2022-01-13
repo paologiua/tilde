@@ -1,11 +1,11 @@
 
 #content-left {
     height: 100%;
-    width: 300px;
+    width: var(--content-left-width);
     display: grid;
     position: fixed;
     overflow: hidden;
-    background-color: rgb(var(--layer-1-color));
+    background-color: rgba(var(--layer-1-color), var(--layer-alpha));
     grid-template-rows: 70px 1fr auto;
     grid-template-columns: 100%;
     grid-template-areas:
@@ -15,7 +15,7 @@
 }
 
 #bar-search {
-    background-color: rgb(var(--btn-1-color));
+    background-color: rgba(var(--btn-1-color));
     margin: 0.8em;
     margin-bottom: 2em;
     margin-top: 1em;
@@ -46,9 +46,9 @@
     display: flex;
     height: 40px;
     padding-left: 0.5em;
-    background: rgb(var(--layer-0-color));
+    background: rgba(var(--layer-0-color), 1);
     border-radius: 10px;
-    border: 1px solid rgb(var(--layer-1-color));
+    border: 1px solid rgba(var(--layer-1-color), 1);
     box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.1); 
 }
 
@@ -115,7 +115,7 @@
 }
 
 .selected {
-    background-color: rgb(var(--btn-1-color));
+    background-color: rgba(var(--btn-1-color));
 }
 
 .pink {

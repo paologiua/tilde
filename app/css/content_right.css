@@ -1,12 +1,12 @@
 
 #content-right {
     position: fixed;
-    left: 300px;
+    left: var(--content-left-width);
     right: 0em;
     overflow: auto;
     height: 100vh;
-    border-left: 1px solid rgb(var(--layer-1-color));
-    background-color: rgb(var(--layer-0-color));
+    border-left: 1px solid rgba(var(--layer-1-color), var(--layer-alpha));
+    background-color: rgba(var(--layer-0-color), var(--layer-alpha));
 }
 
 #content-right-header {
@@ -16,7 +16,7 @@
     grid-template-columns: 1fr 85px;
 
     position: fixed;
-    left: 301px;
+    left: calc(var(--content-left-width) + 1px);
     right: .8em;
     z-index: 1000;
     background: rgba(var(--layer-0-color), 0.8);
@@ -33,7 +33,7 @@
 }
 
 #content-right-header-actions svg {
-    background-color: rgb(var(--btn-1-color));
+    background-color: rgba(var(--btn-1-color));
     border-radius: 7px;
     padding: 0.2em;
     padding-left: 0.8em;
@@ -46,11 +46,11 @@
 
 #content-right-header-actions svg:hover {
     opacity: 1;
-    background-color: rgb(var(--btn-1-color-hover));
+    background-color: rgba(var(--btn-1-color-hover));
 }
 
 #content-right-header-actions svg:active {
-    background-color: rgb(var(--btn-1-color-active));
+    background-color: rgba(var(--btn-1-color-active));
 }
 
 #content-right-body {
@@ -82,7 +82,7 @@
     padding-right: 2em;
     font-size: 22px;
     font-weight: bold;
-    background-color: rgb(var(--layer-1-color));
+    background-color: rgba(var(--right-list-el-color));
     margin: 10px;
     margin-top: 30px;
     border-radius: 10px;
@@ -120,7 +120,7 @@
 
     border-radius: 15px;
     margin: 10px;
-    background-color: rgb(var(--right-list-el-color));
+    background-color: rgba(var(--right-list-el-color));
     
     transition: background-color .1s linear;
 }
@@ -139,7 +139,7 @@
 }
 
 .podcast-entry:hover {
-    background-color: rgb(var(--right-list-el-color-hover));
+    background-color: rgba(var(--right-list-el-color-hover));
 }
 
 .podcast-entry svg {
@@ -336,7 +336,7 @@
     height: 100px;
     border-radius: 10px;
 
-    background-color: rgb(var(--layer-1-color));
+    background-color: rgba(var(--layer-1-color), 1);
     box-shadow: var(--box-shadow);
 }
 
@@ -354,7 +354,7 @@
 }
 
 .settings-feed-buttons>* {
-    background: rgb(var(--btn-1-color));
+    background: rgba(var(--btn-1-color));
     border-radius: 6px;
     text-align: center;
     padding-top: 0.2em;
@@ -442,7 +442,7 @@
 
     margin: 10px;
     border-radius: 30px;
-    background-color: rgb(var(--right-list-el-color));
+    background-color: rgba(var(--right-list-el-color));
 
     box-shadow: var(--box-shadow);
     transition: opacity .2s ease-out;

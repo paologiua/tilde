@@ -211,6 +211,8 @@ function setTitlebarOnWin() {
         $('.window-title').css('font-size', 'inherit')
                           .css('margin', 'auto')
                           .css('line-height', 'normal');
+
+        $('<img src="img/tilde.png" class="logo"/>').insertAfter('.titlebar-drag-region');
         
         function setMenuBarVisibility(visibility) {
             if(visibility)
@@ -300,7 +302,7 @@ function setSearchWithoutFocus() {
 function setTitle(title) {
     if(isWindows())
         titlebar.updateTitle(title);
-    else {
+    else { 
         const { BrowserWindow } = require('electron').remote;
         BrowserWindow.getAllWindows()[0].setTitle(title);
     }
@@ -315,6 +317,11 @@ function showWindow() {
         win.webContents.on('did-finish-load', function() {
             win.show();
         }); 
+}
+
+function setWindowsThemeOnWin() {
+    if(isWindows())
+        $(document.body).addClass('windows');
 }
 
 function init() {

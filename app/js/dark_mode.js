@@ -8,6 +8,9 @@ function setUIDark() {
     if(titlebar != null) {
         const customTitlebar = require('custom-electron-titlebar');
         titlebar.updateBackground(customTitlebar.Color.fromHex('#1c1c1c'));
+
+        const { BrowserWindow } = require('electron').remote; // #222222c2
+        BrowserWindow.getAllWindows()[0].setVibrancy({theme: 'dark'});
     }
 }
 
@@ -17,6 +20,9 @@ function setUILight() {
     if(titlebar != null) {
         const customTitlebar = require('custom-electron-titlebar');
         titlebar.updateBackground(customTitlebar.Color.fromHex('#bbb'));
+        
+        const { BrowserWindow } = require('electron').remote; // #eeeeee14
+        BrowserWindow.getAllWindows()[0].setVibrancy({theme: 'light'});
     }
 }
 

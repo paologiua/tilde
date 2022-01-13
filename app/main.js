@@ -1,4 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+// const { app, BrowserWindow } = require('electron');
+const { app } = require('electron');
+const { BrowserWindow } = require("electron-acrylic-window");
 const path = require('path');
 const url = require('url');
  
@@ -56,7 +58,14 @@ function createWindow() {
             zoomFactor: 0.9
         },
         show: false,
-        backgroundColor: getPreference('darkmode') ? '#333' : '#fff'
+        backgroundColor: process.platform === 'win32' ? 'none' : (getPreference('darkmode') ? '#333' : '#fff'),
+        vibrancy: {
+            theme: getPreference('darkmode') ? 'dark': 'light',
+            effect: 'acrylic',
+            useCustomWindowRefreshMethod: true,
+            maximumRefreshRate: 60,
+            disableOnBlur: true
+        }
     });
     
     win.loadURL(url.format({

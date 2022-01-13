@@ -8,15 +8,16 @@ body {
   --layer-0-color: 255, 255, 255; /* #fff */
   --layer-1-color: 238, 238, 238; /* #eee */
   --layer-2-color: 221, 221, 221; /* #ddd */
+  --layer-alpha: 1;
 
-  --btn-1-color: 221, 221, 221; /* #ddd */
-  --btn-1-color-hover: 204, 204, 204; /* #ccc; */
-  --btn-1-color-active: 187, 187, 187; /* #bbb */
+  --btn-1-color: 221, 221, 221, 1; /* #ddd */
+  --btn-1-color-hover: 204, 204, 204, 1; /* #ccc; */
+  --btn-1-color-active: 187, 187, 187, 1; /* #bbb */
 
   --window-color: 221, 221, 221; /* #ddd */
 
-  --right-list-el-color: 233, 233, 233; /* #e9e9e9 */
-  --right-list-el-color-hover: 221, 221, 221; /* #ddd */
+  --right-list-el-color: 233, 233, 233, 1; /* #e9e9e9 */
+  --right-list-el-color-hover: 221, 221, 221, 1; /* #ddd */
   --right-list-el-color-info: 215, 215, 215; /* #d7d7d7 */
 
   --slider-color: 211, 211, 211; /* #d3d3d3 */
@@ -42,14 +43,14 @@ body {
   --layer-1-color: 34, 34, 34; /* #222 */
   --layer-2-color: 23, 23, 23; /*#171717 */
 
-  --btn-1-color: 23, 23, 23; /*#171717 */
-  --btn-1-color-hover: 17, 17, 17; /* #111 */
-  --btn-1-color-active: 0, 0, 0; /* #000 */
+  --btn-1-color: 23, 23, 23, 1; /*#171717 */
+  --btn-1-color-hover: 17, 17, 17, 1; /* #111 */
+  --btn-1-color-active: 0, 0, 0, 1; /* #000 */
   
   --window-color: 51, 51, 51; /* #333 */
 
-  --right-list-el-color: 39, 39, 39; /* #272727 */
-  --right-list-el-color-hover: 34, 34, 34; /* #222 */
+  --right-list-el-color: 39, 39, 39, 1; /* #272727 */
+  --right-list-el-color-hover: 34, 34, 34, 1; /* #222 */
   --right-list-el-color-info: 24, 24, 24; /* #181818 */
 
   --slider-color: 34, 34, 34; /* #222 */
@@ -63,4 +64,31 @@ body {
   --link-color: 88, 128, 199; /* #5880c7 */
 
   --shadow-color: 0, 0, 0; /* #000 */
+}
+
+.windows:not(.dark-mode) {
+
+  --right-list-el-color: 255, 255, 255, 0.7; 
+  --right-list-el-color-hover: 255, 255, 255, 0.9; 
+  
+  --btn-1-color: 255, 255, 255, 0.7; 
+  --btn-1-color-hover: 255, 255, 255, 0.9; 
+  --btn-1-color-active: 255, 255, 255, 1; 
+  
+  --progress-download-color: 215, 215, 215; /* #d7d7d7 */
+  --progress-download-color-hover: 209, 209, 209; /* #d1d1d1 */
+}
+
+.windows {
+  --layer-alpha: 0.5;
+
+  --right-list-el-color: 17, 17, 17, 0.4; 
+  --right-list-el-color-hover: 17, 17, 17, 0.6; 
+  
+  --btn-1-color: 17, 17, 17, 0.7; 
+  --btn-1-color-hover: 17, 17, 17, 0.9; 
+  --btn-1-color-active: 17, 17, 17, 1; 
+  
+  --progress-download-color: 17, 17, 17; /* #111111 */
+  --progress-download-color-hover: 12, 12, 12; /* #0c0c0c */
 }
