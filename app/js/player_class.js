@@ -17,6 +17,8 @@ class PlayerManager extends UI {
         this.$title = $('#content-left-player-title>div');
         this.$volume = $('#content-left-player-volume-indicator').get(0);
         this.$rate = $('#content-left-player-speed-indicator').get(0);
+
+        this.volumeValue = 1;
         
         this.slider = new Slider($('#slider'));
 
@@ -226,6 +228,7 @@ class PlayerManager extends UI {
         }
     }
 
+/* 
     volumeUp() {
         if(this.$player.volume < 1) {
             this.$player.volume = parseFloat(this.$player.volume + 0.1).toFixed(1);
@@ -251,6 +254,37 @@ class PlayerManager extends UI {
                 default: break;
             }
             $('#content-left-player-volume-btn').css('--volume', `${this.$player.volume * 100}%`);
+        }
+    }
+ */    
+
+    volumeUp() {
+        if(this.volumeValue < 1) {
+            this.volumeValue = Number(parseFloat(this.volumeValue + 0.1).toFixed(1));
+            this.$player.volume = getNormalizedVolume(this.volumeValue);
+            switch (this.volumeValue) {
+                case 0.1: this.$volume.innerHTML = s_VolumeMinIcon; break;
+                case 0.4: this.$volume.innerHTML = s_Volume40Icon; break;
+                case 0.7: this.$volume.innerHTML = s_Volume70Icon; break;
+                case 1: this.$volume.innerHTML = s_VolumeMaxIcon; break;
+                default: break;
+            }
+            $('#content-left-player-volume-btn').css('--volume', `${this.volumeValue * 100}%`);
+        }
+    } 
+
+    volumeDown() {
+        if(this.volumeValue > 0) {
+            this.volumeValue = Number(parseFloat(this.volumeValue - 0.1).toFixed(1));
+            this.$player.volume = getNormalizedVolume(this.volumeValue);
+            switch (this.volumeValue) {
+                case 0: this.$volume.innerHTML = s_VolumeMuteIcon; break;
+                case 0.3: this.$volume.innerHTML = s_VolumeMinIcon; break;
+                case 0.6: this.$volume.innerHTML = s_Volume40Icon; break;
+                case 0.9: this.$volume.innerHTML = s_Volume70Icon; break;
+                default: break;
+            }
+            $('#content-left-player-volume-btn').css('--volume', `${this.volumeValue * 100}%`);
         }
     }
 
@@ -402,4 +436,8 @@ function setVolumeWithWheelMouse(e) {
         playerManager.volumeUp();
     else 
         playerManager.volumeDown();
+}
+
+function getNormalizedVolume(volume) {
+    return (volume == 0 ? 0 : 1.8**(-10 + volume*10));
 }
