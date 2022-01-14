@@ -228,36 +228,6 @@ class PlayerManager extends UI {
         }
     }
 
-/* 
-    volumeUp() {
-        if(this.$player.volume < 1) {
-            this.$player.volume = parseFloat(this.$player.volume + 0.1).toFixed(1);
-            switch (this.$player.volume) {
-                case 0.1: this.$volume.innerHTML = s_VolumeMinIcon; break;
-                case 0.4: this.$volume.innerHTML = s_Volume40Icon; break;
-                case 0.7: this.$volume.innerHTML = s_Volume70Icon; break;
-                case 1: this.$volume.innerHTML = s_VolumeMaxIcon; break;
-                default: break;
-            }
-            $('#content-left-player-volume-btn').css('--volume', `${this.$player.volume * 100}%`);
-        }
-    }
-
-    volumeDown() {
-        if(this.$player.volume > 0) {
-            this.$player.volume = parseFloat(this.$player.volume - 0.1).toFixed(1);
-            switch (this.$player.volume) {
-                case 0: this.$volume.innerHTML = s_VolumeMuteIcon; break;
-                case 0.3: this.$volume.innerHTML = s_VolumeMinIcon; break;
-                case 0.6: this.$volume.innerHTML = s_Volume40Icon; break;
-                case 0.9: this.$volume.innerHTML = s_Volume70Icon; break;
-                default: break;
-            }
-            $('#content-left-player-volume-btn').css('--volume', `${this.$player.volume * 100}%`);
-        }
-    }
- */    
-
     volumeUp() {
         if(this.volumeValue < 1) {
             this.volumeValue = Number(parseFloat(this.volumeValue + 0.1).toFixed(1));
