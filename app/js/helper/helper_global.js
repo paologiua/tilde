@@ -200,28 +200,39 @@ function setTitlebarOnWin() {
         titlebar = new customTitlebar.Titlebar({
             backgroundColor: customTitlebar.Color.fromHex('#bbb')
         });
-        $('.titlebar').height('var(--titlebar-height)');
-        $('.container-after-titlebar').css('top', 'var(--titlebar-height)');
-        $( '#content-left' ).height('calc(100% - var(--titlebar-height))');
-        $( '#content-right' ).height('calc(100% - var(--titlebar-height))');
-        $('.window-controls-container').height('var(--titlebar-height)');
-        
-        $('.titlebar .window-icon-bg').width('51px');
 
-        $('.window-title').css('font-size', 'inherit')
-                          .css('margin', 'auto')
-                          .css('line-height', 'normal');
-
-        $('<img src="img/tilde.png" class="logo"/>').insertAfter('.titlebar-drag-region');
-        
+        $('<img src="img/tilde32x32.png" class="logo"/>').insertAfter('.titlebar .titlebar-drag-region');
+        /* 
+        $('.window-icon-bg').get(0).onmousedown = () => { 
+            $(document.body).css('--layer-alpha', 1); 
+            setTimeout(() => {$(document.body).css('--layer-alpha', '');}, 500);
+        } */
+        /* document.addEventListener("visibilitychange", function() {
+            console.log(document.hidden, document.visibilityState);
+            $(document.body).css('--layer-alpha', 1); 
+        }, false);
+         *//* 
+        const { remote } = require("electron");
+        remote.BrowserWindow.getFocusedWindow(); */
+/* 
+        const { BrowserWindow } = require('electron').remote;
+        BrowserWindow.getAllWindows()[0].on('minimize', (event) => { 
+            event.preventDefault()
+            console.log("test")
+            $(document.body).css('--layer-alpha', 1); 
+            setTimeout(() => {$(document.body).css('--layer-alpha', '');}, 500);
+        })
+ *//* 
+const { BrowserWindow } = require('electron').remote;
+ BrowserWindow.getAllWindows()[0].on('blur', () => {
+    $(document.body).css('--layer-alpha', 1); 
+    console.log('test')
+  }) */
         function setMenuBarVisibility(visibility) {
             if(visibility)
-                $( '.menubar' ).removeAttr('style');
-            else {
-                $( '.menubar' ).css('height', '0');
-                $( '.menubar' ).css('padding', '0');
-                $( '.menubar' ).css('overflow', 'hidden');
-            }
+                $('.menubar').removeClass('menu-hidden')
+            else 
+                $('.menubar').addClass('menu-hidden')
         }
 
         menuBarVisibility = false;
@@ -300,11 +311,13 @@ function setSearchWithoutFocus() {
 }
 
 function setTitle(title) {
-    if(isWindows())
-        titlebar.updateTitle(title);
-    else { 
-        const { BrowserWindow } = require('electron').remote;
-        BrowserWindow.getAllWindows()[0].setTitle(title);
+    if(title) {
+        if(isWindows()) 
+            $('.titlebar .window-title').html(`<span>${title}</span>`);
+        else { 
+            const { BrowserWindow } = require('electron').remote;
+            BrowserWindow.getAllWindows()[0].setTitle(title);
+        }
     }
 }
 

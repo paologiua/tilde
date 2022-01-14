@@ -82,7 +82,8 @@
     padding-right: 2em;
     font-size: 22px;
     font-weight: bold;
-    background-color: rgba(var(--right-list-el-color));
+    /* background-color: rgb(var(--layer-1-color)); */
+    background-color: rgba(var(--statistics-header-color));
     margin: 10px;
     margin-top: 30px;
     border-radius: 10px;

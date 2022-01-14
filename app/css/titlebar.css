@@ -1,0 +1,80 @@
+.titlebar {
+    height: var(--titlebar-height) !important;
+}
+
+.titlebar .logo {
+    display: none;
+    height: 20px;
+    width: auto;
+    margin: 0 15px;
+    vertical-align: middle;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+.titlebar .menubar-menu-button {
+    border-radius: 7px;
+}
+
+.titlebar .window-title {
+    font-size: inherit !important;
+    /* margin: auto; */
+    line-height: normal;
+    
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.titlebar .window-title span {
+    width: calc(100vw - 2 * (var(--content-left-width) + 10px) );
+    display: inline-block;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.titlebar .window-controls-container {
+    height: var(--titlebar-height) !important;
+    position: absolute !important;
+    right: 0;
+}
+
+.titlebar .window-icon-bg {
+    width: 51px !important;
+}
+
+.titlebar .menu-hidden {
+    display: none;
+}
+
+.titlebar .menubar-menu-container {
+    background-color: rgba(var(--layer-1-color), 1) !important;
+    border-radius: 7px;
+}
+
+.titlebar .menubar-menu-container * {
+    background-color: rgba(var(--layer-1-color), 1) !important;
+    color: rgb(var(--text-color)) !important;
+}
+
+.titlebar .menubar-menu-container .focused * {
+    background-color: rgba(var(--layer-2-color), 1) !important;
+}
+
+.titlebar .menubar-menu-container li:not([tabindex]) a {
+    border-bottom-color:rgb(var(--text-color)) !important;
+}
+
+.container-after-titlebar {
+    top: var(--titlebar-height) !important;
+}
+
+.container-after-titlebar #content-left {
+    height: calc(100% - var(--titlebar-height));
+}
+
+.container-after-titlebar #content-right {
+    height: calc(100% - var(--titlebar-height));
+}

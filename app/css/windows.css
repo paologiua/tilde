@@ -1,16 +1,6 @@
-.windows .titlebar {
-    background: linear-gradient(to right, rgba(var(--layer-1-color), var(--layer-alpha)) 0%, 
-                                          rgba(var(--layer-1-color), var(--layer-alpha)) var(--content-left-width), 
-                                          rgba(var(--layer-0-color), var(--layer-alpha)) var(--content-left-width), 
-                                          rgba(var(--layer-0-color), var(--layer-alpha)) 100%) !important;
-}
 
 .windows #content-right {
     border: none;
-}
-
-.windows #list:not(.grid-layout) li:not(.statistics-entry) {
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .windows #content-right #content-right-header {
@@ -27,57 +17,24 @@
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
+.windows #content-right:not(.header-null) #content-right-body {
+    height: calc(100% - 71px);
+}
+
+.windows #list:not(.grid-layout) li:not(.statistics-entry) {
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.windows #content-right #content-right-body #list {
+    margin: 0;
+}
+
 .windows #bar-search {
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .windows .settings-feed-buttons div {
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
-
-.titlebar .logo {
-    display: none;
-}
-
-.windows .titlebar .logo {
-    display: inline;
-    height: 20px;
-    margin: 0 15px;
-    vertical-align: middle;
-    border-radius: 50%;
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-}
-
-.windows .titlebar .menubar-menu-button {
-    border-radius: 7px;
-}
-
-.windows .titlebar .window-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.windows .titlebar .window-controls-container {
-    position: absolute;
-    right: 0;
-}
-
-.windows .titlebar .menubar[style*="height: 0px;"] {
-    display: none;
-}
-
-.windows .titlebar .menubar-menu-container {
-    background-color: rgba(var(--layer-1-color), 1) !important;
-    border-radius: 7px;
-}
-
-.windows .titlebar .menubar-menu-container * {
-    background-color: rgba(var(--layer-1-color), 1) !important;
-    color: rgb(var(--text-color)) !important;
-}
-.windows .titlebar .menubar-menu-container .focused * {
-    background-color: rgba(var(--layer-2-color), 1) !important;
 }
 
 .windows .selected{
@@ -91,10 +48,13 @@
     right: 0;
 }
 
-.windows #content-right:not(.header-null) #content-right-body {
-    height: calc(100% - 71px);
+.windows .titlebar {
+    background: linear-gradient(to right, rgba(var(--layer-1-color), var(--layer-alpha)) 0%, 
+                                          rgba(var(--layer-1-color), var(--layer-alpha)) var(--content-left-width), 
+                                          rgba(var(--layer-0-color), var(--layer-alpha)) var(--content-left-width), 
+                                          rgba(var(--layer-0-color), var(--layer-alpha)) 100%) !important;
 }
 
-.windows #content-right #content-right-body  #list {
-    margin: 0;
+.windows .titlebar .logo {
+    display: inline;
 }

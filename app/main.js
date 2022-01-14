@@ -1,6 +1,6 @@
 // const { app, BrowserWindow } = require('electron');
 const { app } = require('electron');
-const { BrowserWindow } = require("electron-acrylic-window");
+const { BrowserWindow } = process.platform === 'win32' ? require('electron-acrylic-window') : require('electron');
 const path = require('path');
 const url = require('url');
  
@@ -48,7 +48,7 @@ function createWindow() {
         width: 1100,
         minWidth: 1000,
         height: 640, 
-        minHeight: 620, //(process.platform === 'win32' ? 635 : 620), 
+        minHeight: 620, 
         autoHideMenuBar: true,
         icon: trayIcon,
         frame: !(process.platform === "win32"),
@@ -132,6 +132,7 @@ function createWindow() {
         })
     }
  */
+
     // Quit when all windows are closed
     win.on('window-all-closed', () => {
         app.quit();

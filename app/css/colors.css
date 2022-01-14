@@ -20,6 +20,8 @@ body {
   --right-list-el-color-hover: 221, 221, 221, 1; /* #ddd */
   --right-list-el-color-info: 215, 215, 215; /* #d7d7d7 */
 
+  --statistics-header-color: var(--layer-1-color), 1;
+
   --slider-color: 211, 211, 211; /* #d3d3d3 */
   
   --volume-btn-color-1: var(--layer-1-color);
@@ -70,6 +72,8 @@ body {
 
   --right-list-el-color: 255, 255, 255, 0.7; 
   --right-list-el-color-hover: 255, 255, 255, 0.9; 
+  
+  --statistics-header-color: var(--right-list-el-color);
   
   --btn-1-color: 255, 255, 255, 0.7; 
   --btn-1-color-hover: 255, 255, 255, 0.9; 
