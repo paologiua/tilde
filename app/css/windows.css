@@ -33,7 +33,7 @@
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
-.windows .settings-feed-buttons div {
+.windows .settings-feed-buttons > div {
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 

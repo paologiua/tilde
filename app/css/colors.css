@@ -72,6 +72,7 @@ body {
 
   --right-list-el-color: 255, 255, 255, 0.7; 
   --right-list-el-color-hover: 255, 255, 255, 0.9; 
+  --right-list-el-color-info: 255, 255, 255; /* #d7d7d7 */
   
   --statistics-header-color: var(--right-list-el-color);
   
