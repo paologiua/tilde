@@ -58,7 +58,7 @@ function createWindow() {
             zoomFactor: 0.9
         },
         show: false,
-        backgroundColor: process.platform === 'win32' ? 'none' : (getPreference('darkmode') ? '#333' : '#fff'),
+        backgroundColor: (getPreference('darkmode') ? '#333' : '#fff'),
         vibrancy: {
             theme: getPreference('darkmode') ? 'dark': 'light',
             effect: 'acrylic',

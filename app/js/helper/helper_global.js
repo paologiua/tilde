@@ -202,32 +202,7 @@ function setTitlebarOnWin() {
         });
 
         $('<img src="img/tilde32x32.png" class="logo"/>').insertAfter('.titlebar .titlebar-drag-region');
-        /* 
-        $('.window-icon-bg').get(0).onmousedown = () => { 
-            $(document.body).css('--layer-alpha', 1); 
-            setTimeout(() => {$(document.body).css('--layer-alpha', '');}, 500);
-        } */
-        /* document.addEventListener("visibilitychange", function() {
-            console.log(document.hidden, document.visibilityState);
-            $(document.body).css('--layer-alpha', 1); 
-        }, false);
-         *//* 
-        const { remote } = require("electron");
-        remote.BrowserWindow.getFocusedWindow(); */
-/* 
-        const { BrowserWindow } = require('electron').remote;
-        BrowserWindow.getAllWindows()[0].on('minimize', (event) => { 
-            event.preventDefault()
-            console.log("test")
-            $(document.body).css('--layer-alpha', 1); 
-            setTimeout(() => {$(document.body).css('--layer-alpha', '');}, 500);
-        })
- *//* 
-const { BrowserWindow } = require('electron').remote;
- BrowserWindow.getAllWindows()[0].on('blur', () => {
-    $(document.body).css('--layer-alpha', 1); 
-    console.log('test')
-  }) */
+
         function setMenuBarVisibility(visibility) {
             if(visibility)
                 $('.menubar').removeClass('menu-hidden')
@@ -299,6 +274,16 @@ const { BrowserWindow } = require('electron').remote;
     }
 }
 
+function hideUIonWin() {
+    if(isWindows()) 
+        $(document.body).addClass('hide-ui-windows');
+}
+
+function restoreUIonWin() {
+    if(isWindows()) 
+        $(document.body).removeClass('hide-ui-windows');
+}
+
 function setSearchWithoutFocus() {
     $(document).keypress(function (e) {
         if(!allPreferences.ui.isOpen) {
@@ -356,6 +341,8 @@ function init() {
     readFeeds();
     setItemCounts();
     showNewEpisodesPage();
+    
+    restoreUIonWin();
 }
 
 function fileExistsAndIsNotEmpty(_File) {

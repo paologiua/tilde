@@ -1,4 +1,8 @@
 
+.hide-ui-windows {
+    opacity: 0;
+}
+
 .windows #content-right {
     border: none;
 }
@@ -29,23 +33,12 @@
     margin: 0;
 }
 
-.windows #bar-search {
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
-
 .windows .settings-feed-buttons > div {
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .windows .selected{
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
-
-.windows .settings-ui-bk {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 .windows .titlebar {
