@@ -1,9 +1,12 @@
 .titlebar {
     height: var(--titlebar-height) !important;
+    background: linear-gradient(to right, rgba(var(--layer-1-color), var(--layer-alpha)) 0%, 
+                                          rgba(var(--layer-1-color), var(--layer-alpha)) var(--content-left-width), 
+                                          rgba(var(--layer-0-color), var(--layer-alpha)) var(--content-left-width), 
+                                          rgba(var(--layer-0-color), var(--layer-alpha)) 100%) !important;
 }
 
 .titlebar .logo {
-    display: none;
     height: 20px;
     width: auto;
     margin: 0 15px;

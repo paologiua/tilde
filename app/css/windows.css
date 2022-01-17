@@ -1,3 +1,10 @@
+.windows:not(.acrylic):not(.dark-mode) {
+    background-color: #ccc;
+}
+
+.windows:not(.acrylic) {
+    background-color: #222;
+}
 
 .hide-ui-windows {
     opacity: 0;
@@ -39,15 +46,4 @@
 
 .windows .selected{
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
-
-.windows .titlebar {
-    background: linear-gradient(to right, rgba(var(--layer-1-color), var(--layer-alpha)) 0%, 
-                                          rgba(var(--layer-1-color), var(--layer-alpha)) var(--content-left-width), 
-                                          rgba(var(--layer-0-color), var(--layer-alpha)) var(--content-left-width), 
-                                          rgba(var(--layer-0-color), var(--layer-alpha)) 100%) !important;
-}
-
-.windows .titlebar .logo {
-    display: inline;
 }
