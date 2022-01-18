@@ -7,9 +7,6 @@ function translate() {
   translateByDescriptor(".statistics", 'Statistics');
 
   translateByDescriptor('#content-left-player-title>div', 'No episode selected');
-
-  
-  translateByDescriptor(".dark-mode-translate", 'Dark mode');
   
   document.getElementsByName('search')[0].placeholder=i18n.__('Search');
 }

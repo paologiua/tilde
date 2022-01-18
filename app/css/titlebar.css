@@ -67,7 +67,11 @@
 }
 
 .titlebar .menubar-menu-container li:not([tabindex]) a {
-    border-bottom-color:rgb(var(--text-color)) !important;
+    border-bottom-color: rgb(var(--text-color)) !important;
+}
+
+.titlebar .menubar-menu-container .menu-item-check {
+    background-color: rgb(var(--text-color)) !important;
 }
 
 .container-after-titlebar {

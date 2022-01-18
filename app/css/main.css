@@ -233,7 +233,11 @@ body {
     width: 390px;
     border-radius: 20px;
     background-color: rgb(var(--window-color));
-    margin: calc(50vh - 100px) calc(50vw - 225px);
+    /* margin: calc(50vh - 100px) calc(50vw - 225px); */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, calc(-50% + var(--titlebar-height))); */
     box-shadow: var(--box-shadow);
     z-index: 999999;
     padding: 30px;

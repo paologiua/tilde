@@ -57,5 +57,7 @@
 	"Download in progress": "Download in corso",
 	"Download completed": "Download completato",
 	"Download error": "Errore durante il download",
-	"Try typing the feed url into the search field!": "Prova a digitare il feed url nel campo di ricerca!"
+	"Try typing the feed url into the search field!": "Prova a digitare il feed url nel campo di ricerca!",
+	"darkmode": "Dark Mode",
+	"acrylic": "Acrylic Effect"
 }

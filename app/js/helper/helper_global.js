@@ -22,15 +22,46 @@ function listenFromMain(channel, f) {
 // GLOBAL
 // ---------------------------------------------------------------------------------------------------------------------
 
+// objCleaner is used to remove undefined values
+const default_preferences = objCleaner({
+    darkmode: false,
+    acrylic: !isWindows() ? undefined : false
+});
+
+const preferences_functions = {
+    f: (preference) => {
+        let state = !getPreference(preference);
+        setMenuItemState(preference, state);
+        setPreference(preference, state);
+        preferences_functions[preference][state]();
+    },
+    darkmode: {
+        true: () => { 
+            setUIDark();
+        },
+        false: () => {
+            setUILight();
+        }
+    },
+    acrylic: {
+        true: () => {
+            setUIAcrylic();
+        },
+        false: () => {
+            removeUIAcrylic();
+        }
+    }
+};
+
 class PreferencesUI {
     constructor(obj) {
         this.dataObject = obj;
 
         this.$settingsUI = $('.settings-ui');
         this.$settingsUIbk = this.$settingsUI.find('.settings-ui-bk');
-        this.$$settingsUIwindow = this.$settingsUI.find('.settings-ui-window');
+        this.$settingsUIwindow = this.$settingsUI.find('.settings-ui-window');
         this.$exitButton = this.$settingsUI.find('svg');
-        this.$checkBoxDarkMode = this.$settingsUI.find('input');
+        this.rows = {};
 
         this.menuSettings = $('#menu-settings');
 
@@ -45,19 +76,41 @@ class PreferencesUI {
             this.exitSettingsUI();
         });
 
-        this.$checkBoxDarkMode.change(function() {
-            var DarkModeMenu = getDarkModeMenuItem();
-            DarkModeMenu.checked = $(this).is(':checked');
-            updateUITheme();
-        });
-
         this.$settingsUIbk.click(() => {
             this.exitSettingsUI();
         });
+
+        for(let preference in this.dataObject.preferences) {
+            let $el = this.getSettingsUIrow(preference);
+            this.rows[preference] = $el.find('input');
+            this.$settingsUIwindow.append($el);
+            this.rows[preference].change(() => preferences_functions.f(preference));
+        }
+
+        this.updateCheckBoxesState();
     }
 
-    setCheckBoxDarkModeState(state) {
-        this.$checkBoxDarkMode.prop('checked', state);
+    getSettingsUIrow(preference) {
+        return $(`
+            <span class="settings-ui-row">
+                <span>${i18n.__(preference)}</span>
+                <label class="switch">
+                    <input type="checkbox">
+                    <div>
+                        <span></span>
+                    </div>
+                </label>
+            </span>
+        `);
+    }
+
+    updateCheckBoxState(preference) {
+        this.rows[preference].prop('checked', this.dataObject.preferences[preference]);
+    }
+
+    updateCheckBoxesState() {
+        for(let preference in this.dataObject.preferences)
+            this.updateCheckBoxState(preference);
     }
 
     openSettingsUI() {
@@ -76,8 +129,8 @@ class PreferencesUI {
 
 class Preferences {
     constructor() {
-        this.ui = new PreferencesUI(this);
         this.load();
+        this.ui = new PreferencesUI(this);
     }
 
     load() {
@@ -85,44 +138,26 @@ class Preferences {
             fs.openSync(getPreferencesFilePath(), 'w');
         
         let fileContent = ifExistsReadFile(getPreferencesFilePath());
-        this.preference = JSON.parse(fileContent == "" ? "{}": fileContent);
-        this.check();
-        if(this.getDarkmode())
-            this.ui.setCheckBoxDarkModeState(true);
+        this.preferences = fileContent == "" ? default_preferences : JSON.parse(fileContent);
     }
 
     update() {
-        fs.writeFileSync(getPreferencesFilePath(), JSON.stringify(this.preference, null, "\t"));
-    }
-
-    check() {
-        if(!this.preference.darkmode)
-            this.preference.darkmode = false;
-
-        if(!this.preference.darkmode)
-            this.update();
-    }
-
-    setDarkmode(darkmode) {
-        this.preference.darkmode = darkmode;
-        this.ui.setCheckBoxDarkModeState(darkmode);
-        this.update();
-    }
-
-    getDarkmode() {
-        return this.preference.darkmode;
+        fs.writeFileSync(getPreferencesFilePath(), JSON.stringify(this.preferences, null, "\t"));
     }
     
     set(preference, value) {
-        this.preference[preference] = value;
-        if(preference == 'darkmode')
-            this.ui.setCheckBoxDarkModeState(value);
+        this.preferences[preference] = value;
+        this.ui.updateCheckBoxState(preference);
         this.update();
     }
 
     get(preference) {
-        return this.preference[preference];
+        return this.preferences[preference];
     }
+}
+
+function objCleaner(obj) {
+    return JSON.parse(JSON.stringify(obj));
 }
 
 function getArgument(index) {

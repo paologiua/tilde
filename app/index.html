@@ -6,7 +6,7 @@
 
         <script type="text/javascript" src="./js/helper/helper_global.js"></script>
         <script>showWindow();</script>
-        <script type="text/javascript" src="./js/dark_mode.js"></script>
+        <script type="text/javascript" src="./js/themes.js"></script>
         <script>window.i18n = new(require('./translations/i18n'));</script>
         <script type="text/javascript" src="./js/translations.js"></script>
         <script>window.$ = window.jQuery = require('jquery');</script>
@@ -201,24 +201,14 @@
                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
                     </svg>
                 </span>
-                <span class="settings-ui-row">
-                    <span class="dark-mode-translate">Dark mode</span>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <div>
-                            <span></span>
-                        </div>
-                    </label>
-                </span>
             </div>
         </div>
         
         <script>   
             setWindowsThemeOnWin(); 
             setTitlebarOnWin();
-
-            if(getPreference('darkmode'))
-                setUIDark();
+            
+            loadTheme();
             
             translate();
             document.body.onload = init;
