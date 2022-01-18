@@ -5,7 +5,6 @@
     right: 0em;
     overflow: auto;
     height: 100vh;
-    border-left: 1px solid rgba(var(--layer-1-color), var(--layer-alpha));
     background-color: rgba(var(--layer-0-color), var(--layer-alpha));
 }
 
@@ -16,7 +15,7 @@
     grid-template-columns: 1fr 85px;
 
     position: fixed;
-    left: calc(var(--content-left-width) + 1px);
+    left: var(--content-left-width);
     right: .8em;
     z-index: 1000;
     background: rgba(var(--layer-0-color), 0.8);
