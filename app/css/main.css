@@ -6,7 +6,7 @@
 }
 
 ::-webkit-scrollbar {     
-    background-color: #ddd;
+    background-color: #cfcfcf; /* #ddd; */
     width: .8em
 }
 
@@ -118,6 +118,14 @@ body {
     user-select: none;
     cursor: default;
     color: rgb(var(--text-color));
+}
+
+body:not(.acrylic) {
+    background-color: rgb(var(--body-bk-color));
+}
+
+.hide-ui {
+    opacity: 0;
 }
 
 .switch {

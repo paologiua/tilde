@@ -1,0 +1,14 @@
+
+.acrylic #content-right #content-right-header {
+    background-color: transparent;
+    backdrop-filter: unset;
+    position: static;
+}
+
+.acrylic #content-right:not(.header-null) #content-right-body {
+    height: calc(100% - 71px);
+}
+
+.acrylic #content-right #content-right-body #list {
+    margin: 0;
+}

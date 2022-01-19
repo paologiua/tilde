@@ -18,7 +18,7 @@
     left: var(--content-left-width);
     right: .8em;
     z-index: 1000;
-    background: rgba(var(--layer-0-color), 0.8);
+    background: rgba(var(--header-bk-color), 0.8);
     backdrop-filter: blur(5px) saturate(150%);
 }
 
@@ -41,6 +41,7 @@
     width: 30px;
     opacity: 0.6;
     transition: opacity .1s linear;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 #content-right-header-actions svg:hover {
@@ -73,6 +74,10 @@
 
 #list li:last-of-type {
     border-bottom: 0;
+}
+
+#list:not(.grid-layout) li:not(.statistics-entry) {
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .statistics-header {
@@ -373,6 +378,7 @@
     padding-top: 5.5px;
     height: 29.5px;
     width: 35px;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .settings-feed-buttons>*:hover {

@@ -309,14 +309,12 @@ function setTitlebarOnWin() {
     }
 }
 
-function hideUIonWin() {
-    if(isWindows()) 
-        $(document.body).addClass('hide-ui-windows');
+function hideUI() {
+    $(document.body).addClass('hide-ui');
 }
 
-function restoreUIonWin() {
-    if(isWindows()) 
-        $(document.body).removeClass('hide-ui-windows');
+function restoreUI() {
+    $(document.body).removeClass('hide-ui');
 }
 
 function setSearchWithoutFocus() {
@@ -377,7 +375,7 @@ function init() {
     setItemCounts();
     showNewEpisodesPage();
     
-    restoreUIonWin();
+    restoreUI();
 }
 
 function fileExistsAndIsNotEmpty(_File) {

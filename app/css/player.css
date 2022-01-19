@@ -220,4 +220,5 @@ button#content-left-player-speed-indicator {
                                           rgb(var(--volume-btn-color-1)) var(--volume), 
                                           rgb(var(--volume-btn-color-2)) var(--volume), 
                                           rgb(var(--volume-btn-color-2)) 100%);
+    border-color: rgb(var(--volume-btn-color-1));
 }
