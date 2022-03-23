@@ -1,4 +1,4 @@
-![alt text](images/logo_github.png)
+<img src="images/logo_github.png">
 
 ### Tilde is the most beautiful and elegant podcast client.
 It allows you to search, subscribe and play all your favorite podcasts.
@@ -26,7 +26,7 @@ It allows you to search, subscribe and play all your favorite podcasts.
 
 The search, based on the iTunes API, allows you to reach any Podcast and view its feed in an instant.
 
-![alt text](images/screenshots/dark6.png)
+<img src="images/screenshots/dark6.png)
 
 # 🗒️ Viewing the Feeds <span id="feed"></span>
 
@@ -36,7 +36,7 @@ By opening the feed of a podcast, the interface shows all the main informations 
 * the name of the podcaster
 * the description
 
-![alt text](images/screenshots/dark7.png)
+<img src="images/screenshots/dark7.png">
 
 After the information section, the list of episodes is shown.
 
@@ -44,7 +44,7 @@ After the information section, the list of episodes is shown.
 
 The section of new episodes is displayed when the app is launched. It shows the most recent episodes published during the last week.
 
-![alt text](images/screenshots/dark1.png)
+<img src="images/screenshots/dark1.png">
 
 # ❤️ Favorites <span id="favorites"></span>
 
@@ -52,19 +52,19 @@ Episodes from a podcast are shown in the section of new episodes only after you 
 
 The section of favorites allows you to have quick links to all the podcasts you love most.
 
-![alt text](images/screenshots/dark2.png)
+<img src="images/screenshots/dark2.png">
 
 # 📥 Archive <span id="archive"></span>
 
 You can keep the most interesting episodes in your personal archive.
 
-![alt text](images/screenshots/dark3.png)
+<img src="images/screenshots/dark3.png">
 
 # ⚙️ Settings <span id="settings"></span>
 
 In the settings you can choose the theme you prefer.
 
-![alt text](images/screenshots/theme.gif)
+<img src="images/screenshots/theme.gif">
 
 # 👾 Nerdy Things <span id="nerdy-things"><span>
   
